@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 export default function DataPage() {
   return (
     <div className="min-h-screen bg-slate-950 px-4 py-10 text-slate-100">
-      <div className="mx-auto w-full max-w-xl rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg backdrop-blur">
+      <div className="mx-auto w-full max-w-xl rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg backdrop-blur mt-80">
         <div className="mb-6">
           <h1 className="text-2xl font-semibold tracking-tight">Upload race data</h1>
           <p className="mt-1 text-sm text-slate-300">
-            Choose a CSV file to import. We’ll preview it before doing anything else.
+            Choose a CSV file to import. 
           </p>
         </div>
 
@@ -30,7 +30,7 @@ export default function DataPage() {
                            hover:file:bg-white/15"
               />
               <p className="mt-2 text-xs text-slate-400">
-                CSV recommended. Max size depends on your browser / backend.
+                If you upload anything other than CSV it will not work.
               </p>
             </div>
           </div>
