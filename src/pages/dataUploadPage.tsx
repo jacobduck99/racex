@@ -1,6 +1,21 @@
 import { useState, useEffect } from "react";
 
 export default function DataPage() {
+    const [fastLapData, setFastLapData] = useState();
+    const [avgLapData, setAvgLapData] = useState();
+    
+    console.log("here is ur fast lap", fastLapData);
+
+    console.log("here is ur avg lap", avgLapData);
+
+    function handleSubmit() {
+       const formData = {
+            fastLap: fastLapData,
+            avgLap:  avgLapData,
+        }; 
+        console.log("here is ur form", formData);
+    }
+
   return (
     <div className="min-h-screen bg-slate-950 px-4 py-10 text-slate-100">
       <div className="mx-auto w-full max-w-xl rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg backdrop-blur mt-80">
@@ -22,6 +37,7 @@ export default function DataPage() {
                   type="file"
                   id="fastLapFile"
                   name="fastLapFile"
+                  onChange={(e) => setFastLapData(e.target.files[0])}
                   className="w-full text-sm text-slate-200
                              file:mr-4 file:rounded-lg file:border-0
                              file:bg-white/10 file:px-4 file:py-2
@@ -35,6 +51,7 @@ export default function DataPage() {
                   type="file"
                   id="avgLapFile"
                   name="avgLapFile"
+                  onChange={(e) => setAvgLapData(e.target.files[0])}
                   className="w-full text-sm text-slate-200
                              file:mr-4 file:rounded-lg file:border-0
                              file:bg-white/10 file:px-4 file:py-2
@@ -57,7 +74,8 @@ export default function DataPage() {
               Cancel
             </button>
             <button
-              type="submit"
+                type="button"
+                onClick={handleSubmit} 
               className="rounded-xl bg-indigo-500 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-slate-950"
             >
               Upload
