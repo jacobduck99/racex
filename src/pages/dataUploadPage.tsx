@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 export default function DataPage() {
+
   return (
     <div className="min-h-screen bg-slate-950 px-4 py-10 text-slate-100">
       <div className="mx-auto w-full max-w-xl rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg backdrop-blur mt-80">
@@ -23,17 +24,30 @@ export default function DataPage() {
                 id="file"
                 name="file"
                 multiple
-                className="block w-full text-sm text-slate-200
+                className="w-full text-sm text-slate-200
                            file:mr-4 file:rounded-lg file:border-0
                            file:bg-white/10 file:px-4 file:py-2
                            file:text-sm file:font-medium file:text-slate-100
                            hover:file:bg-white/15"
               />
+              </div>
+<div className="rounded-xl border border-dashed border-white/15 bg-white/5 p-4 hover:border-white/25">
+<input
+                type="file"
+                id="file"
+                name="file"
+                multiple
+                className="w-full text-sm text-slate-200
+                           file:mr-4 file:rounded-lg file:border-0
+                           file:bg-white/10 file:px-4 file:py-2
+                           file:text-sm file:font-medium file:text-slate-100
+                           hover:file:bg-white/15"
+              />
+            </div>
+          </div>
               <p className="mt-2 text-xs text-slate-400">
                 If you upload anything other than CSV it will not work.
               </p>
-            </div>
-          </div>
 
           <div className="flex items-center justify-end gap-3 pt-2">
             <button
