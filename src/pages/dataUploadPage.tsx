@@ -1,20 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function DataPage() {
-    const [fastLapData, setFastLapData] = useState();
-    const [avgLapData, setAvgLapData] = useState();
-    
-    console.log("here is ur fast lap", fastLapData);
+  const [fastLapData, setFastLapData] = useState(null);
+  const [avgLapData, setAvgLapData] = useState(null);
 
-    console.log("here is ur avg lap", avgLapData);
+  function handleSubmit(e) {
+    e.preventDefault();
 
-    function handleSubmit() {
-       const formData = {
-            fastLap: fastLapData,
-            avgLap:  avgLapData,
-        }; 
-        console.log("here is ur form", formData);
+    if (!fastLapData || !avgLapData) {
+      console.log("Missing file(s):", { fastLapData, avgLapData });
+      return;
     }
+
+    const fd = new FormData();
+    fd.append("fastLapFile", fastLapData);
+    fd.append("avgLapFile", avgLapData);
+
+    for (const [key, value] of fd.entries()) {
+      console.log(key, value);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-slate-950 px-4 py-10 text-slate-100">
@@ -24,20 +29,17 @@ export default function DataPage() {
           <p className="mt-1 text-sm text-slate-300">Choose a CSV file to import.</p>
         </div>
 
-        <form method="post" encType="multipart/form-data" className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-200">
-              Files
-            </label>
+            <label className="text-sm font-medium text-slate-200">Files</label>
 
-            {/* row wrapper */}
             <div className="mt-1 flex gap-4">
               <div className="flex-1 min-w-0 rounded-xl border border-dashed border-white/15 bg-white/5 p-4 hover:border-white/25">
                 <input
                   type="file"
                   id="fastLapFile"
                   name="fastLapFile"
-                  onChange={(e) => setFastLapData(e.target.files[0])}
+                  onChange={(e) => setFastLapData(e.target.files?.[0] ?? null)}
                   className="w-full text-sm text-slate-200
                              file:mr-4 file:rounded-lg file:border-0
                              file:bg-white/10 file:px-4 file:py-2
@@ -51,7 +53,7 @@ export default function DataPage() {
                   type="file"
                   id="avgLapFile"
                   name="avgLapFile"
-                  onChange={(e) => setAvgLapData(e.target.files[0])}
+                  onChange={(e) => setAvgLapData(e.target.files?.[0] ?? null)}
                   className="w-full text-sm text-slate-200
                              file:mr-4 file:rounded-lg file:border-0
                              file:bg-white/10 file:px-4 file:py-2
@@ -73,9 +75,9 @@ export default function DataPage() {
             >
               Cancel
             </button>
+
             <button
-                type="button"
-                onClick={handleSubmit} 
+              type="submit"
               className="rounded-xl bg-indigo-500 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-slate-950"
             >
               Upload
@@ -86,7 +88,3 @@ export default function DataPage() {
     </div>
   );
 }
-
-
-
-
