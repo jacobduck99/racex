@@ -51,7 +51,7 @@ export default function DataPage() {
                     Fastest lap
                   </p>
                   <p className="mt-1 text-sm text-slate-400">
-                    Upload your fastest lap export (CSV / XLSX).
+                    Upload your fastest lap export (.ibt file).
                   </p>
                 </div>
 
@@ -76,7 +76,7 @@ export default function DataPage() {
                     Average lap
                   </p>
                   <p className="mt-1 text-sm text-slate-400">
-                    Upload your average lap export (CSV / XLSX).
+                    Upload your average lap export (.ibt file).
                   </p>
                 </div>
 
@@ -97,7 +97,7 @@ export default function DataPage() {
             </div>
 
             <p className="text-xs text-slate-400">
-              Supported formats: CSV or XLSX. Files should come from the same
+              Supported formats: iRacing .ibt files which can be found at documents/iracing/telemetry. Files should come from the same
               session for best results.
             </p>
 
