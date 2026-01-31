@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { analyseRaceData } from "dataPageApi.js";
+import { analyseRaceData } from "../lib/api/dataPageApi.js";
 //RESTRICT TO CSV RIGHT NOW ITS XLSX WHICH IS HARDER TO PARSE FOR MVP JUST DO CSV LOOK UP GARAGE 61 AND SEE IF YOU CAN EXPORT AS CSV AND MAKE THE FILE ONLY ALLOWED TO BE CSV SO I SAVE TIME WRITING LOGIC FOR PARSING.
 
 export default function DataPage() {
   const [fastLapData, setFastLapData] = useState(null);
   const [avgLapData, setAvgLapData] = useState(null);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!fastLapData || !avgLapData) {
@@ -22,7 +22,13 @@ export default function DataPage() {
       console.log(key, value);
     }
 
-    // fetch("/api/upload", { method: "POST", body: fd })
+    try { 
+        const result = await analyseRaceData(fd);
+        
+        } catch (e) {
+            console.log("error", e.message);
+
+        }
   }
 
   return (
