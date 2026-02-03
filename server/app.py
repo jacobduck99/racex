@@ -1,6 +1,8 @@
 # server/app.py
 from flask import Flask
-import routes.lap_data_routes.py import analyse_bp
+from flask_cors import CORS
+from routes.lap_data_routes import analyse_bp
+
 
 def create_app():
     app = Flask(__name__)
@@ -10,13 +12,22 @@ def create_app():
 
     # Allow React dev server to send/receive cookies
 
+    CORS(
+        app,
+        resources={r"/api/*": {"origins": [
+            "http://localhost:5173",
+            "http://192.168.1.104:5173",
+        ]}},
+        supports_credentials=True,
+    )
+
     # Cookie settings (dev-safe; tighten for prod/HTTPS)
     app.config.update(
         SESSION_COOKIE_HTTPONLY=True,
     )
 
     # Register blueprints exactly once
-   app.register_blueprint(analyse_bp, url_prefix="/api")
+    app.register_blueprint(analyse_bp, url_prefix="/api")
 
     # Ensure DB connection closes after each request
    # app.teardown_appcontext(close_db)
