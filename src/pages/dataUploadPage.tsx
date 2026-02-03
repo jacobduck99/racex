@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { analyseRaceData } from "../lib/api/dataPageApi.js";
 
 export default function DataPage() {
-  const [fastLapData, setFastLapData] = useState(null);
-  const [avgLapData, setAvgLapData] = useState(null);
+    const [fastLapData, setFastLapData] = useState(null);
+    const [avgLapData, setAvgLapData] = useState(null);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+
+    const fastLapRef = useRef(null);
+    const avgLapRef = useRef(null);
+
+    async function handleSubmit(e) {
+        e.preventDefault();
 
     if (!fastLapData || !avgLapData) {
       console.log("Missing file(s):", { fastLapData, avgLapData });
@@ -28,6 +32,14 @@ export default function DataPage() {
             console.log("error", e.message);
         }
   }
+
+    function handleCancel() {
+        setFastLapData(null);
+        setAvgLapData(null);
+
+        if (fastLapRef.current) fastLapRef.current.value = "";
+        if (avgLapRef.current) avgLapRef.current.value = "";
+    }
 
   return (
     <div className="min-h-screen bg-slate-950 px-4 py-12 text-slate-100">
@@ -61,6 +73,7 @@ export default function DataPage() {
                 </div>
 
                 <input
+                  ref={avgLapRef}
                   type="file"
                   id="fastLapFile"
                   name="fastLapFile"
@@ -86,6 +99,7 @@ export default function DataPage() {
                 </div>
 
                 <input
+                  ref={fastLapRef}
                   type="file"
                   id="avgLapFile"
                   name="avgLapFile"
@@ -107,7 +121,7 @@ export default function DataPage() {
             </p>
 
             <div className="flex items-center justify-end gap-3 pt-4">
-              <button
+              <button onClick={handleCancel}
                 type="button"
                 className="rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-slate-200 hover:bg-white/10"
               >
