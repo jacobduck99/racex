@@ -7,6 +7,8 @@ from routes.lap_data_routes import analyse_bp
 def create_app():
     app = Flask(__name__)
 
+    app.config['MAX_CONTENT_LENGTH'] = 200 * 1024 * 1024 
+
     # Required for session cookies (Flask-Login)
     app.secret_key = "change-me-in-env"
 
@@ -16,7 +18,6 @@ def create_app():
         app,
         resources={r"/api/*": {"origins": [
             "http://localhost:5173",
-            "http://192.168.1.104:5173",
         ]}},
         supports_credentials=True,
     )
@@ -37,4 +38,4 @@ def create_app():
 app = create_app()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True, use_reloader=False)

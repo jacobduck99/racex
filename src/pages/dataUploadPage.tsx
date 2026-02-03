@@ -26,7 +26,6 @@ export default function DataPage() {
         
         } catch (e) {
             console.log("error", e.message);
-
         }
   }
 
