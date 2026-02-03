@@ -145,7 +145,7 @@ return (
                          focus:ring-offset-slate-950 disabled:opacity-50 disabled:cursor-not-allowed
                          disabled:hover:from-indigo-500 disabled:hover:to-indigo-600"
             >
-              Upload & Compare
+              Upload
             </button>
           </div>
         </form>
