@@ -1,5 +1,6 @@
 # server/app.py
 from flask import Flask
+import routes.lap_data_routes.py import analyse_bp
 
 def create_app():
     app = Flask(__name__)
@@ -18,7 +19,7 @@ def create_app():
     # Register blueprints exactly once
     # example from old project 
    # app.register_blueprint(auth_bp,  url_prefix="/api/auth")
-#    app.register_blueprint(config_bp, url_prefix="/api")
+   app.register_blueprint(analyse_bp, url_prefix="/api")
  #   app.register_blueprint(run_bp, url_prefix="/api")
  # app.register_blueprint(stats_bp, url_prefix="/api")
   #  app.register_blueprint(profile_bp, url_prefix="/api")
