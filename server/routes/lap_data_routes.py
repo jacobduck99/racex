@@ -15,26 +15,24 @@ def analyse_lap_upload():
         print("Content-Type:", request.content_type)
         
         print("2. Accessing request.files...")
-        files = request.files
-        print("Files received:", list(files.keys()))
+        file = request.files
+        print("Files received:", list(file.keys()))
         
         print("3. Accessing request.form...")
         print("Form keys:", list(request.form.keys()))
         
         print("4. Getting file objects...")
-        fast_lap_file = files.get('fastLapFile')
-        avg_lap_file = files.get('avgLapFile')
-        
-        if not fast_lap_file or not avg_lap_file:
-            print("Missing files!")
+        race_session = file.get("raceSession")
+        if not race_session:
+            print("Missing file!")
             return jsonify({
-                "error": "Missing files",
-                "received": list(files.keys())
+                "error": "Missing file",
+                "received": list(file.keys())
             }), 400
         
-        print(f"5. Files found: {fast_lap_file.filename}, {avg_lap_file.filename}")
+        print(f"5. Files found: {race_session.filename}")
         
-        return jsonify({"ok": True, "message": "Files received"})
+        return jsonify({"ok": True, "message": "File received"})
         
     except Exception as e:
         print(f" ERROR: {e}")
