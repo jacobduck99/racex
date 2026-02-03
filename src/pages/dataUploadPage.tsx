@@ -5,9 +5,7 @@ export default function DataPage() {
     const [fastLapData, setFastLapData] = useState(null);
     const [avgLapData, setAvgLapData] = useState(null);
 
-
-    const fastLapRef = useRef(null);
-    const avgLapRef = useRef(null);
+    const sessionRef = useRef(null);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -37,8 +35,7 @@ export default function DataPage() {
         setFastLapData(null);
         setAvgLapData(null);
 
-        if (fastLapRef.current) fastLapRef.current.value = "";
-        if (avgLapRef.current) avgLapRef.current.value = "";
+        if (sessionRef.current) sessionRef.current.value = "";
     }
 
   return (
@@ -51,7 +48,7 @@ export default function DataPage() {
               Upload race data
             </h1>
             <p className="mt-2 text-sm text-slate-300">
-              Upload two lap exports to compare performance.
+              Upload your session to compare performance.
             </p>
           </div>
 
@@ -65,46 +62,20 @@ export default function DataPage() {
               <div className="rounded-2xl border border-dashed border-white/15 bg-white/5 p-6 hover:border-white/25">
                 <div className="mb-5">
                   <p className="text-base font-semibold text-slate-100">
-                    Fastest lap
+                    Racing Session
                   </p>
                   <p className="mt-1 text-sm text-slate-400">
-                    Upload your fastest lap export (.ibt file).
+                    Upload telemtry export (.ibt file).
                   </p>
                 </div>
 
                 <input
-                  ref={avgLapRef}
+                  ref={sessionRef}
                   type="file"
                   id="fastLapFile"
                   name="fastLapFile"
                   onChange={(e) =>
                     setFastLapData(e.target.files?.[0] ?? null)
-                  }
-                  className="block w-full text-sm text-slate-200
-                             file:mr-4 file:rounded-xl file:border-0
-                             file:bg-white/10 file:px-5 file:py-3
-                             file:text-sm file:font-medium file:text-slate-100
-                             hover:file:bg-white/15"
-                />
-              </div>
-
-              <div className="rounded-2xl border border-dashed border-white/15 bg-white/5 p-6 hover:border-white/25">
-                <div className="mb-5">
-                  <p className="text-base font-semibold text-slate-100">
-                    Average lap
-                  </p>
-                  <p className="mt-1 text-sm text-slate-400">
-                    Upload your average lap export (.ibt file).
-                  </p>
-                </div>
-
-                <input
-                  ref={fastLapRef}
-                  type="file"
-                  id="avgLapFile"
-                  name="avgLapFile"
-                  onChange={(e) =>
-                    setAvgLapData(e.target.files?.[0] ?? null)
                   }
                   className="block w-full text-sm text-slate-200
                              file:mr-4 file:rounded-xl file:border-0
