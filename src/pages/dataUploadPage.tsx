@@ -2,22 +2,20 @@ import { useState, useRef } from "react";
 import { analyseRaceData } from "../lib/api/dataPageApi.js";
 
 export default function DataPage() {
-    const [fastLapData, setFastLapData] = useState(null);
-    const [avgLapData, setAvgLapData] = useState(null);
+    const [raceSession, setRaceSession] = useState(null);
 
     const sessionRef = useRef(null);
 
     async function handleSubmit(e) {
         e.preventDefault();
 
-    if (!fastLapData || !avgLapData) {
-      console.log("Missing file(s):", { fastLapData, avgLapData });
+    if (!raceSession) {
+      console.log("Missing file:", { raceSession });
       return;
     }
 
     const fd = new FormData();
-    fd.append("fastLapFile", fastLapData);
-    fd.append("avgLapFile", avgLapData);
+    fd.append("raceSession", raceSession );
 
     for (const [key, value] of fd.entries()) {
       console.log(key, value);
@@ -32,8 +30,7 @@ export default function DataPage() {
   }
 
     function handleCancel() {
-        setFastLapData(null);
-        setAvgLapData(null);
+        setRaceSession(null);
 
         if (sessionRef.current) sessionRef.current.value = "";
     }
@@ -72,10 +69,10 @@ export default function DataPage() {
                 <input
                   ref={sessionRef}
                   type="file"
-                  id="fastLapFile"
-                  name="fastLapFile"
+                  id="raceSession"
+                  name="raceSessionFile"
                   onChange={(e) =>
-                    setFastLapData(e.target.files?.[0] ?? null)
+                    setRaceSession(e.target.files?.[0] ?? null)
                   }
                   className="block w-full text-sm text-slate-200
                              file:mr-4 file:rounded-xl file:border-0
