@@ -1,9 +1,11 @@
 import Fastify from "fastify";
 import ibtRoutes from "./routes/ibt.js";
+import multipart from "@fastify/multipart";
 
 const fastify = Fastify({ logger: true });
 
 fastify.register(ibtRoutes)
+fastify.register(multipart)
 
 const start = async () => {
   try {
