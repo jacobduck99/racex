@@ -2,6 +2,8 @@ import path from "node:path";
 import { pipeline } from "node:stream/promises";
 import { createWriteStream } from "node:fs";
 import fs from "node:fs/promises";
+import { Telemetry } from "ibt-telemetry";
+
 
 const TEMP_IBT_DIR = path.resolve("server-js/tmp/ibt");
 
@@ -18,7 +20,11 @@ export default async function ibtRoutes(fastify, opts) {
       await pipeline(file.file, createWriteStream(outPath));
 
       fastify.log.info({ outPath }, "Upload saved, ready to parse");
-
+      
+      const telemetry = await Telemetry.fromFile(outPath);
+    console.log("telemetry", telemetry);
+      const telemetryId = telemetry.uniqueId()
+      const sessionInfo = telemetry.sessionInfo
 
       return { savedTo: outPath, filename: file.filename, fieldname: file.fieldname };
     } finally {
