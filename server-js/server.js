@@ -10,9 +10,8 @@ await fastify.register(cors, {
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 });
 
-fastify.register(ibtRoutes, { prefix: "/api" });
-
 fastify.register(multipart)
+fastify.register(ibtRoutes, { prefix: "/api" });
 
 const start = async () => {
   try {
