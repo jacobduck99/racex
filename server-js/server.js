@@ -1,10 +1,17 @@
 import Fastify from "fastify";
+import cors from "@fastify/cors";
 import ibtRoutes from "./routes/ibt.js";
 import multipart from "@fastify/multipart";
 
 const fastify = Fastify({ logger: true });
 
-fastify.register(ibtRoutes)
+await fastify.register(cors, {
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+});
+
+fastify.register(ibtRoutes, { prefix: "/api" });
+
 fastify.register(multipart)
 
 const start = async () => {
