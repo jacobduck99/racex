@@ -1,13 +1,12 @@
 const API_BASE = import.meta.env.VITE_API_URL;
-console.log("api base", API_BASE);
 
-export async function analyseRaceData(laps: FormData) {
-    const url = `${API_BASE}/api/lap-data/analyse`;
+export async function analyseRaceData(session: FormData) {
+    const url = `${API_BASE}/api/parseIbt`;
     console.log("this is url", url);
     let res: Response;
 
     try {
-    res = await fetch(url, { method: "POST", body: laps,
+    res = await fetch(url, { method: "POST", body: session,
         mode: "cors",
         });
     } catch (e) {

@@ -4,11 +4,10 @@ import { createWriteStream } from "node:fs";
 import fs from "node:fs/promises";
 import { Telemetry } from "ibt-telemetry";
 
-
 const TEMP_IBT_DIR = path.resolve("server-js/tmp/ibt");
 
 export default async function ibtRoutes(fastify, opts) {
-  fastify.post("/lap-data/analyse", async (request, reply) => {
+  fastify.post("/parseIbt", async (request, reply) => {
     const file = await request.file(); // multipart file object
 
     const id = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
