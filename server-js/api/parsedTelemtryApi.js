@@ -4,12 +4,13 @@ dotenv.config({ path: "./server-js/.env" });
 const PY_BACKEND = process.env.PY_BACKEND_URL;
 console.log(process.env.PY_BACKEND_URL);
 
-export async function sendParsedIbt(telemtry) {
+export async function sendParsedIbt(telemetry) {
     const url = `${PY_BACKEND}/api/lap-data/analyse`;
     console.log("this is url", url);
 
+    let res;
     try {
-    let res = await fetch(url, { method: "POST", body: telemtry,
+    let res = await fetch(url, { method: "POST", body: telemetry,
         mode: "cors",
         });
     } catch (e) {
