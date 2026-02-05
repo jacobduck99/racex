@@ -22,7 +22,11 @@ export default async function ibtRoutes(fastify, opts) {
       fastify.log.info({ outPath }, "Upload saved, ready to parse");
       
       const telemetry = await Telemetry.fromFile(outPath);
-    const sessionInfo = telemetry.sessionInfo
+     for (let sample of telemetry.samples()) {
+                const speed = sample.getParam('speed');
+                console.log("here is ur speed", speed);
+            }
+      const sessionInfo = telemetry.sessionInfo
     console.log("telemetry", telemetry);
         console.log("here is ur sectors", sessionInfo.SplitTimeInfo.Sectors);
       const telemetryId = telemetry.uniqueId()
