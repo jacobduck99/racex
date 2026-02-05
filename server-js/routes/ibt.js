@@ -3,6 +3,7 @@ import { pipeline } from "node:stream/promises";
 import { createWriteStream } from "node:fs";
 import fs from "node:fs/promises";
 import { Telemetry } from "ibt-telemetry";
+import { sendParsedIbt } from "../api/parsedTelemtryApi.js";
 
 const TEMP_IBT_DIR = path.resolve("server-js/tmp/ibt");
 
@@ -42,6 +43,8 @@ export default async function ibtRoutes(fastify, opts) {
             });
           }
         }
+
+        await sendParsedIbt(telemetryValues);
 
       return { savedTo: outPath, filename: file.filename, fieldname: file.fieldname };
     } finally {
