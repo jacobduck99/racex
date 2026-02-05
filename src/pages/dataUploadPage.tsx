@@ -47,7 +47,11 @@ return (
         {/* Header */}
         <div className="mb-8">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-4 py-1.5">
-            <div className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse" />
+            <div
+              className={`h-2 w-2 rounded-full animate-pulse ${
+                raceSession === null ? "bg-indigo-400" : "bg-green-400"
+              }`}
+            />
             <span className="text-xs font-medium text-indigo-300">Telemetry Analysis</span>
           </div>
           <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
