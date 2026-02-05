@@ -17,19 +17,32 @@ export default async function ibtRoutes(fastify, opts) {
     fastify.log.info({ outPath, original: file.filename }, "Saving upload to temp");
 
     try {
-      await pipeline(file.file, createWriteStream(outPath));
+        await pipeline(file.file, createWriteStream(outPath));
 
-      fastify.log.info({ outPath }, "Upload saved, ready to parse");
+        fastify.log.info({ outPath }, "Upload saved, ready to parse");
       
-      const telemetry = await Telemetry.fromFile(outPath);
-     for (let sample of telemetry.samples()) {
-                const speed = sample.getParam('speed');
-                console.log("here is ur speed", speed);
-            }
-      const sessionInfo = telemetry.sessionInfo
-    console.log("telemetry", telemetry);
-        console.log("here is ur sectors", sessionInfo.SplitTimeInfo.Sectors);
-      const telemetryId = telemetry.uniqueId()
+        const telemetry = await Telemetry.fromFile(outPath);
+
+        const telemetryValues = []; 
+        for (const sample of telemetry.samples()) {
+          const time = sample.getParam("SessionTime")?.value;
+          const lap = sample.getParam("Lap")?.value;
+          const dist = sample.getParam("LapDistPct")?.value;
+          const speed = sample.getParam("Speed")?.value;
+          const brake = sample.getParam("Brake")?.value;
+          const throttle = sample.getParam("Throttle")?.value;
+
+          if (time !== undefined && lap !== undefined && dist !== undefined) {
+            telemetryValues.push({
+              t: time,
+              lap,
+              dist,
+              speed,
+              brake,
+              throttle,
+            });
+          }
+        }
 
       return { savedTo: outPath, filename: file.filename, fieldname: file.fieldname };
     } finally {
