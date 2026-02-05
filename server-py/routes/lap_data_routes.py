@@ -11,7 +11,7 @@ def analyse_lap_upload():
     print("=" * 50)
     
     try:
-        data = request.get_json(force=True) or {}
+        data = request.get_json()
         print("here's your data", data)
 
         if not data:
@@ -20,8 +20,7 @@ def analyse_lap_upload():
                 "error": "Missing file",
                 "received": data,
             }), 400
-        
-        
+         
         return jsonify({"ok": True, "message": "received"})
         
     except Exception as e:
