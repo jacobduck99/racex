@@ -31,7 +31,7 @@ export default async function ibtRoutes(fastify, opts) {
           const speed = sample.getParam("Speed")?.value;
           const brake = sample.getParam("Brake")?.value;
           const throttle = sample.getParam("Throttle")?.value;
-
+        
           if (time !== undefined && lap !== undefined && dist !== undefined) {
             telemetryValues.push({
               t: time,
