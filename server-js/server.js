@@ -14,7 +14,14 @@ await fastify.register(cors, {
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 });
 
-await fastify.register(multipart);
+fastify.register(multipart, {
+  throwFileSizeLimit: true,
+  limits: {
+    fileSize: 200 * 1024 * 1024, // 200MB (bump as needed)
+    files: 1,
+    parts: 1000,
+  },
+});
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
