@@ -29,26 +29,23 @@ export default async function ibtRoutes(fastify, opts) {
       let prevPct = null;
       let lapStart = null;
 
-      for (const sample of telemetry.samples()) {
-        const s = sample.toJSON();
-        const t = s?.SessionTime?.value;
-        const pct = s?.LapDistPct?.value;
+    for (const sample of telemetry.samples()) {
+      const t = sample.getParam("SessionTime")?.value;
+      const pct = sample.getParam("LapDistPct")?.value;
 
-        if (typeof t !== "number" || typeof pct !== "number") continue;
+      if (typeof t !== "number" || typeof pct !== "number") continue;
 
-        if (prevPct !== null && pct < 0.1 && prevPct > 0.9) {
-          if (lapStart !== null) lapTimes.push(t - lapStart);
-          lapStart = t;
-        }
-
-        prevPct = pct;
+      if (prevPct !== null && pct < 0.1 && prevPct > 0.9) {
+        if (lapStart !== null) lapTimes.push(t - lapStart);
+        lapStart = t;
       }
+
+      prevPct = pct;
+    }
 
       if (lapTimes.length === 0) {
         return reply.code(400).send({ error: "No laps detected" });
       }
-
-
 
       const pyRes = await sendParsedIbt({ lapTimes });
 
