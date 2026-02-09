@@ -6,7 +6,6 @@ analyse_bp = Blueprint("analyse", __name__)
 def analyse_lap_upload():
     data = request.get_json()
 
-    # Basic shape checks
     if not isinstance(data, dict):
         return jsonify({"error": "Expected JSON object"}), 400
 
@@ -14,7 +13,6 @@ def analyse_lap_upload():
     if not isinstance(laps, list):
         return jsonify({"error": "Expected 'laps' to be a list", "gotType": str(type(laps))}), 400
 
-    # Safe debug prints
     print("laps count:", len(laps))
     if len(laps) > 0:
         first = laps[0]
