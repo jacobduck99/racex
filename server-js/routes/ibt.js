@@ -26,19 +26,40 @@ export default async function ibtRoutes(fastify, opts) {
       const telemetry = await Telemetry.fromFile(outPath);
 
       const lapTimes = [];
+        console.log("lap times", lapTimes);
+      let currentLapSample = [];
+
+        console.log("lap times", currentLapSample);
+      const laps = [];
+        console.log("laps", laps)
       let prevPct = null;
       let lapStart = null;
 
     for (const sample of telemetry.samples()) {
-      const t = sample.getParam("SessionTime")?.value;
-      const pct = sample.getParam("LapDistPct")?.value;
+        const t = sample.getParam("SessionTime")?.value;
+        const pct = sample.getParam("LapDistPct")?.value;
+        const speed = sample.getParam("Speed")?.value;
+        const brake = sample.getParam("Brake")?.value;
+        const throttle = sample.getParam("Throttle")?.value;
+        
 
-      if (typeof t !== "number" || typeof pct !== "number") continue;
+      if (typeof t !== "number" || typeof pct !== "number" ||  typeof speed !== "number" || 
+        typeof brake !== "number" || typeof throttle !== "number") continue;
+
+      currentLapSample.push({ t, pct, speed, brake, throttle});
 
       if (prevPct !== null && pct < 0.1 && prevPct > 0.9) {
-        if (lapStart !== null) lapTimes.push(t - lapStart);
-        lapStart = t;
-      }
+          if (lapStart !== null) {
+            const lapTime = t - lapStart;
+            lapTimes.push(lapTime);
+
+            const payload = { lapTime, samples: currentLapSample };
+            laps.push(payload);
+          }
+
+          lapStart = t;
+          currentLapSample = [];
+        }
 
       prevPct = pct;
     }
@@ -47,9 +68,9 @@ export default async function ibtRoutes(fastify, opts) {
         return reply.code(400).send({ error: "No laps detected" });
       }
 
-      const pyRes = await sendParsedIbt({ lapTimes });
+      const pyRes = await sendParsedIbt({ laps });
 
-    console.log("sending payload keys:", Object.keys({ lapTimes }));
+    console.log("sending payload keys:", Object.keys({ laps }));
 
       return {
         ok: true,

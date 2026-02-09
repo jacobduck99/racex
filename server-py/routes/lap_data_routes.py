@@ -6,26 +6,30 @@ analyse_bp = Blueprint("analyse", __name__)
 def analyse_lap_upload():
     data = request.get_json()
 
-    if not data or "lapTimes" not in data or not isinstance(data["lapTimes"], list):
-        return jsonify({"error": "Invalid data"}), 400
+    # Basic shape checks
+    if not isinstance(data, dict):
+        return jsonify({"error": "Expected JSON object"}), 400
 
-    lap_times = data["lapTimes"]
-    human_readable_laps = [round(t, 3) for t in lap_times]
-    sorted_laps = sorted(human_readable_laps)
-    print("lap times:", sorted_laps)
-    
-    compare_laps = []
-    fastest_lap = sorted_laps[0]
-    second_fastest_lap = sorted_laps[1]
+    laps = data.get("laps")
+    if not isinstance(laps, list):
+        return jsonify({"error": "Expected 'laps' to be a list", "gotType": str(type(laps))}), 400
 
-    compare_laps.append(fastest_lap)
-    compare_laps.append(second_fastest_lap)
-    print("here are your laps to compare", compare_laps)
-    
-        
+    # Safe debug prints
+    print("laps count:", len(laps))
+    if len(laps) > 0:
+        first = laps[0]
+        print("first lap keys:", list(first.keys()) if isinstance(first, dict) else type(first))
+        if isinstance(first, dict):
+            print("first lapTime:", first.get("lapTime"))
+            samples = first.get("samples", [])
+            print("first samples count:", len(samples))
+            if samples:
+                print("first sample:", samples[0])
 
     return jsonify({
-        "laps": len(lap_times),
-        "lapTimes": compare_laps,
+        "laps": len(laps),
+        "firstLapTime": laps[0].get("lapTime") if laps and isinstance(laps[0], dict) else None,
+        "firstLapSamples": len(laps[0].get("samples", [])) if laps and isinstance(laps[0], dict) else 0,
     })
+
 
