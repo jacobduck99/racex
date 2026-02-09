@@ -26,12 +26,9 @@ export default async function ibtRoutes(fastify, opts) {
       const telemetry = await Telemetry.fromFile(outPath);
 
       const lapTimes = [];
-        console.log("lap times", lapTimes);
       let currentLapSample = [];
 
-        console.log("lap times", currentLapSample);
       const laps = [];
-        console.log("laps", laps)
       let prevPct = null;
       let lapStart = null;
 
@@ -69,8 +66,6 @@ export default async function ibtRoutes(fastify, opts) {
       }
 
       const pyRes = await sendParsedIbt({ laps });
-
-    console.log("sending payload keys:", Object.keys({ laps }));
 
       return {
         ok: true,
