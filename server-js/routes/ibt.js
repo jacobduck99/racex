@@ -39,7 +39,6 @@ export default async function ibtRoutes(fastify, opts) {
         const brake = sample.getParam("Brake")?.value;
         const throttle = sample.getParam("Throttle")?.value;
         
-
       if (typeof t !== "number" || typeof pct !== "number" ||  typeof speed !== "number" || 
         typeof brake !== "number" || typeof throttle !== "number") continue;
 
@@ -49,6 +48,7 @@ export default async function ibtRoutes(fastify, opts) {
           if (lapStart !== null) {
             const lapTime = t - lapStart;
             lapTimes.push(lapTime);
+            console.log("here's your lap time", lapTimes);
 
             const payload = { lapTime, samples: currentLapSample };
             laps.push(payload);

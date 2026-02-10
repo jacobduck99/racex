@@ -11,23 +11,20 @@ def analyse_lap_upload():
 
     laps = data.get("laps")
     if not isinstance(laps, list):
-        return jsonify({"error": "Expected 'laps' to be a list", "gotType": str(type(laps))}), 400
+        return jsonify({"error": "Expected 'laps' to be a list"}), 400
 
-    print("laps count:", len(laps))
-    if len(laps) > 0:
-        first = laps[0]
-        print("first lap keys:", list(first.keys()) if isinstance(first, dict) else type(first))
-        if isinstance(first, dict):
-            print("first lapTime:", first.get("lapTime"))
-            samples = first.get("samples", [])
-            print("first samples count:", len(samples))
-            if samples:
-                print("first sample:", samples[0])
+    lap_times = []
+    for lap in laps:
+        lap_time = lap.get("lapTime")
+        lap_times.append(lap_time)
+    print("here's your lap times", lap_times)
+
+    sorted_laps = sorted(lap_times)
+    print("here's your sorted laps", sorted_laps)
 
     return jsonify({
         "laps": len(laps),
-        "firstLapTime": laps[0].get("lapTime") if laps and isinstance(laps[0], dict) else None,
-        "firstLapSamples": len(laps[0].get("samples", [])) if laps and isinstance(laps[0], dict) else 0,
+        "firstLapTime": laps[0].get("lapTime") if laps else None,
+        "firstLapSamples": len(laps[0].get("samples", [])) if laps else 0,
+        "uniqueLapTimes": len(lap_times),
     })
-
-
