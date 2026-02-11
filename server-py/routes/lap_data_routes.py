@@ -25,11 +25,21 @@ def analyse_lap_upload():
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
     second_fastest_samples = second_fastest_lap.get("samples", []) if second_fastest_lap else []
 
-    # This has the lap time and samples ready to be compared
-    compare_laps = [sorted_laps[0], sorted_laps[1]]
+    fast_lap_braking = []
+    for sample in fastest_samples:
+        if sample["brake"] > 0.05:
+            fast_lap_braking.append(sample)
+            break
+    
+    second_fast_lap_braking = []
+    for sample in second_fastest_samples:
+        if sample["brake"] > 0.05:
+            second_fast_lap_braking.append(sample)
+            break
 
-    print("here's all your samples:")
-    print(json.dumps(compare_laps, indent=2))
+    print("here's your fastest lap samples for t1", fast_lap_braking)
+    print("here's your second fast lap samples for t1", second_fast_lap_braking)
+
     print("fastest lapTime:", fastest_lap.get("lapTime") if fastest_lap else None)
     print("fastest samples count:", len(fastest_samples))
 
