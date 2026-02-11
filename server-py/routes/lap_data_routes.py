@@ -27,13 +27,11 @@ def analyse_lap_upload():
     second_fastest_samples = second_fastest_lap.get("samples", []) if second_fastest_lap else []
 
     fastest_lap_brake_zone = find_brake_zone(fastest_samples) 
-    print("here's your braking zone fastest lap", fastest_lap_brake_zone[0])
-
-    print("here's when you release the brake", fastest_lap_brake_zone[1])
+    print("here's your braking zone fastest lap", fastest_lap_brake_zone)
 
     second_fastest_lap_brake_zone = find_brake_zone(second_fastest_samples)
     
-    print("here's your braking zone second fastest lap", second_fastest_lap_brake_zone[0], second_fastest_lap_brake_zone[1])
+    print("here's your braking zone second fastest lap", second_fastest_lap_brake_zone)
 
 
     # second_fast_lap_pct = second_fast_lap_brake_zone[0]["pct"]
