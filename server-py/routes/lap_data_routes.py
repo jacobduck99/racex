@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 import json
+import find_brake_zone
 
 analyse_bp = Blueprint("analyse", __name__)
 
