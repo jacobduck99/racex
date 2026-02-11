@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 import json
-import find_brake_zone
+from routes.lap_events import find_brake_zone
 
 analyse_bp = Blueprint("analyse", __name__)
 
@@ -26,39 +26,20 @@ def analyse_lap_upload():
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
     second_fastest_samples = second_fastest_lap.get("samples", []) if second_fastest_lap else []
 
-    fast_lap_braking = []
-    fast_lap_brake_release = []
-    braking = False
+    fastest_lap_brake_zone = find_brake_zone(fastest_samples) 
+    print("here's your braking zone fastest lap", fastest_lap_brake_zone[0])
 
-    for sample in fastest_samples:
-        if not braking and sample["brake"] >= 0.01:
-            fast_lap_braking.append(sample)
-            braking = True
-        elif braking == True and sample["brake"] < 0.01:
-            fast_lap_brake_release.append(sample)
-            braking = False
+    print("here's when you release the brake", fastest_lap_brake_zone[1])
+
+    second_fastest_lap_brake_zone = find_brake_zone(second_fastest_samples)
     
-    fast_lap_pct = fast_lap_braking[0]["pct"]
-    fast_lap_braking_pct = fast_lap_brake_release[0]["pct"]
+    print("here's your braking zone second fastest lap", second_fastest_lap_brake_zone[0], second_fastest_lap_brake_zone[1])
 
-    fast_lap_braking_dist = fast_lap_braking_pct - fast_lap_pct 
-    print("here's your braking distance fastest lap: \n", fast_lap_braking_dist)
 
-    second_fast_lap_braking = []
-    second_fast_lap_brake_release = []
-
-    for sample in second_fastest_samples:
-        if not braking and sample["brake"] >= 0.01:
-            second_fast_lap_braking.append(sample)
-            braking = True
-        elif braking == True and sample["brake"] < 0.01:
-            second_fast_lap_brake_release.append(sample)
-            braking = False
-
-    second_fast_lap_pct = second_fast_lap_braking[0]["pct"]
-    second_fast_lap_braking_pct = second_fast_lap_brake_release[0]["pct"]
-    second_fast_lap_braking_dist = second_fast_lap_braking_pct - second_fast_lap_pct
-    print("here's your braking distance second fastest lap: \n", second_fast_lap_braking_dist)
+    # second_fast_lap_pct = second_fast_lap_brake_zone[0]["pct"]
+    # second_fast_lap_braking_pct = second_fast_lap_brake_release[0]["pct"]
+    # second_fast_lap_braking_dist = second_fast_lap_braking_pct - second_fast_lap_pct
+    # print("here's your braking distance second fastest lap: \n", second_fast_lap_braking_dist)
 
     # print("here's your fastest lap samples for t1 \n", fast_lap_braking)
     # print("here's when you release the brake for fast lap \n", fast_lap_brake_release)
