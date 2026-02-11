@@ -53,9 +53,10 @@ def analyse_lap_upload():
 
 
     print("here's your fastest lap samples for t1", fast_lap_braking)
+    print("here's when you release the brake for fast lap", fast_lap_brake_release)
+
     print("here's your second fast lap samples for t1", second_fast_lap_braking)
-    
-    print("here's when you release the brake", fast_lap_brake_release)
+    print("here's when you release the brake for second fastest lap", second_fast_lap_brake_release)
 
     print("fastest lapTime:", fastest_lap.get("lapTime") if fastest_lap else None)
     print("fastest samples count:", len(fastest_samples))
