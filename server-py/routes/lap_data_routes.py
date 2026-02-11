@@ -33,17 +33,9 @@ def analyse_lap_upload():
     
     print("here's your braking zone second fastest lap", second_fastest_lap_brake_zone)
 
-
-    # second_fast_lap_pct = second_fast_lap_brake_zone[0]["pct"]
-    # second_fast_lap_braking_pct = second_fast_lap_brake_release[0]["pct"]
-    # second_fast_lap_braking_dist = second_fast_lap_braking_pct - second_fast_lap_pct
-    # print("here's your braking distance second fastest lap: \n", second_fast_lap_braking_dist)
-
     # print("here's your fastest lap samples for t1 \n", fast_lap_braking)
-    # print("here's when you release the brake for fast lap \n", fast_lap_brake_release)
 
     # print("here's your second fast lap samples for t1 \n", second_fast_lap_braking)
-    # print("here's when you release the brake for second fastest lap", second_fast_lap_brake_release)
 
     # print("fastest lapTime:", fastest_lap.get("lapTime") if fastest_lap else None)
     # print("fastest samples count:", len(fastest_samples))
