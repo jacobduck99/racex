@@ -28,19 +28,29 @@ def analyse_lap_upload():
     fast_lap_braking = []
     fast_lap_brake_release = []
     braking = False
+
     for sample in fastest_samples:
         if not braking and sample["brake"] > 0.05:
             fast_lap_braking.append(sample)
             braking = True
         elif braking == True and sample["brake"] < 0.05:
             fast_lap_brake_release.append(sample)
+            braking = False
             break
     
     second_fast_lap_braking = []
+    second_fast_lap_brake_release = []
+
     for sample in second_fastest_samples:
-        if sample["brake"] > 0.05:
+        if not braking and sample["brake"] > 0.05:
             second_fast_lap_braking.append(sample)
+            braking = True
+            print("here's your sample for second lap", sample)
+        elif braking == True and sample["brake"] < 0.05:
+            second_fast_lap_brake_release.append(sample)
+            braking = False
             break
+
 
     print("here's your fastest lap samples for t1", fast_lap_braking)
     print("here's your second fast lap samples for t1", second_fast_lap_braking)
