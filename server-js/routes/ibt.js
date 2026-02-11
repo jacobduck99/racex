@@ -48,7 +48,6 @@ export default async function ibtRoutes(fastify, opts) {
           if (lapStart !== null) {
             const lapTime = t - lapStart;
             lapTimes.push(lapTime);
-            console.log("here's your lap time", lapTimes);
 
             const payload = { lapTime, samples: currentLapSample };
             laps.push(payload);
