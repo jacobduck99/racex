@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+import json
 
 analyse_bp = Blueprint("analyse", __name__)
 
@@ -27,6 +28,8 @@ def analyse_lap_upload():
     # This has the lap time and samples ready to be compared
     compare_laps = [sorted_laps[0], sorted_laps[1]]
 
+    print("here's all your samples:")
+    print(json.dumps(compare_laps, indent=2))
     print("fastest lapTime:", fastest_lap.get("lapTime") if fastest_lap else None)
     print("fastest samples count:", len(fastest_samples))
 
