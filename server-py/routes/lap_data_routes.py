@@ -37,16 +37,14 @@ def analyse_lap_upload():
             fast_lap_brake_release.append(sample)
             braking = False
     
-    second_fast_lap_braking = []
-    second_fast_lap_brake_release = []
-
     fast_lap_pct = fast_lap_braking[0]["pct"]
-    print("here's your fast lap pct", fast_lap_pct)
     fast_lap_braking_pct = fast_lap_brake_release[0]["pct"]
-    print("here's your braking fast lap pct", fast_lap_braking_pct)
 
     fast_lap_braking_dist = fast_lap_braking_pct - fast_lap_pct 
-    print("here's your braking distance", fast_lap_braking_dist)
+    print("here's your braking distance fastest lap: \n", fast_lap_braking_dist)
+
+    second_fast_lap_braking = []
+    second_fast_lap_brake_release = []
 
     for sample in second_fastest_samples:
         if not braking and sample["brake"] >= 0.01:
@@ -56,17 +54,22 @@ def analyse_lap_upload():
             second_fast_lap_brake_release.append(sample)
             braking = False
 
-    print("here's your fastest lap samples for t1 \n", fast_lap_braking)
-    print("here's when you release the brake for fast lap \n", fast_lap_brake_release)
+    second_fast_lap_pct = second_fast_lap_braking[0]["pct"]
+    second_fast_lap_braking_pct = second_fast_lap_brake_release[0]["pct"]
+    second_fast_lap_braking_dist = second_fast_lap_braking_pct - second_fast_lap_pct
+    print("here's your braking distance second fastest lap: \n", second_fast_lap_braking_dist)
 
-    print("here's your second fast lap samples for t1 \n", second_fast_lap_braking)
-    print("here's when you release the brake for second fastest lap", second_fast_lap_brake_release)
+    # print("here's your fastest lap samples for t1 \n", fast_lap_braking)
+    # print("here's when you release the brake for fast lap \n", fast_lap_brake_release)
 
-    print("fastest lapTime:", fastest_lap.get("lapTime") if fastest_lap else None)
-    print("fastest samples count:", len(fastest_samples))
+    # print("here's your second fast lap samples for t1 \n", second_fast_lap_braking)
+    # print("here's when you release the brake for second fastest lap", second_fast_lap_brake_release)
 
-    print("second fastest lapTime:", second_fastest_lap.get("lapTime") if second_fastest_lap else None)
-    print("second fastest sample count:", len(second_fastest_samples))
+    # print("fastest lapTime:", fastest_lap.get("lapTime") if fastest_lap else None)
+    # print("fastest samples count:", len(fastest_samples))
+
+    # print("second fastest lapTime:", second_fastest_lap.get("lapTime") if second_fastest_lap else None)
+    # print("second fastest sample count:", len(second_fastest_samples))
 
     return jsonify({
         "laps": len(laps),
