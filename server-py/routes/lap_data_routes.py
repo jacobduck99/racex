@@ -32,10 +32,12 @@ def analyse_lap_upload():
     print("here's your braking duration fastest lap", fast_duration_s)
     print("here's your braking zone pct fast lap", fast_zone_pct)
 
-    second_fastest_lap_brake_zone = find_brake_zone(second_fastest_samples)
+    second_fast_lap_brake_zone = find_brake_zone(second_fastest_samples)
+    second_fast_duration_s = second_fast_lap_brake_zone["duration_s"]
+    second_fast_zone_pct = second_fast_lap_brake_zone["zone_pct"]
     
-    print("here's your braking zone second fastest lap", second_fastest_lap_brake_zone)
-
+    print("here's your braking duration second lap", second_fast_duration_s)
+    print("here's your braking pct second lap", second_fast_zone_pct)
     # print("here's your fastest lap samples for t1 \n", fast_lap_braking)
 
     # print("here's your second fast lap samples for t1 \n", second_fast_lap_braking)
