@@ -19,5 +19,5 @@ def find_brake_zone(lap):
             break
     duration_s = brake_off_t - brake_on_t
     zone_pct = brake_off_pct - brake_on_pct
-    return { "duration_s": duration_s, "zone_pct", zone_pct} 
+    return { "duration_s": duration_s, "zone_pct": zone_pct} 
             
