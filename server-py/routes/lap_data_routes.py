@@ -14,12 +14,8 @@ def analyse_lap_upload():
     laps = data.get("laps")
     if not isinstance(laps, list):
         return jsonify({"error": "Expected 'laps' to be a list"}), 400
-
-    lap_objects = []
-    for lap in laps:
-        lap_objects.append(lap)
-
-    sorted_laps = sorted(lap_objects, key=lambda lap: lap.get("lapTime", float("inf")))
+ 
+    sorted_laps = sorted(laps, key=lambda lap: lap.get("lapTime", float("inf")))
 
     fastest_lap = sorted_laps[0] if sorted_laps else None
     second_fastest_lap = sorted_laps[1] if sorted_laps else None
@@ -46,15 +42,7 @@ def analyse_lap_upload():
     print("here's your braking duration second lap", second_fast_duration_s)
     print("here's your braking pct second lap", second_fast_zone_pct)
     print("here's your minimum speed second lap", second_fast_lap_min_speed)
-    # print("here's your fastest lap samples for t1 \n", fast_lap_braking)
 
-    # print("here's your second fast lap samples for t1 \n", second_fast_lap_braking)
-
-    # print("fastest lapTime:", fastest_lap.get("lapTime") if fastest_lap else None)
-    # print("fastest samples count:", len(fastest_samples))
-
-    # print("second fastest lapTime:", second_fastest_lap.get("lapTime") if second_fastest_lap else None)
-    # print("second fastest sample count:", len(second_fastest_samples))
 
     return jsonify({
         "laps": len(laps),
