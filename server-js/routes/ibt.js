@@ -8,7 +8,7 @@ import { sendParsedIbt } from "../api/parsedTelemtryApi.js";
 const TEMP_IBT_DIR = path.resolve("server-js/tmp/ibt");
 
 export default async function ibtRoutes(fastify, opts) {
-  fastify.post("/parseIbt", async (request, reply) => {
+    fastify.post("/parseIbt", async (request, reply) => {
     const file = await request.file();
     const outPath = path.join(
       TEMP_IBT_DIR,
