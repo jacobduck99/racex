@@ -47,25 +47,23 @@ def analyse_lap_upload():
     print("here's your braking pct second lap", second_fast_zone_pct)
     print("here's your minimum speed second lap", second_fast_lap_min_speed)
 
-    laps = {
-        "fastest_lap" : {
-            "fast_duration_s" : fast_duration_s,
-            "fast_zone_pct" : fast_zone_pct,
-            "fast_lap_min_speed" : fast_lap_min_speed
+    result = {
+        "fastest_lap": {
+            "duration_s": fast_duration_s,
+            "brake_on_pct": fast_zone_pct,
+            "min_speed": fast_lap_min_speed,
         },
-        "second_fastest_lap" : {
-            "second_fast_duration_s" : second_fast_duration_s,
-            "second_fast_zone_pct" : second_fast_zone_pct,
-            "second_fast_lap_min_speed" : second_fast_lap_min_speed
+        "second_fastest_lap": {
+            "duration_s": second_fast_duration_s,
+            "brake_on_pct": second_fast_zone_pct,
+            "min_speed": second_fast_lap_min_speed,
         },
-        "compare_min_lap_to_lap" : {
-            "compare_min_speed" : compare_min_speeds 
-        }
+        "comparison": {
+            "min_speed_delta": compare_min_speeds,
+            "min_speed_delta_kph": compare_min_speeds * 3.6,
+        },
     }
 
-
     return jsonify({
-        "laps": len(laps),
-        "fastestLapTime": fastest_lap.get("lapTime") if fastest_lap else None,
-        "fastestLapSamples": len(fastest_samples),
+        "result" : result,
     })

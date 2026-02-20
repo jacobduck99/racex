@@ -65,6 +65,7 @@ export default async function ibtRoutes(fastify, opts) {
       }
 
       const pyRes = await sendParsedIbt({ laps });
+      console.log("Here's what was returned from api", pyRes);  
 
       return {
         ok: true,

@@ -24,6 +24,8 @@ export default function DataPage() {
     try { 
         const result = await analyseRaceData(fd);
         
+        console.log("here's your result from analyse race data", result);
+
         } catch (e) {
             console.log("error", e.message);
         }
