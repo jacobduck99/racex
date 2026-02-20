@@ -23,7 +23,6 @@ def analyse_lap_upload():
     fastest_lap = sorted_laps[0] if sorted_laps else None
     second_fastest_lap = sorted_laps[1]
 
-
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
     second_fastest_samples = second_fastest_lap.get("samples", []) if second_fastest_lap else []
 
@@ -47,6 +46,22 @@ def analyse_lap_upload():
     print("here's your braking duration second lap", second_fast_duration_s)
     print("here's your braking pct second lap", second_fast_zone_pct)
     print("here's your minimum speed second lap", second_fast_lap_min_speed)
+
+    laps = {
+        "fastest_lap" : {
+            "fast_duration_s" : fast_duration_s,
+            "fast_zone_pct" : fast_zone_pct,
+            "fast_lap_min_speed" : fast_lap_min_speed
+        },
+        "second_fastest_lap" : {
+            "second_fast_duration_s" : second_fast_duration_s,
+            "second_fast_zone_pct" : second_fast_zone_pct,
+            "second_fast_lap_min_speed" : second_fast_lap_min_speed
+        },
+        "compare_min_lap_to_lap" : {
+            "compare_min_speed" : compare_min_speeds 
+        }
+    }
 
 
     return jsonify({
