@@ -14,11 +14,16 @@ def analyse_lap_upload():
     laps = data.get("laps")
     if not isinstance(laps, list):
         return jsonify({"error": "Expected 'laps' to be a list"}), 400
+
+    if len(laps) <= 1:
+        return jsonify({"error": "Expected at least 2 laps to compare"}), 400
  
     sorted_laps = sorted(laps, key=lambda lap: lap.get("lapTime", float("inf")))
 
     fastest_lap = sorted_laps[0] if sorted_laps else None
-    second_fastest_lap = sorted_laps[1] if sorted_laps else None
+    second_fastest_lap = sorted_laps[1]
+
+
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
     second_fastest_samples = second_fastest_lap.get("samples", []) if second_fastest_lap else []
 
