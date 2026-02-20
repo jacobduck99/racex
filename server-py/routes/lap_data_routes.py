@@ -38,6 +38,10 @@ def analyse_lap_upload():
     second_fast_duration_s = second_fast_lap_brake_zone["duration_s"]
     second_fast_zone_pct = second_fast_lap_brake_zone["zone_pct"]
     second_fast_lap_min_speed = second_fast_lap_brake_zone["min_speed"]
+
+    compare_min_speeds = fast_lap_min_speed - second_fast_lap_min_speed 
+
+    print(f"here's your min speed difference {compare_min_speeds * 3.6:.2f} km/h")
     
     print("here's your braking duration second lap", second_fast_duration_s)
     print("here's your braking pct second lap", second_fast_zone_pct)
