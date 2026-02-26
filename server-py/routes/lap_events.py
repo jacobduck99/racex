@@ -13,6 +13,7 @@ def find_brake_zone(lap, threshold=0.05):
     for sample in lap:
         b = sample["brake"]
         spd = sample["speed"]
+        steering = sample["steering"]
 
         if not brake and b >= threshold:
             brake = True

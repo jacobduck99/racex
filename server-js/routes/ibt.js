@@ -38,7 +38,12 @@ export default async function ibtRoutes(fastify, opts) {
         const speed = sample.getParam("Speed")?.value;
         const brake = sample.getParam("Brake")?.value;
         const throttle = sample.getParam("Throttle")?.value;
-        const steering = sample.getParam("Steering")?.value;
+        const steering = sample.getParam("SteeringWheelAngle")?.value;
+        // uncomment these to see the samples you can use
+        // const sampleJson = sample.toJSON()
+        // console.log("here's sample", sampleJson)
+
+       
         
       if (typeof t !== "number" || typeof pct !== "number" ||  typeof speed !== "number" || 
         typeof brake !== "number" || typeof throttle !== "number" || typeof steering !== "number") continue;
@@ -64,6 +69,8 @@ export default async function ibtRoutes(fastify, opts) {
       if (lapTimes.length === 0) {
         return reply.code(400).send({ error: "No laps detected" });
       }
+
+    console.log("here's the payload being sent", laps);
 
       const pyRes = await sendParsedIbt({ laps });
       console.log("Here's what was returned from api", pyRes);  
