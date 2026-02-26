@@ -3,6 +3,9 @@ import { analyseRaceData } from "../lib/api/dataPageApi.js";
 
 export default function DataPage() {
     const [raceSession, setRaceSession] = useState(null);
+    const [lapsToCompare, setLapsToCompare] = useState(null);
+
+    console.log("Here's your laps to compare", lapsToCompare);
 
     const sessionRef = useRef(null);
 
@@ -23,6 +26,7 @@ export default function DataPage() {
 
     try { 
         const result = await analyseRaceData(fd);
+        setLapsToCompare(result.analysis);
         
         console.log("here's your result from analyse race data", result);
 
