@@ -3,9 +3,9 @@ import { analyseRaceData } from "../lib/api/dataPageApi.js";
 
 export default function DataPage() {
     const [raceSession, setRaceSession] = useState(null);
-    const [lapsToCompare, setLapsToCompare] = useState(null);
+    const [lapsAnalysis, setLapsAnalysis] = useState(null);
 
-    console.log("Here's your laps to compare", lapsToCompare);
+    console.log("Here's your laps to compare", lapsAnalysis);
 
     const sessionRef = useRef(null);
 
@@ -26,10 +26,9 @@ export default function DataPage() {
 
     try { 
         const result = await analyseRaceData(fd);
-        setLapsToCompare(result.analysis);
+        setLapsAnalysis(result.analysis);
+        // file structure goes comparison, fastest_lap, second_fastest_lap
         
-        console.log("here's your result from analyse race data", result);
-
         } catch (e) {
             console.log("error", e.message);
         }
