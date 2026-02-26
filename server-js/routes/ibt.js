@@ -38,11 +38,12 @@ export default async function ibtRoutes(fastify, opts) {
         const speed = sample.getParam("Speed")?.value;
         const brake = sample.getParam("Brake")?.value;
         const throttle = sample.getParam("Throttle")?.value;
+        const steering = sample.getParam("Steering")?.value;
         
       if (typeof t !== "number" || typeof pct !== "number" ||  typeof speed !== "number" || 
-        typeof brake !== "number" || typeof throttle !== "number") continue;
+        typeof brake !== "number" || typeof throttle !== "number" || typeof steering !== "number") continue;
 
-      currentLapSample.push({ t, pct, speed, brake, throttle});
+      currentLapSample.push({ t, pct, speed, brake, throttle, steering});
 
       if (prevPct !== null && pct < 0.1 && prevPct > 0.9) {
           if (lapStart !== null) {
