@@ -1,75 +1,64 @@
 #pct means distance around track 
 
-def find_brake_zone(lap, threshold=0.05):
-    brake = False
-
-    brake_on_pct = None
-    brake_on_t = None
-    brake_off_pct = None
-    brake_off_t = None
-
-    min_speed = None
-    min_speed_pct = None
-
-    steering_angle = []
+def find_brake_zones(lap, threshold=0.05):
+    corners = []
+    braking = False
+    current = None
 
     for sample in lap:
         b = sample["brake"]
         spd = sample["speed"]
+        pct = sample["pct"]
+        t = sample["t"]
         steering = sample["steering"]
 
-        if not brake and b >= threshold:
-            brake = True
-            brake_on_pct = sample["pct"]
-            brake_on_t = sample["t"]
-            min_speed = spd
-            min_speed_pct = sample["pct"]
-            steering_angle_positions = { "pct": sample["pct"], "t": sample["t"], "steering": steering}
-            steering_angle.append(steering_angle_positions)
-            continue  # go next sample
-
-        if not brake:
+        # Brake turns ON start a new zone
+        if not braking and b >= threshold:
+            braking = True
+            current = {
+                "brake_on_pct": pct,
+                "brake_on_t": t,
+                "brake_off_pct": None,
+                "brake_off_t": None,
+                "min_speed": spd,
+                "min_speed_pct": pct,
+                "steering_samples": [],  # list of {pct,t,steering}
+            }
+            current["steering_samples"].append({"pct": pct, "t": t, "steering": steering})
             continue
 
-        if spd < min_speed:
-            min_speed = spd
-            min_speed_pct = sample["pct"]
-        
-        steering_angle.append(steering_angle_positions)
+        # If we're not braking, ignore samples
+        if not braking:
+            continue
 
+        # We are braking record sample + update min speed
+        if spd < current["min_speed"]:
+            current["min_speed"] = spd
+            current["min_speed_pct"] = pct
+
+        current["steering_samples"].append({"pct": pct, "t": t, "steering": steering})
+
+        # Brake turns OFF close the zone
         if b < threshold:
-            brake_off_pct = sample["pct"]
-            brake_off_t = sample["t"]
+            braking = False
+            current["brake_off_pct"] = pct
+            current["brake_off_t"] = t
 
-            break
+            current["duration_s"] = current["brake_off_t"] - current["brake_on_t"]
 
-    if brake_on_t is None or brake_off_t is None:
-        return {
-            "found": False,
-            "brake_on_pct": brake_on_pct,
-            "brake_on_t": brake_on_t,
-            "brake_off_pct": brake_off_pct,
-            "brake_off_t": brake_off_t,
-            "min_speed": min_speed,
-            "min_speed_pct": min_speed_pct,
-            "steering_angle": steering_angle,
-        }
+            zone_pct = current["brake_off_pct"] - current["brake_on_pct"]
+            if zone_pct < 0:
+                zone_pct += 1.0
+            current["zone_pct"] = zone_pct
 
-    duration_s = brake_off_t - brake_on_t
-    zone_pct = brake_off_pct - brake_on_pct
+            corners.append(current)
+            current = None
 
-    print("here's your steering angle list now", steering_angle)
+   #number them in order
+    for i, c in enumerate(corners, start=1):
+        c["corner_num"] = i
 
     return {
-        "found": True,
-        "brake_on_pct": brake_on_pct,
-        "brake_on_t": brake_on_t,
-        "brake_off_pct": brake_off_pct,
-        "brake_off_t": brake_off_t,
-        "duration_s": duration_s,
-        "zone_pct": zone_pct,
-        "min_speed": min_speed,
-        "min_speed_pct": min_speed_pct,
-        "steering_angle": steering_angle,
+        "found": len(corners) > 0,
+        "corners": corners,
     }
-            
