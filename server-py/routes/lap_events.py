@@ -9,6 +9,7 @@ def find_brake_zone(lap, threshold=0.05):
     brake_off_t = None
 
     min_speed = None
+    min_speed_pct = None
 
     steering_angle = []
 
@@ -22,7 +23,8 @@ def find_brake_zone(lap, threshold=0.05):
             brake_on_pct = sample["pct"]
             brake_on_t = sample["t"]
             min_speed = spd
-            steering_angle.append(steering)
+            steering_angle_positions = { "pct": sample["pct"], "t": sample["t"], "steering": steering}
+            steering_angle.append(steering_angle_positions)
             continue  # go next sample
 
         if not brake:
@@ -30,8 +32,9 @@ def find_brake_zone(lap, threshold=0.05):
 
         if spd < min_speed:
             min_speed = spd
+            min_speed_pct = sample["pct"]
         
-        steering_angle.append(steering)
+        steering_angle.append(steering_angle_positions)
 
         if b < threshold:
             brake_off_pct = sample["pct"]
@@ -52,6 +55,8 @@ def find_brake_zone(lap, threshold=0.05):
 
     duration_s = brake_off_t - brake_on_t
     zone_pct = brake_off_pct - brake_on_pct
+
+    print("here's your steering angle list now", steering_angle)
 
     return {
         "found": True,
