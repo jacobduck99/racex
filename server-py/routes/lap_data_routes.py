@@ -30,9 +30,11 @@ def analyse_lap_upload():
     fast_duration_s = fast_lap_brake_zone["duration_s"]
     fast_zone_pct = fast_lap_brake_zone["zone_pct"]
     fast_lap_min_speed = fast_lap_brake_zone["min_speed"]
+    fast_lap_steering_angle = fast_lap_brake_zone["steering_angle"]
     print("here's your braking duration fastest lap", fast_duration_s)
     print("here's your braking zone pct fast lap", fast_zone_pct)
     print("here's your minimum speed fast lap", fast_lap_min_speed)
+    print("here's your steering angles for fast lap", fast_lap_steering_angle)
 
     second_fast_lap_brake_zone = find_brake_zone(second_fastest_samples)
     second_fast_duration_s = second_fast_lap_brake_zone["duration_s"]
