@@ -39,16 +39,17 @@ export default async function ibtRoutes(fastify, opts) {
         const brake = sample.getParam("Brake")?.value;
         const throttle = sample.getParam("Throttle")?.value;
         const steering = sample.getParam("SteeringWheelAngle")?.value;
+        const yawRate = sample.getParam("YawRate")?.value;
         // uncomment these to see the samples you can use
-        // const sampleJson = sample.toJSON()
+        //const sampleJson = sample.toJSON()
         // console.log("here's sample", sampleJson)
 
        
         
       if (typeof t !== "number" || typeof pct !== "number" ||  typeof speed !== "number" || 
-        typeof brake !== "number" || typeof throttle !== "number" || typeof steering !== "number") continue;
+        typeof brake !== "number" || typeof throttle !== "number" || typeof steering !== "number" || typeof yawRate !== "number") continue;
 
-      currentLapSample.push({ t, pct, speed, brake, throttle, steering});
+      currentLapSample.push({ t, pct, speed, brake, throttle, steering, yawRate});
 
       if (prevPct !== null && pct < 0.1 && prevPct > 0.9) {
           if (lapStart !== null) {
