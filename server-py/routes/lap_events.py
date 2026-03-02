@@ -62,3 +62,25 @@ def find_brake_zones(lap, threshold=0.05):
         "found": len(corners) > 0,
         "corners": corners,
     }
+
+def find_corners_by_yaw_rate(lap, threshold=0.03):
+    current = None
+    corners = []
+    time = 2
+
+    for sample in lap:
+        yaw_rate = sample["yawRate"]
+        pct = sample["pct"]
+        t = sample["t"]
+
+        if yaw_rate >= threshold and threshold >= time:
+            corners = {
+                "yaw_rate": yaw_rate,
+                "pct": pct, 
+                "t": t,
+            }
+            corners.append(current)
+            current = None
+
+
+    
