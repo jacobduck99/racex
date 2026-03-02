@@ -63,19 +63,17 @@ def find_brake_zones(lap, threshold=0.05):
         "corners": corners,
     }
 
-def find_corners_by_yaw_rate(lap, threshold=0.03):
+def find_corners_by_yaw_rate(lap, on_threshold=0.03, off_threshold=0.02, min_duration_s=0.3):
     current = None
     corners = []
     turning = False
-    off_threshold = 0.02
-    time = 0.3
 
     for sample in lap:
         yaw_rate = sample["yawRate"]
         pct = sample["pct"]
         t = sample["t"]
-        
-        if not turning and abs(yaw_rate) >= threshold:
+
+        if not turning and abs(yaw_rate) >= on_threshold:
             turning = True
             current = {
                 "yaw_rate": yaw_rate,
@@ -84,24 +82,33 @@ def find_corners_by_yaw_rate(lap, threshold=0.03):
                 "turning_on_pct": pct,
                 "turning_on_t": t,
                 "turning_off_pct": None,
-                "turning_off_t": None, 
+                "turning_off_t": None,
             }
 
         if turning and abs(yaw_rate) < off_threshold:
             turning = False
             current["turning_off_pct"] = pct
             current["turning_off_t"] = t
-
             current["duration_s"] = current["turning_off_t"] - current["turning_on_t"]
 
-            if current["duration_s"] < time:
-                current = None
-                continue
+            if current["duration_s"] >= min_duration_s:
+                corners.append(current)
 
-            corners.append(current)
             current = None
 
+    if turning and current is not None and lap:
+        last = lap[-1]
+        current["turning_off_pct"] = last["pct"]
+        current["turning_off_t"] = last["t"]
+        current["duration_s"] = current["turning_off_t"] - current["turning_on_t"]
 
+        if current["duration_s"] >= min_duration_s:
+            corners.append(current)
+
+        current = None
+        turning = False
+
+    corners.sort(key=lambda c: c["turning_on_pct"])
     for i, c in enumerate(corners, start=1):
         c["corner_num"] = i
 
