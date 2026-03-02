@@ -28,8 +28,8 @@ def analyse_lap_upload():
     fast = find_brake_zones(fastest_samples)
     fast_corner_detection = find_corners_by_yaw_rate(fastest_samples)
     get_fast_corners = fast_corner_detection.get("corners", []) 
-    get_duration = get_fast_corners[0]["duration_s"]
-    print("here's your duration", get_duration)
+    for duration in get_fast_corners:
+            print("here's your duration for corner", duration["duration_s"])
     second = find_brake_zones(second_fastest_samples)
 
     fast_corners = fast.get("corners", [])
