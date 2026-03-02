@@ -74,7 +74,7 @@ def find_corners_by_yaw_rate(lap, threshold=0.03):
         pct = sample["pct"]
         t = sample["t"]
         
-        if not turning and yaw_rate >= threshold:
+        if not turning and abs(yaw_rate) >= threshold:
             turning = True
             current = {
                 "yaw_rate": yaw_rate,
@@ -86,22 +86,29 @@ def find_corners_by_yaw_rate(lap, threshold=0.03):
                 "turning_off_t": None, 
             }
 
-        if turning and yaw_rate < threshold:
+        if turning and abs(yaw_rate) < threshold:
             turning = False
             current["turning_off_pct"] = pct
             current["turning_off_t"] = t
 
             current["duration_s"] = current["turning_off_t"] - current["turning_on_t"]
 
+            if current["duration_s"] < time:
+                continue
+
             corners.append(current)
             current = None
 
-        if current["duration_s"] < time:
-            continue
 
-            
+    for i, c in enumerate(corners, start=1):
+        c["corner_num"] = i
 
+    return {
+        "found": len(corners) > 0,
+        "corners": corners,
+    }
 
+                
 
 
 
