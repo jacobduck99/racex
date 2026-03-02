@@ -67,7 +67,7 @@ def find_corners_by_yaw_rate(lap, threshold=0.03):
     current = None
     corners = []
     turning = False
-    time = 2
+    time = 0.5
 
     for sample in lap:
         yaw_rate = sample["yawRate"]
@@ -94,6 +94,7 @@ def find_corners_by_yaw_rate(lap, threshold=0.03):
             current["duration_s"] = current["turning_off_t"] - current["turning_on_t"]
 
             if current["duration_s"] < time:
+                current = None
                 continue
 
             corners.append(current)
