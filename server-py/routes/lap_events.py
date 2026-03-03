@@ -20,6 +20,8 @@ def find_brake_zones(lap, threshold=0.05):
                 "brake_on_t": t,
                 "brake_off_pct": None,
                 "brake_off_t": None,
+                "max_brake": b,
+                "max_brake_pct": pct,
                 "min_speed": spd,
                 "min_speed_pct": pct,
                 "steering_samples": [],  # list of {pct,t,steering}
@@ -37,6 +39,10 @@ def find_brake_zones(lap, threshold=0.05):
             current["min_speed_pct"] = pct
 
         current["steering_samples"].append({"pct": pct, "t": t, "steering": steering})
+
+        if b > current["max_brake"]:
+            current["max_brake"] = b
+            current["max_brake_pct"] = pct
 
         # Brake turns OFF close the zone
         if b < threshold:
