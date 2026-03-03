@@ -26,24 +26,23 @@ def analyse_lap_upload():
     second_fastest_samples = second_fastest_lap.get("samples", []) if second_fastest_lap else []
 
     fast = find_brake_zones(fastest_samples)
+    second = find_brake_zones(second_fastest_samples)
     # returning first index for now
-    first_max_brake = fast["corners"][0]["max_brake"]
-    first_max_brake_pct = fast["corners"][0]["max_brake_pct"]
 
     fast_corner_detection = find_corners_by_yaw_rate(fastest_samples)
     get_fast_corners = fast_corner_detection.get("corners", []) 
 
     fast_corners = fast.get("corners", [])
-
-    second = find_brake_zones(second_fastest_samples)
-    second_corners = second.get("corners", [])
-    
-    second_lap_corner_detection = find_corners_by_yaw_rate(second_fastest_samples)
-    second_lap_max_brake = second["corners"][0]["max_brake"]
-    second_lap_max_brake_pct = second["corners"][0]["max_brake_pct"]
-
+    second_corners = second.get("corners", []) 
     fast_first = fast_corners[0] if fast_corners else None
     second_first = second_corners[0] if second_corners else None
+    first_max_brake = fast_first["max_brake"]
+    first_max_brake_pct = fast_first["max_brake_pct"]
+
+    second_lap_corner_detection = find_corners_by_yaw_rate(second_fastest_samples)
+
+    second_lap_max_brake = second_first["max_brake"]
+    second_lap_max_brake_pct = second_first["max_brake_pct"]
 
     if not fast_first or not second_first:
         return jsonify({
