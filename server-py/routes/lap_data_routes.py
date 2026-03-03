@@ -40,8 +40,10 @@ def analyse_lap_upload():
 
     second = find_brake_zones(second_fastest_samples)
     second_corners = second.get("corners", [])
-
-
+    
+    second_lap_corner_detection = find_corners_by_yaw_rate(second_fastest_samples)
+    second_lap_max_brake = second["corners"][0]["max_brake"]
+    second_lap_max_brake_pct = second["corners"][0]["max_brake_pct"]
 
     fast_first = fast_corners[0] if fast_corners else None
     second_first = second_corners[0] if second_corners else None
@@ -66,6 +68,8 @@ def analyse_lap_upload():
     second_zone_pct = second_first["zone_pct"]
     second_lap_min_speed = second_first["min_speed"]
     second_min_speed_pct = second_first["min_speed_pct"]
+    second_max_brake = second_lap_max_brake
+    second_max_brake_pct = second_lap_max_brake_pct
 
     compare_min_speeds = fast_lap_min_speed - second_lap_min_speed
 
@@ -91,6 +95,8 @@ def analyse_lap_upload():
             "min_speed": second_lap_min_speed,
             "min_speed_pct": second_min_speed_pct,
             "steering_samples_count": len(second_first.get("steering_samples", [])),
+            "max_brake": second_max_brake,
+            "max_brake_pct": second_max_brake_pct,
         },
         "comparison": {
             "min_speed_delta": compare_min_speeds,
