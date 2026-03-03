@@ -41,10 +41,9 @@ def analyse_lap_upload():
         }), 400
 
     # not using these atm detects yaw rate tho
-    fast_corner_detection = find_corners_by_yaw_rate(fastest_samples)
-    get_fast_corners = fast_corner_detection.get("corners", []) 
-    second_lap_corner_detection = find_corners_by_yaw_rate(second_fastest_samples)
-    #
+    # fast_corner_detection = find_corners_by_yaw_rate(fastest_samples)
+    # get_fast_corners = fast_corner_detection.get("corners", []) 
+    # second_lap_corner_detection = find_corners_by_yaw_rate(second_fastest_samples)
 
     fast_duration_s = fast_first["duration_s"]
     fast_brake_on_pct = fast_first["brake_on_pct"]
@@ -56,7 +55,7 @@ def analyse_lap_upload():
     fast_max_brake_pct = fast_first["max_brake_pct"]
     first_max_speed = fast_first["max_speed"]
     max_speed_kph = first_max_speed * 3.6
-    max_speed_rounded = round(max_speed_kph, 0)
+    max_speed_rounded = int(round(max_speed_kph))
 
     second_duration_s = second_first["duration_s"]
     second_brake_on_pct = second_first["brake_on_pct"]
@@ -68,7 +67,7 @@ def analyse_lap_upload():
     second_max_brake_pct = second_first["max_brake_pct"]
     second_lap_max_speed = second_first["max_speed"]
     second_max_speed_kph = second_lap_max_speed * 3.6
-    second_max_speed_rounded = round(second_max_speed_kph, 0)
+    second_max_speed_rounded = int(round(second_max_speed_kph))
  
     compare_min_speeds = fast_lap_min_speed - second_lap_min_speed
 
