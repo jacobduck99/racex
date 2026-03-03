@@ -61,7 +61,10 @@ def analyse_lap_upload():
     fast_min_speed_pct = fast_first["min_speed_pct"]
     fast_max_brake = first_max_brake
     fast_max_brake_pct = first_max_brake_pct
-
+    max_speed = fast_first["max_speed"]
+    max_speed_kph = max_speed * 3.6
+    max_speed_rounded = round(max_speed_kph, 3)
+    print(f"here's your max speed {max_speed_rounded} kph")
     second_duration_s = second_first["duration_s"]
     second_brake_on_pct = second_first["brake_on_pct"]
     second_brake_off_pct = second_first["brake_off_pct"]
