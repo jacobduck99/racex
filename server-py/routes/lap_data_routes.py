@@ -26,17 +26,22 @@ def analyse_lap_upload():
     second_fastest_samples = second_fastest_lap.get("samples", []) if second_fastest_lap else []
 
     fast = find_brake_zones(fastest_samples)
-    max_brake = fast["corners"][0]["max_brake"]
-    max_brake_pct = fast["corners"][0]["max_brake_pct"]
-    print("here's your max brake", max_brake)
+    # returning first index for now
+    first_max_brake = fast["corners"][0]["max_brake"]
+    first_max_brake_pct = fast["corners"][0]["max_brake_pct"]
+
     fast_corner_detection = find_corners_by_yaw_rate(fastest_samples)
     get_fast_corners = fast_corner_detection.get("corners", []) 
+
     for duration in get_fast_corners:
             print("here's your duration for corner", duration["duration_s"])
-    second = find_brake_zones(second_fastest_samples)
 
     fast_corners = fast.get("corners", [])
+
+    second = find_brake_zones(second_fastest_samples)
     second_corners = second.get("corners", [])
+
+
 
     fast_first = fast_corners[0] if fast_corners else None
     second_first = second_corners[0] if second_corners else None
@@ -52,8 +57,8 @@ def analyse_lap_upload():
     fast_zone_pct = fast_first["zone_pct"]
     fast_lap_min_speed = fast_first["min_speed"]
     fast_min_speed_pct = fast_first["min_speed_pct"]
-    fast_max_brake = max_brake
-    fast_max_brake_pct = max_brake_pct
+    fast_max_brake = first_max_brake
+    fast_max_brake_pct = first_max_brake_pct
 
     second_duration_s = second_first["duration_s"]
     second_brake_on_pct = second_first["brake_on_pct"]
