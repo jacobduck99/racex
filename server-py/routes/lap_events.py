@@ -23,7 +23,7 @@ def find_brake_zones(lap, threshold=0.05):
                 "max_brake": b,
                 "max_brake_pct": pct,
                 "max_speed": spd,
-                "max_speed_pct": spd,
+                "max_speed_pct": pct,
                 "min_speed": spd,
                 "min_speed_pct": pct,
                 "steering_samples": [],  # list of {pct,t,steering}

@@ -33,9 +33,6 @@ def analyse_lap_upload():
     fast_corner_detection = find_corners_by_yaw_rate(fastest_samples)
     get_fast_corners = fast_corner_detection.get("corners", []) 
 
-    for duration in get_fast_corners:
-            print("here's your duration for corner", duration["duration_s"])
-
     fast_corners = fast.get("corners", [])
 
     second = find_brake_zones(second_fastest_samples)
@@ -61,10 +58,12 @@ def analyse_lap_upload():
     fast_min_speed_pct = fast_first["min_speed_pct"]
     fast_max_brake = first_max_brake
     fast_max_brake_pct = first_max_brake_pct
-    max_speed = fast_first["max_speed"]
-    max_speed_kph = max_speed * 3.6
-    max_speed_rounded = round(max_speed_kph, 3)
-    print(f"here's your max speed {max_speed_rounded} kph")
+    first_max_speed = fast_first["max_speed"]
+    max_speed_kph = first_max_speed * 3.6
+    max_speed_rounded = round(max_speed_kph, 0)
+
+    print(f"here's your first corner fast lap max speed {max_speed_rounded} kph")
+
     second_duration_s = second_first["duration_s"]
     second_brake_on_pct = second_first["brake_on_pct"]
     second_brake_off_pct = second_first["brake_off_pct"]
@@ -73,7 +72,12 @@ def analyse_lap_upload():
     second_min_speed_pct = second_first["min_speed_pct"]
     second_max_brake = second_lap_max_brake
     second_max_brake_pct = second_lap_max_brake_pct
+    second_lap_max_speed = second_first["max_speed"]
+    second_max_speed_kph = second_lap_max_speed * 3.6
+    second_max_speed_rounded = round(second_max_speed_kph, 0)
 
+    
+    print(f"here's your second lap first corner max speed {second_max_speed_rounded} kph")
     compare_min_speeds = fast_lap_min_speed - second_lap_min_speed
 
     result = {
@@ -88,6 +92,7 @@ def analyse_lap_upload():
             "steering_samples_count": len(fast_first.get("steering_samples", [])),
             "max_brake": fast_max_brake,
             "max_brake_pct": fast_max_brake_pct,
+            "max_speed_kph": max_speed_rounded,
         },
         "second_fastest_lap": {
             "corner_num": second_first["corner_num"],
@@ -100,6 +105,7 @@ def analyse_lap_upload():
             "steering_samples_count": len(second_first.get("steering_samples", [])),
             "max_brake": second_max_brake,
             "max_brake_pct": second_max_brake_pct,
+            "max_speed_kph": second_max_speed_rounded,
         },
         "comparison": {
             "min_speed_delta": compare_min_speeds,
