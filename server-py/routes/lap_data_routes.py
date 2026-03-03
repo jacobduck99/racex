@@ -44,65 +44,46 @@ def analyse_lap_upload():
     # fast_corner_detection = find_corners_by_yaw_rate(fastest_samples)
     # get_fast_corners = fast_corner_detection.get("corners", []) 
     # second_lap_corner_detection = find_corners_by_yaw_rate(second_fastest_samples)
-
-    fast_duration_s = fast_first["duration_s"]
-    fast_brake_on_pct = fast_first["brake_on_pct"]
-    fast_brake_off_pct = fast_first["brake_off_pct"]
-    fast_zone_pct = fast_first["zone_pct"]
-    fast_lap_min_speed = fast_first["min_speed"]
-    fast_min_speed_pct = fast_first["min_speed_pct"]
-    fast_max_brake = fast_first["max_brake"]
-    fast_max_brake_pct = fast_first["max_brake_pct"]
-    first_max_speed = fast_first["max_speed"]
-    max_speed_kph = first_max_speed * 3.6
+    max_speed_kph = fast_first["max_speed"] * 3.6
     max_speed_rounded = int(round(max_speed_kph))
 
-    second_duration_s = second_first["duration_s"]
-    second_brake_on_pct = second_first["brake_on_pct"]
-    second_brake_off_pct = second_first["brake_off_pct"]
-    second_zone_pct = second_first["zone_pct"]
-    second_lap_min_speed = second_first["min_speed"]
-    second_min_speed_pct = second_first["min_speed_pct"]
-    second_max_brake = second_first["max_brake"]
-    second_max_brake_pct = second_first["max_brake_pct"]
-    second_lap_max_speed = second_first["max_speed"]
-    second_max_speed_kph = second_lap_max_speed * 3.6
+    second_max_speed_kph = second_first["max_speed"] * 3.6
     second_max_speed_rounded = int(round(second_max_speed_kph))
  
-    compare_min_speeds = fast_lap_min_speed - second_lap_min_speed
+    compare_min_speeds = fast_first["min_speed"] - second_first["min_speed"] 
 
     result = {
         "fastest_lap": {
             "corner_num": fast_first["corner_num"],
-            "duration_s": fast_duration_s,
-            "brake_on_pct": fast_brake_on_pct,
-            "brake_off_pct": fast_brake_off_pct,
-            "zone_pct": fast_zone_pct,
-            "min_speed": fast_lap_min_speed,
-            "min_speed_pct": fast_min_speed_pct,
+            "duration_s": fast_first["duration_s"],
+            "brake_on_pct": fast_first["brake_on_pct"],
+            "brake_off_pct": fast_first["brake_off_pct"],
+            "zone_pct": fast_first["zone_pct"],
+            "min_speed": fast_first["min_speed"],
+            "min_speed_pct": fast_first["min_speed_pct"],
             "steering_samples_count": len(fast_first.get("steering_samples", [])),
-            "max_brake": fast_max_brake,
-            "max_brake_pct": fast_max_brake_pct,
+            "max_brake": fast_first["max_brake"],
+            "max_brake_pct": fast_first["max_brake_pct"],
             "max_speed_kph": max_speed_rounded,
         },
         "second_fastest_lap": {
             "corner_num": second_first["corner_num"],
-            "duration_s": second_duration_s,
-            "brake_on_pct": second_brake_on_pct,
-            "brake_off_pct": second_brake_off_pct,
-            "zone_pct": second_zone_pct,
-            "min_speed": second_lap_min_speed,
-            "min_speed_pct": second_min_speed_pct,
+            "duration_s": second_first["duration_s"],
+            "brake_on_pct": second_first["brake_on_pct"],
+            "brake_off_pct": second_first["brake_off_pct"],
+            "zone_pct": second_first["zone_pct"],
+            "min_speed": second_first["min_speed"],
+            "min_speed_pct": second_first["min_speed_pct"],
             "steering_samples_count": len(second_first.get("steering_samples", [])),
-            "max_brake": second_max_brake,
-            "max_brake_pct": second_max_brake_pct,
+            "max_brake": second_first["max_brake"],
+            "max_brake_pct": second_first["max_brake_pct"],
             "max_speed_kph": second_max_speed_rounded,
         },
         "comparison": {
             "min_speed_delta": compare_min_speeds,
             "min_speed_delta_kph": compare_min_speeds * 3.6,
-            "duration_delta_s": fast_duration_s - second_duration_s,
-            "zone_pct_delta": fast_zone_pct - second_zone_pct,
+            "duration_delta_s": fast_first["duration_s"] - second_first["duration_s"],
+            "zone_pct_delta": fast_first["zone_pct"] - second_first["zone_pct"],
         },
     }
 
