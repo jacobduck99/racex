@@ -29,25 +29,22 @@ def analyse_lap_upload():
     second = find_brake_zones(second_fastest_samples)
     # returning first index for now
 
-    fast_corner_detection = find_corners_by_yaw_rate(fastest_samples)
-    get_fast_corners = fast_corner_detection.get("corners", []) 
-
     fast_corners = fast.get("corners", [])
     second_corners = second.get("corners", []) 
+
     fast_first = fast_corners[0] if fast_corners else None
     second_first = second_corners[0] if second_corners else None
-    first_max_brake = fast_first["max_brake"]
-    first_max_brake_pct = fast_first["max_brake_pct"]
-
-    second_lap_corner_detection = find_corners_by_yaw_rate(second_fastest_samples)
-
-    second_lap_max_brake = second_first["max_brake"]
-    second_lap_max_brake_pct = second_first["max_brake_pct"]
 
     if not fast_first or not second_first:
         return jsonify({
             "error": "Could not detect a brake zone in one of the laps (try lowering threshold or ensure brake data exists)."
         }), 400
+
+    # not using these atm detects yaw rate tho
+    fast_corner_detection = find_corners_by_yaw_rate(fastest_samples)
+    get_fast_corners = fast_corner_detection.get("corners", []) 
+    second_lap_corner_detection = find_corners_by_yaw_rate(second_fastest_samples)
+    #
 
     fast_duration_s = fast_first["duration_s"]
     fast_brake_on_pct = fast_first["brake_on_pct"]
@@ -55,13 +52,11 @@ def analyse_lap_upload():
     fast_zone_pct = fast_first["zone_pct"]
     fast_lap_min_speed = fast_first["min_speed"]
     fast_min_speed_pct = fast_first["min_speed_pct"]
-    fast_max_brake = first_max_brake
-    fast_max_brake_pct = first_max_brake_pct
+    fast_max_brake = fast_first["max_brake"]
+    fast_max_brake_pct = fast_first["max_brake_pct"]
     first_max_speed = fast_first["max_speed"]
     max_speed_kph = first_max_speed * 3.6
     max_speed_rounded = round(max_speed_kph, 0)
-
-    print(f"here's your first corner fast lap max speed {max_speed_rounded} kph")
 
     second_duration_s = second_first["duration_s"]
     second_brake_on_pct = second_first["brake_on_pct"]
@@ -69,14 +64,12 @@ def analyse_lap_upload():
     second_zone_pct = second_first["zone_pct"]
     second_lap_min_speed = second_first["min_speed"]
     second_min_speed_pct = second_first["min_speed_pct"]
-    second_max_brake = second_lap_max_brake
-    second_max_brake_pct = second_lap_max_brake_pct
+    second_max_brake = second_first["max_brake"]
+    second_max_brake_pct = second_first["max_brake_pct"]
     second_lap_max_speed = second_first["max_speed"]
     second_max_speed_kph = second_lap_max_speed * 3.6
     second_max_speed_rounded = round(second_max_speed_kph, 0)
-
-    
-    print(f"here's your second lap first corner max speed {second_max_speed_rounded} kph")
+ 
     compare_min_speeds = fast_lap_min_speed - second_lap_min_speed
 
     result = {
