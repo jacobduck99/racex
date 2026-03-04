@@ -1,10 +1,12 @@
 #pct means distance around track 
+# lots of comments because this is complex 
 
-def find_brake_zones(lap, threshold=0.05):
+def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.02):
     corners = []
     braking = False
     current = None
-    last_throttle_on_t = None
+
+    throttle_off_t = None
 
     for sample in lap:
         b = sample["brake"]
@@ -14,9 +16,10 @@ def find_brake_zones(lap, threshold=0.05):
         steering = sample["steering"]
         throttle = sample["throttle"]
 
-        if not braking and throttle > 0.2:
-            last_throttle_on_t = t
-        
+        # Record the FIRST moment throttle goes "off" before braking starts
+        if not braking and throttle_off_t is None and throttle <= throttle_off_threshold:
+            throttle_off_t = t
+
         # Brake turns ON start a new zone
         if not braking and b >= threshold:
             braking = True
@@ -31,23 +34,18 @@ def find_brake_zones(lap, threshold=0.05):
                 "max_speed_pct": pct,
                 "min_speed": spd,
                 "min_speed_pct": pct,
-                "steering_samples": [],  # list of {pct,t,steering}
+                "steering_samples": [],
+                "coast_duration_s": (t - throttle_off_t) if throttle_off_t is not None else None,
+                "throttle_off_t": throttle_off_t,  
             }
             current["steering_samples"].append({"pct": pct, "t": t, "steering": steering})
-            if last_throttle_on_t is not None:
-                coast = current["brake_on_t"] - last_throttle_on_t
-                current["coast_duration_s"] = coast
-                print("here's your coasting duration", coast)
-                last_throttle_on_t = None
-            else:
-                current["coast_duration_s"] = None
             continue
 
         # If we're not braking, ignore samples
         if not braking:
             continue
-        
-        # We are braking record sample + update min speed
+
+        # We are braking: record sample + update min/max
         if spd < current["min_speed"]:
             current["min_speed"] = spd
             current["min_speed_pct"] = pct
@@ -67,7 +65,6 @@ def find_brake_zones(lap, threshold=0.05):
             braking = False
             current["brake_off_pct"] = pct
             current["brake_off_t"] = t
-
             current["duration_s"] = current["brake_off_t"] - current["brake_on_t"]
 
             zone_pct = current["brake_off_pct"] - current["brake_on_pct"]
@@ -77,9 +74,9 @@ def find_brake_zones(lap, threshold=0.05):
 
             corners.append(current)
             current = None
-            last_throttle_on_t = None
+            throttle_off_t = None  # reset for the next zone
 
-   #number them in order
+    # number them in order
     for i, c in enumerate(corners, start=1):
         c["corner_num"] = i
 
