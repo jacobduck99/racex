@@ -4,6 +4,7 @@ def find_brake_zones(lap, threshold=0.05):
     corners = []
     braking = False
     current = None
+    last_throttle_on_t = None
 
     for sample in lap:
         b = sample["brake"]
@@ -11,7 +12,11 @@ def find_brake_zones(lap, threshold=0.05):
         pct = sample["pct"]
         t = sample["t"]
         steering = sample["steering"]
+        throttle = sample["throttle"]
 
+        if not braking and throttle > 0.2:
+            last_throttle_on_t = t
+        
         # Brake turns ON start a new zone
         if not braking and b >= threshold:
             braking = True
@@ -29,12 +34,19 @@ def find_brake_zones(lap, threshold=0.05):
                 "steering_samples": [],  # list of {pct,t,steering}
             }
             current["steering_samples"].append({"pct": pct, "t": t, "steering": steering})
+            if last_throttle_on_t is not None:
+                coast = current["brake_on_t"] - last_throttle_on_t
+                current["coast_duration_s"] = coast
+                print("here's your coasting duration", coast)
+                last_throttle_on_t = None
+            else:
+                current["coast_duration_s"] = None
             continue
 
         # If we're not braking, ignore samples
         if not braking:
             continue
-
+        
         # We are braking record sample + update min speed
         if spd < current["min_speed"]:
             current["min_speed"] = spd
@@ -65,6 +77,7 @@ def find_brake_zones(lap, threshold=0.05):
 
             corners.append(current)
             current = None
+            last_throttle_on_t = None
 
    #number them in order
     for i, c in enumerate(corners, start=1):
