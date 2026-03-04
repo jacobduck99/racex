@@ -65,6 +65,7 @@ def analyse_lap_upload():
             "max_brake": fast_first["max_brake"],
             "max_brake_pct": fast_first["max_brake_pct"],
             "max_speed_kph": max_speed_rounded,
+            "coasting": fast_first["coast_duration_s"] 
         },
         "second_fastest_lap": {
             "corner_num": second_first["corner_num"],

@@ -1,7 +1,7 @@
 #pct means distance around track 
 # lots of comments because this is complex 
 
-def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.02):
+def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
     corners = []
     braking = False
     current = None
@@ -73,6 +73,7 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.02):
             current["zone_pct"] = zone_pct
 
             corners.append(current)
+            print("here's what's in current", current)
             current = None
             throttle_off_t = None  # reset for the next zone
 
