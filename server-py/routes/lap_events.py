@@ -5,7 +5,8 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
     corners = []
     braking = False
     current = None
-
+    
+    throttle_on_t = None
     throttle_off_t = None
 
     for sample in lap:
@@ -71,10 +72,14 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
             if zone_pct < 0:
                 zone_pct += 1.0
             current["zone_pct"] = zone_pct
-
+            if throttle > 0.1:
+                current["throttle_on_t"] = t
+                print("Here's is when you put on throttle in corner", current["throttle_on_t"])
+        
             corners.append(current)
             print("here's what's in current", current)
             current = None
+            throttle_on_t = None
             throttle_off_t = None  # reset for the next zone
 
     # number them in order
