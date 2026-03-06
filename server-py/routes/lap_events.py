@@ -21,6 +21,9 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
         if not braking and throttle_off_t is None and throttle <= throttle_off_threshold:
             throttle_off_t = t
 
+        if not braking and throttle is not None and throttle > 0:
+            throttle_on_t = t
+
         # Brake turns ON start a new zone
         if not braking and b >= threshold:
             braking = True
@@ -38,6 +41,7 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
                 "steering_samples": [],
                 "coast_duration_s": (t - throttle_off_t) if throttle_off_t is not None else None,
                 "throttle_off_t": throttle_off_t,  
+                "throttle_on_t": throttle_on_t,
             }
             current["steering_samples"].append({"pct": pct, "t": t, "steering": steering})
             continue
@@ -72,12 +76,9 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
             if zone_pct < 0:
                 zone_pct += 1.0
             current["zone_pct"] = zone_pct
-            if throttle > 0.1:
-                current["throttle_on_t"] = t
-                print("Here's is when you put on throttle in corner", current["throttle_on_t"])
         
             corners.append(current)
-            print("here's what's in current", current)
+            print("Here's whats in current", current["throttle_on_t"])
             current = None
             throttle_on_t = None
             throttle_off_t = None  # reset for the next zone
