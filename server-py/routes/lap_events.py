@@ -49,7 +49,7 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
 
         # We are braking: record sample + update min/max
         if spd < current["min_speed"]:
-            current["min_speed"] = spd
+            current["min_speed"] = spd 
             current["min_speed_pct"] = pct
 
         current["steering_samples"].append({"pct": pct, "t": t, "steering": steering})
@@ -69,15 +69,13 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
             current["brake_off_t"] = t
             current["duration_s"] = current["brake_off_t"] - current["brake_on_t"]
 
-        if current is not None and current["brake_off_t"] is not None and current["throttle_on_t"] is None and throttle >0.1:
-            current["throttle_on_t"] = t
+        if current is not None and current["brake_off_t"] is not None and current["throttle_on_t"] is None and throttle >= 0.1:
 
             zone_pct = current["brake_off_pct"] - current["brake_on_pct"]
             if zone_pct < 0:
                 zone_pct += 1.0
             current["zone_pct"] = zone_pct
 
-        
             corners.append(current)
             print("Here's whats in current", current["throttle_on_t"])
             current = None

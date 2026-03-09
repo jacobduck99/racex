@@ -79,6 +79,7 @@ def analyse_lap_upload():
             "max_brake": second_first["max_brake"],
             "max_brake_pct": second_first["max_brake_pct"],
             "max_speed_kph": second_max_speed_rounded,
+            "coasting": second_first["coast_duration_s"]
         },
         "comparison": {
             "min_speed_delta": compare_min_speeds,
