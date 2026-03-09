@@ -23,6 +23,15 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
 
         # Brake turns ON start a new zone
         if not braking and b >= threshold:
+            if current is not None and current["brake_off_t"] is not None:
+                zone_pct = current["brake_off_pct"] - current["brake_on_pct"]
+                if zone_pct < 0:
+                    zone_pct += 1.0
+                current["zone_pct"] = zone_pct
+                corners.append(current)
+                current = None
+                throttle_on_t = None
+                throttle_off_t = None  # reset for the next zone
             braking = True
             current = {
                 "brake_on_pct": pct,
@@ -46,7 +55,7 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
         # If we're not braking, ignore samples
         if not braking:
             continue
-
+        
         # We are braking: record sample + update min/max
         if spd < current["min_speed"]:
             current["min_speed"] = spd 
@@ -68,16 +77,20 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
             current["brake_off_pct"] = pct
             current["brake_off_t"] = t
             current["duration_s"] = current["brake_off_t"] - current["brake_on_t"]
+            print("brake off, waiting for throttle, current throttle:", throttle)
 
-        if current is not None and current["brake_off_t"] is not None and current["throttle_on_t"] is None and throttle >= 0.1:
-
+        if current is not None and current["brake_off_t"] is not None and current["throttle_on_t"] is None and throttle >= threshold:
+            current["throttle_on_t"] = t
+            print("here's throttle", throttle)
+            print("Here's when throttle comes on", current["throttle_on_t"])
+            print("here's brake on pct", current["brake_on_pct"])
+            
             zone_pct = current["brake_off_pct"] - current["brake_on_pct"]
             if zone_pct < 0:
                 zone_pct += 1.0
             current["zone_pct"] = zone_pct
 
             corners.append(current)
-            print("Here's whats in current", current["throttle_on_t"])
             current = None
             throttle_on_t = None
             throttle_off_t = None  # reset for the next zone

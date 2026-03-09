@@ -30,6 +30,8 @@ def analyse_lap_upload():
     # returning first index for now
 
     fast_corners = fast.get("corners", [])
+    for corner in fast_corners:
+            print("here's your brake on pct", corner["brake_on_pct"])
     second_corners = second.get("corners", []) 
 
     fast_first = fast_corners[0] if fast_corners else None
