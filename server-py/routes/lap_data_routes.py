@@ -43,9 +43,10 @@ def analyse_lap_upload():
         }), 400
 
     # not using these atm detects yaw rate tho
-    # fast_corner_detection = find_corners_by_yaw_rate(fastest_samples)
-    # get_fast_corners = fast_corner_detection.get("corners", []) 
-    # second_lap_corner_detection = find_corners_by_yaw_rate(second_fastest_samples)
+    fast_corner_detection = find_corners_by_yaw_rate(fastest_samples)
+    get_fast_corners = fast_corner_detection.get("corners", []) 
+    print("here's how many corners using yawrate", len(get_fast_corners))
+    second_lap_corner_detection = find_corners_by_yaw_rate(second_fastest_samples)
     max_speed_kph = fast_first["max_speed"] * 3.6
     max_speed_rounded = int(round(max_speed_kph))
 
