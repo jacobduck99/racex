@@ -164,8 +164,25 @@ def find_corners_by_yaw_rate(lap, on_threshold=0.03, off_threshold=0.02, min_dur
         "corners": corners,
     }
 
-                
-
-
-
+def build_corner_map(lap):
+    find_corners_yaw_rate = find_corners_by_yaw_rate(lap)
+    find_braking = find_brake_zones(lap)
+    braking_zones = find_braking.get("corners", [])
+    corners = find_corners_yaw_rate.get("corners", [])
+    brake_zones = []
     
+    for brake_zone in braking_zones: 
+        best_match = None
+        best_distance = float("inf")
+        for corner in corners:
+            if brake_zone["brake_on_pct"] >= corner["turning_on_pct"] - 0.05 and brake_zone["brake_on_pct"] <= corner["turning_off_pct"]:
+                distance = abs(brake_zone["brake_on_pct"] - corner["turning_on_pct"])
+                if distance < best_distance:
+                    best_distance = distance
+                    best_match = corner
+        if best_match is not None:
+            brake_zone["best_match"] = best_match
+            brake_zones.append(brake_zone)
+                     
+        print("here's your best match", best_match)
+    return  brake_zones
