@@ -86,7 +86,6 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
             if zone_pct < 0:
                 zone_pct += 1.0
             current["zone_pct"] = zone_pct
-            print("here's zone closed", current["zone_pct"])
             corners.append(current)
             current = None
             throttle_on_t = None
@@ -176,3 +175,48 @@ def build_corner_map(lap):
             brake_zones.append(brake_zone)
                      
     return  brake_zones
+
+def convert_to_kph(speed):
+   pass 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
