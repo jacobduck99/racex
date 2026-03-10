@@ -27,13 +27,6 @@ def analyse_lap_upload():
     
     fast_lap_corner_map = build_corner_map(fastest_samples)
     reference_lap_corner_map = build_corner_map(reference_samples)
-
-# NEED TO CONVERT THIS INTO A FUNCTION AND LOOP THROUGH ALL OF MAX SPEED
-#    max_speed_kph = fast_first["max_speed"] * 3.6
-#    max_speed_rounded = int(round(max_speed_kph))
-
-#    second_max_speed_kph = second_first["max_speed"] * 3.6
-#    second_max_speed_rounded = int(round(second_max_speed_kph))
  
 # probably delete    compare_min_speeds = fast_first["min_speed"] - second_first["min_speed"] 
 
