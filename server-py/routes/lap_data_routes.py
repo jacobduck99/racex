@@ -27,22 +27,6 @@ def analyse_lap_upload():
     
     fast_lap_corner_map = build_corner_map(fastest_samples)
     reference_lap_corner_map = build_corner_map(reference_samples)
-    
-    # i already do this now fast = find_brake_zones(fastest_samples)
-    # i already do this now second = find_brake_zones(second_fastest_samples)
-    # was returning first index for now
-
-    #fast_corners = fast.get("corners", [])
-
-    #second_corners = second.get("corners", []) 
-
-    #fast_first = fast_corners[0] if fast_corners else None
-    #second_first = second_corners[0] if second_corners else None
-
-    #if not fast_first or not second_first:
-    #    return jsonify({
-    #        "error": "Could not detect a brake zone in one of the laps (try lowering threshold or ensure brake data exists)."
-    #    }), 400
 
 # NEED TO CONVERT THIS INTO A FUNCTION AND LOOP THROUGH ALL OF MAX SPEED
 #    max_speed_kph = fast_first["max_speed"] * 3.6
