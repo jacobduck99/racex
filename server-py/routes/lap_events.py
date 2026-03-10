@@ -107,49 +107,49 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
 def find_corners_by_yaw_rate(lap, on_threshold=0.03, off_threshold=0.02, min_duration_s=0.3):
     current = None
     turns = []
-    turning = False
+    car_rotating = False
 
     for sample in lap:
         yaw_rate = sample["yawRate"]
         pct = sample["pct"]
         t = sample["t"]
 
-        if not turning and abs(yaw_rate) >= on_threshold:
-            turning = True
+        if not car_rotating and abs(yaw_rate) >= on_threshold:
+            car_rotating = True
             current = {
                 "yaw_rate": yaw_rate,
                 "pct": pct,
                 "t": t,
-                "turning_on_pct": pct,
-                "turning_on_t": t,
-                "turning_off_pct": None,
-                "turning_off_t": None,
+                "car_rotating_on_pct": pct,
+                "car_rotating_on_t": t,
+                "car_rotating_off_pct": None,
+                "car_rotating_off_t": None,
             }
 
-        if turning and abs(yaw_rate) < off_threshold:
-            turning = False
-            current["turning_off_pct"] = pct
-            current["turning_off_t"] = t
-            current["duration_s"] = current["turning_off_t"] - current["turning_on_t"]
+        if car_rotating and abs(yaw_rate) < off_threshold:
+            car_rotating = False
+            current["car_rotating_off_pct"] = pct
+            current["car_rotating_off_t"] = t
+            current["duration_of_rotation_s"] = current["car_rotating_off_t"] - current["car_rotating_on_t"]
 
-            if current["duration_s"] >= min_duration_s:
+            if current["duration_of_rotation_s"] >= min_duration_s:
                 turns.append(current)
 
             current = None
 
-    if turning and current is not None and lap:
+    if car_rotating and current is not None and lap:
         last = lap[-1]
-        current["turning_off_pct"] = last["pct"]
-        current["turning_off_t"] = last["t"]
-        current["duration_s"] = current["turning_off_t"] - current["turning_on_t"]
+        current["car_rotating_off_pct"] = last["pct"]
+        current["car_rotating_off_t"] = last["t"]
+        current["duration_of_rotation_s"] = current["car_rotating_off_t"] - current["car_rotating_on_t"]
 
-        if current["duration_s"] >= min_duration_s:
-            corners.append(current)
+        if current["duration_of_rotation_s"] >= min_duration_s:
+            turns.append(current)
 
         current = None
-        turning = False
+        car_rotating = False
 
-    turns.sort(key=lambda c: c["turning_on_pct"])
+    turns.sort(key=lambda c: c["car_rotating_on_pct"])
     for i, c in enumerate(turns, start=1):
         c["corner_num"] = i
 
