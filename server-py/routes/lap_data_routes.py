@@ -24,16 +24,18 @@ def analyse_lap_upload():
 
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
     second_fastest_samples = second_fastest_lap.get("samples", []) if second_fastest_lap else []
+    
+    corner_map = build_corner_map(fastest_samples)
+    for corner in corner_map:
+        print("here's whats in corner map", corner["best_match"])
+    
 
     fast = find_brake_zones(fastest_samples)
     second = find_brake_zones(second_fastest_samples)
     # returning first index for now
 
     fast_corners = fast.get("corners", [])
-    for corner in fast_corners:
-            print("here's your brake on pct", corner["brake_on_pct"])
 
-    corner_map = build_corner_map(fastest_samples)
     second_corners = second.get("corners", []) 
 
     fast_first = fast_corners[0] if fast_corners else None

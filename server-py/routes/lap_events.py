@@ -184,5 +184,4 @@ def build_corner_map(lap):
             brake_zone["best_match"] = best_match
             brake_zones.append(brake_zone)
                      
-        print("here's your best match", best_match)
     return  brake_zones
