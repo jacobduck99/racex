@@ -27,9 +27,7 @@ def analyse_lap_upload():
     
     fast_lap_corner_map = build_corner_map(fastest_samples)
     reference_lap_corner_map = build_corner_map(reference_samples)
-    print("here's whats in corner map \n", json.dumps(fast_lap_corner_map, indent=2))
     
-
     # i already do this now fast = find_brake_zones(fastest_samples)
     # i already do this now second = find_brake_zones(second_fastest_samples)
     # was returning first index for now

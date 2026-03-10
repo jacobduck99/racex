@@ -1,7 +1,7 @@
 #pct means distance around track 
 # lots of comments because this is complex 
 
-def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
+def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_on_threshold=0.8):
     corners = []
     braking = False
     current = None
@@ -18,7 +18,7 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
         throttle = sample["throttle"]
 
         if not braking:
-            if throttle > throttle_off_threshold:
+            if throttle > throttle_on_threshold:
                 throttle_off_t = None  # driver back on throttle, reset
             elif throttle_off_t is None and throttle <= throttle_off_threshold:
                 throttle_off_t = t  # driver just lifted, start tracking
@@ -26,10 +26,6 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
         # Brake turns ON start a new zone
         if not braking and b >= threshold:
             if current is not None and current["brake_off_t"] is not None:
-
-                print("here's throttle", throttle)
-                print("Here's when throttle comes on", current["throttle_on_t"])
-                print("here's brake on pct", current["brake_on_pct"])
                 zone_pct = current["brake_off_pct"] - current["brake_on_pct"]
                 if zone_pct < 0:
                     zone_pct += 1.0
@@ -38,7 +34,7 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
                 corners.append(current)
                 current = None
                 throttle_on_t = None
-                throttle_off_t = None  # reset for the next zone
+            print("here's throttle off", throttle_off_t)
             braking = True
             current = {
                 "brake_on_pct": pct,
