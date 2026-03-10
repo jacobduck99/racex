@@ -20,45 +20,40 @@ def analyse_lap_upload():
 
     sorted_laps = sorted(laps, key=lambda lap: lap.get("lapTime", float("inf")))
     fastest_lap = sorted_laps[0] if sorted_laps else None
-    second_fastest_lap = sorted_laps[1]
+    reference_lap = sorted_laps[1]
 
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
-    second_fastest_samples = second_fastest_lap.get("samples", []) if second_fastest_lap else []
+    reference_samples = reference_lap.get("samples", []) if reference_lap else []
     
-    corner_map = build_corner_map(fastest_samples)
-    for corner in corner_map:
-        print("here's whats in corner map", corner["best_match"])
+    fast_lap_corner_map = build_corner_map(fastest_samples)
+    reference_lap_corner_map = build_corner_map(second_fastest_sample)
+    print("here's whats in corner map \n", json.dumps(corner_map, indent=2))
     
 
-    fast = find_brake_zones(fastest_samples)
-    second = find_brake_zones(second_fastest_samples)
-    # returning first index for now
+    # i already do this now fast = find_brake_zones(fastest_samples)
+    # i already do this now second = find_brake_zones(second_fastest_samples)
+    # was returning first index for now
 
-    fast_corners = fast.get("corners", [])
+    #fast_corners = fast.get("corners", [])
 
-    second_corners = second.get("corners", []) 
+    #second_corners = second.get("corners", []) 
 
-    fast_first = fast_corners[0] if fast_corners else None
-    second_first = second_corners[0] if second_corners else None
+    #fast_first = fast_corners[0] if fast_corners else None
+    #second_first = second_corners[0] if second_corners else None
 
-    if not fast_first or not second_first:
-        return jsonify({
-            "error": "Could not detect a brake zone in one of the laps (try lowering threshold or ensure brake data exists)."
-        }), 400
+    #if not fast_first or not second_first:
+    #    return jsonify({
+    #        "error": "Could not detect a brake zone in one of the laps (try lowering threshold or ensure brake data exists)."
+    #    }), 400
 
-    # not using these atm detects yaw rate tho
-    fast_corner_detection = find_corners_by_yaw_rate(fastest_samples)
-    get_fast_corners = fast_corner_detection.get("corners", []) 
-    print("here's how many corners using yawrate", len(get_fast_corners))
+# NEED TO CONVERT THIS INTO A FUNCTION AND LOOP THROUGH ALL OF MAX SPEED
+#    max_speed_kph = fast_first["max_speed"] * 3.6
+#    max_speed_rounded = int(round(max_speed_kph))
 
-    second_lap_corner_detection = find_corners_by_yaw_rate(second_fastest_samples)
-    max_speed_kph = fast_first["max_speed"] * 3.6
-    max_speed_rounded = int(round(max_speed_kph))
-
-    second_max_speed_kph = second_first["max_speed"] * 3.6
-    second_max_speed_rounded = int(round(second_max_speed_kph))
+#    second_max_speed_kph = second_first["max_speed"] * 3.6
+#    second_max_speed_rounded = int(round(second_max_speed_kph))
  
-    compare_min_speeds = fast_first["min_speed"] - second_first["min_speed"] 
+# probably delete    compare_min_speeds = fast_first["min_speed"] - second_first["min_speed"] 
 
     result = {
         "fastest_lap": {
