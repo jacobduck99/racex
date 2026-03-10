@@ -61,6 +61,8 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
         if spd < current["min_speed"]:
             current["min_speed"] = spd 
             current["min_speed_pct"] = pct
+            spd_in_kph = convert_to_kph(current["min_speed"])
+            current["min_speed_kph"] = spd_in_kph
 
         current["steering_samples"].append({"pct": pct, "t": t, "steering": steering})
 
@@ -73,7 +75,6 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
             current["max_speed_pct"] = pct
             spd_in_kph = convert_to_kph(current["max_speed"])
             current["max_speed_kph"] = spd_in_kph
-            print("here's your max speed in kph", current["max_speed_kph"])
 
         # Brake turns OFF
         if b < threshold:
