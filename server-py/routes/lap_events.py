@@ -106,7 +106,7 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
 
 def find_corners_by_yaw_rate(lap, on_threshold=0.03, off_threshold=0.02, min_duration_s=0.3):
     current = None
-    corners = []
+    turns = []
     turning = False
 
     for sample in lap:
@@ -133,7 +133,7 @@ def find_corners_by_yaw_rate(lap, on_threshold=0.03, off_threshold=0.02, min_dur
             current["duration_s"] = current["turning_off_t"] - current["turning_on_t"]
 
             if current["duration_s"] >= min_duration_s:
-                corners.append(current)
+                turns.append(current)
 
             current = None
 
@@ -149,20 +149,20 @@ def find_corners_by_yaw_rate(lap, on_threshold=0.03, off_threshold=0.02, min_dur
         current = None
         turning = False
 
-    corners.sort(key=lambda c: c["turning_on_pct"])
-    for i, c in enumerate(corners, start=1):
+    turns.sort(key=lambda c: c["turning_on_pct"])
+    for i, c in enumerate(turns, start=1):
         c["corner_num"] = i
 
     return {
-        "found": len(corners) > 0,
-        "corners": corners,
+        "found": len(turns) > 0,
+        "turns": turns,
     }
 
 def build_corner_map(lap):
     find_corners_yaw_rate = find_corners_by_yaw_rate(lap)
     find_braking = find_brake_zones(lap)
     braking_zones = find_braking.get("corners", [])
-    corners = find_corners_yaw_rate.get("corners", [])
+    corners = find_corners_yaw_rate.get("turns", [])
     brake_zones = []
     
     for brake_zone in braking_zones: 
