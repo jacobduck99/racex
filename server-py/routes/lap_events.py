@@ -17,9 +17,11 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2):
         steering = sample["steering"]
         throttle = sample["throttle"]
 
-        # Record the FIRST moment throttle goes "off" before braking starts
-        if not braking and throttle_off_t is None and throttle <= throttle_off_threshold:
-            throttle_off_t = t
+        if not braking:
+            if throttle > throttle_off_threshold:
+                throttle_off_t = None  # driver back on throttle, reset
+            elif throttle_off_t is None and throttle <= throttle_off_threshold:
+                throttle_off_t = t  # driver just lifted, start tracking
 
         # Brake turns ON start a new zone
         if not braking and b >= threshold:
