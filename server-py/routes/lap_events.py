@@ -71,6 +71,9 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
         if spd > current["max_speed"]:
             current["max_speed"] = spd
             current["max_speed_pct"] = pct
+            spd_in_kph = convert_to_kph(current["max_speed"])
+            current["max_speed_kph"] = spd_in_kph
+            print("here's your max speed in kph", current["max_speed_kph"])
 
         # Brake turns OFF
         if b < threshold:
@@ -177,7 +180,8 @@ def build_corner_map(lap):
     return  brake_zones
 
 def convert_to_kph(speed):
-   pass 
+    speed_in_kph = speed * 3.6
+    return speed_in_kph
 
 
 
