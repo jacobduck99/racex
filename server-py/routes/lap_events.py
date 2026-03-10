@@ -45,6 +45,7 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
                 "max_brake": b,
                 "max_brake_pct": pct,
                 "max_speed": spd,
+                "max_speed_kph": convert_to_kph(spd),
                 "max_speed_pct": pct,
                 "min_speed": spd,
                 "min_speed_pct": pct,
