@@ -30,11 +30,9 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
                 if zone_pct < 0:
                     zone_pct += 1.0
                 current["zone_pct"] = zone_pct
-                print("here's your zone closed", current["zone_pct"])
                 corners.append(current)
                 current = None
                 throttle_on_t = None
-            print("here's throttle off", throttle_off_t)
             braking = True
             current = {
                 "brake_on_pct": pct,
@@ -80,14 +78,9 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
             current["brake_off_pct"] = pct
             current["brake_off_t"] = t
             current["duration_s"] = current["brake_off_t"] - current["brake_on_t"]
-            print("here's your duration of coasting", current["duration_s"])
-            print("brake off, waiting for throttle, current throttle:", throttle)
 
         if current is not None and current["brake_off_t"] is not None and current["throttle_on_t"] is None and throttle >= threshold:
             current["throttle_on_t"] = t
-            print("here's throttle", throttle)
-            print("Here's when throttle comes on", current["throttle_on_t"])
-            print("here's brake on pct", current["brake_on_pct"])
             
             zone_pct = current["brake_off_pct"] - current["brake_on_pct"]
             if zone_pct < 0:
