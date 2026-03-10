@@ -26,8 +26,8 @@ def analyse_lap_upload():
     reference_samples = reference_lap.get("samples", []) if reference_lap else []
     
     fast_lap_corner_map = build_corner_map(fastest_samples)
-    reference_lap_corner_map = build_corner_map(second_fastest_sample)
-    print("here's whats in corner map \n", json.dumps(corner_map, indent=2))
+    reference_lap_corner_map = build_corner_map(reference_samples)
+    print("here's whats in corner map \n", json.dumps(fast_lap_corner_map, indent=2))
     
 
     # i already do this now fast = find_brake_zones(fastest_samples)
@@ -55,41 +55,5 @@ def analyse_lap_upload():
  
 # probably delete    compare_min_speeds = fast_first["min_speed"] - second_first["min_speed"] 
 
-    result = {
-        "fastest_lap": {
-            "corner_num": fast_first["corner_num"],
-            "duration_s": fast_first["duration_s"],
-            "brake_on_pct": fast_first["brake_on_pct"],
-            "brake_off_pct": fast_first["brake_off_pct"],
-            "zone_pct": fast_first["zone_pct"],
-            "min_speed": fast_first["min_speed"],
-            "min_speed_pct": fast_first["min_speed_pct"],
-            "steering_samples_count": len(fast_first.get("steering_samples", [])),
-            "max_brake": fast_first["max_brake"],
-            "max_brake_pct": fast_first["max_brake_pct"],
-            "max_speed_kph": max_speed_rounded,
-            "coasting": fast_first["coast_duration_s"] 
-        },
-        "second_fastest_lap": {
-            "corner_num": second_first["corner_num"],
-            "duration_s": second_first["duration_s"],
-            "brake_on_pct": second_first["brake_on_pct"],
-            "brake_off_pct": second_first["brake_off_pct"],
-            "zone_pct": second_first["zone_pct"],
-            "min_speed": second_first["min_speed"],
-            "min_speed_pct": second_first["min_speed_pct"],
-            "steering_samples_count": len(second_first.get("steering_samples", [])),
-            "max_brake": second_first["max_brake"],
-            "max_brake_pct": second_first["max_brake_pct"],
-            "max_speed_kph": second_max_speed_rounded,
-            "coasting": second_first["coast_duration_s"]
-        },
-        "comparison": {
-            "min_speed_delta": compare_min_speeds,
-            "min_speed_delta_kph": compare_min_speeds * 3.6,
-            "duration_delta_s": fast_first["duration_s"] - second_first["duration_s"],
-            "zone_pct_delta": fast_first["zone_pct"] - second_first["zone_pct"],
-        },
-    }
-
-    return jsonify({"result": result})
+    return jsonify({"fast_lap_corners": fast_lap_corner_map,
+                    "reference_lap_corners": reference_lap_corner_map})
