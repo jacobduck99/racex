@@ -28,10 +28,6 @@ def analyse_lap_upload():
     fast_lap_corner_map = build_corner_map(fastest_samples)
     reference_lap_corner_map = build_corner_map(reference_samples)
     matched_zones = match_zones(fast_lap_corner_map, reference_lap_corner_map)
-    print("here's whats in matched_zones", matched_zones)
-    
- 
-# probably delete    compare_min_speeds = fast_first["min_speed"] - second_first["min_speed"] 
 
-    return jsonify({"fast_lap_corners": fast_lap_corner_map,
-                    "reference_lap_corners": reference_lap_corner_map})
+    return jsonify({"matched_zones": matched_zones})
+                    
