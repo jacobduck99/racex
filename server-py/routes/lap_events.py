@@ -190,8 +190,9 @@ def match_zones(fast_lap, reference_lap):
         for reference_zones in reference_lap:
             if abs(fast_zones["best_match"]["pct"] - reference_zones["best_match"]["pct"]) <= 0.05:
                 matched_zones.append({
-                    "fast": fast_zones["best_match"],
-                    "reference": reference_zones["best_match"]
+                    "fast": fast_zones,
+                    "reference": reference_zones
                 })
+                break
     return matched_zones
                 

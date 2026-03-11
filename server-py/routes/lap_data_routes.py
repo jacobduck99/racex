@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 import json
-from routes.lap_events import find_brake_zones, find_corners_by_yaw_rate, build_corner_map
+from routes.lap_events import find_brake_zones, find_corners_by_yaw_rate, build_corner_map, match_zones
 
 analyse_bp = Blueprint("analyse", __name__)
 
@@ -26,10 +26,10 @@ def analyse_lap_upload():
     reference_samples = reference_lap.get("samples", []) if reference_lap else []
     
     fast_lap_corner_map = build_corner_map(fastest_samples)
-    print("here's what's in fast corner map", fast_lap_corner_map[0]["best_match"])
     reference_lap_corner_map = build_corner_map(reference_samples)
-    print("here's what's in reference corner map", reference_lap_corner_map[0]["best_match"])
-
+    matched_zones = match_zones(fast_lap_corner_map, reference_lap_corner_map)
+    print("here's whats in matched_zones", matched_zones)
+    
  
 # probably delete    compare_min_speeds = fast_first["min_speed"] - second_first["min_speed"] 
 
