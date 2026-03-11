@@ -183,3 +183,15 @@ def build_corner_map(lap):
             matched_brake_zones.append(brake_zone)
                      
     return  matched_brake_zones
+
+def match_zones(fast_lap, reference_lap):
+    matched_zones = []
+    for fast_zones in fast_lap:
+        for reference_zones in reference_lap:
+            if abs(fast_zones["best_match"]["pct"] - reference_zones["best_match"]["pct"]) <= 0.05:
+                matched_zones.append({
+                    "fast": fast_zones["best_match"],
+                    "reference": reference_zones["best_match"]
+                })
+    return matched_zones
+                

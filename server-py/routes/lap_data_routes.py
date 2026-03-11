@@ -26,7 +26,10 @@ def analyse_lap_upload():
     reference_samples = reference_lap.get("samples", []) if reference_lap else []
     
     fast_lap_corner_map = build_corner_map(fastest_samples)
+    print("here's what's in fast corner map", fast_lap_corner_map[0]["best_match"])
     reference_lap_corner_map = build_corner_map(reference_samples)
+    print("here's what's in reference corner map", reference_lap_corner_map[0]["best_match"])
+
  
 # probably delete    compare_min_speeds = fast_first["min_speed"] - second_first["min_speed"] 
 
