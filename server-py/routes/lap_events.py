@@ -9,7 +9,6 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
     corners = []
     braking = False
     current = None
-    
     throttle_off_t = None
 
     for sample in lap:
@@ -22,20 +21,22 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
 
         if not braking:
             if throttle > throttle_on_threshold:
-                throttle_off_t = None  # driver back on throttle, reset
+                throttle_off_t = None
             elif throttle_off_t is None and throttle <= throttle_off_threshold:
-                throttle_off_t = t  # driver just lifted, start tracking
+                throttle_off_t = t
 
-        # Brake turns ON start a new zone
+        # Brake turns ON
         if not braking and b >= threshold:
+            # close previous zone if it never got a throttle-on
             if current is not None and current["brake_off_t"] is not None:
-                zone_pct = current["brake_off_pct"] - current["brake_on_pct"]
-                if zone_pct < 0:
-                    zone_pct += 1.0
-                current["zone_pct"] = zone_pct
+                current["throttle_on_pct"] = None
+                current["zone_pct"] = current["brake_off_pct"] - current["brake_on_pct"]
+                if current["zone_pct"] < 0:
+                    current["zone_pct"] += 1.0
                 corners.append(current)
                 current = None
-                throttle_on_t = None
+                throttle_off_t = None  # was throttle_on_t = None (bug)
+
             braking = True
             current = {
                 "brake_on_pct": pct,
@@ -48,24 +49,23 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
                 "max_speed_kph": convert_to_kph(spd),
                 "max_speed_pct": pct,
                 "min_speed": spd,
+                "min_speed_kph": convert_to_kph(spd),  # was missing
                 "min_speed_pct": pct,
                 "steering_samples": [],
-                "throttle_off_t": throttle_off_t,  
+                "throttle_off_t": throttle_off_t,
                 "throttle_on_t": None,
+                "coast_duration_s": None,  # set at close, not here
             }
             current["steering_samples"].append({"pct": pct, "t": t, "steering": steering})
             continue
 
-        # If we're not braking, ignore samples
         if not braking:
             continue
-        
-        # We are braking: record sample + update min/max
+
         if spd < current["min_speed"]:
-            current["min_speed"] = spd 
+            current["min_speed"] = spd
             current["min_speed_pct"] = pct
-            spd_in_kph = convert_to_kph(current["min_speed"])
-            current["min_speed_kph"] = spd_in_kph
+            current["min_speed_kph"] = convert_to_kph(spd)
 
         current["steering_samples"].append({"pct": pct, "t": t, "steering": steering})
 
@@ -76,8 +76,7 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
         if spd > current["max_speed"]:
             current["max_speed"] = spd
             current["max_speed_pct"] = pct
-            spd_in_kph = convert_to_kph(current["max_speed"])
-            current["max_speed_kph"] = spd_in_kph
+            current["max_speed_kph"] = convert_to_kph(spd)
 
         # Brake turns OFF
         if b < threshold:
@@ -86,20 +85,18 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
             current["brake_off_t"] = t
             current["duration_s"] = current["brake_off_t"] - current["brake_on_t"]
 
+        # Throttle back on — close the zone properly
         if current is not None and current["brake_off_t"] is not None and current["throttle_on_t"] is None and throttle >= throttle_on_threshold:
             current["throttle_on_t"] = t
+            current["throttle_on_pct"] = pct
             current["coast_duration_s"] = t - current["brake_off_t"]
-            
-            zone_pct = pct - current["brake_on_pct"] 
-            if zone_pct < 0:
-                zone_pct += 1.0
-            current["zone_pct"] = zone_pct
+            current["zone_pct"] = pct - current["brake_on_pct"]
+            if current["zone_pct"] < 0:
+                current["zone_pct"] += 1.0
             corners.append(current)
             current = None
-            throttle_on_t = None
-            throttle_off_t = None  # reset for the next zone
+            throttle_off_t = None
 
-    # number them in order
     for i, c in enumerate(corners, start=1):
         c["corner_num"] = i
 
