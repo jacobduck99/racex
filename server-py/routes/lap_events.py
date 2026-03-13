@@ -179,16 +179,19 @@ def build_corner_map(lap):
                     best_distance = distance
                     best_match = corner
         if best_match is not None:
-            brake_zone["best_match"] = best_match
+            brake_zone["car_rotating_on_pct"] = best_match["car_rotating_on_pct"]
+            brake_zone["car_rotating_off_pct"] = best_match["car_rotating_off_pct"]
+            brake_zone["yaw_rate"] = best_match["yaw_rate"]
+            brake_zone["duration_of_rotation_s"] = best_match["duration_of_rotation_s"]
             matched_brake_zones.append(brake_zone)
                      
-    return  matched_brake_zones
+    return matched_brake_zones
 
 def match_zones(fast_lap, reference_lap):
     matched_zones = []
     for fast_zones in fast_lap:
         for reference_zones in reference_lap:
-            if abs(fast_zones["best_match"]["pct"] - reference_zones["best_match"]["pct"]) <= 0.05:
+            if abs(fast_zones["car_rotating_on_pct"] - reference_zones["car_rotating_on_pct"]) <= 0.05:
                 matched_zones.append({
                     "fast": fast_zones,
                     "reference": reference_zones
