@@ -5,7 +5,7 @@ def convert_to_kph(speed):
     speed_in_kph = speed * 3.6
     return speed_in_kph
 
-def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_on_threshold=0.8):
+def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_on_threshold=0.1):
     corners = []
     braking = False
     current = None
@@ -50,7 +50,6 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
                 "min_speed": spd,
                 "min_speed_pct": pct,
                 "steering_samples": [],
-                "coast_duration_s": (t - throttle_off_t) if throttle_off_t is not None else None,
                 "throttle_off_t": throttle_off_t,  
                 "throttle_on_t": None,
             }
@@ -87,10 +86,11 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
             current["brake_off_t"] = t
             current["duration_s"] = current["brake_off_t"] - current["brake_on_t"]
 
-        if current is not None and current["brake_off_t"] is not None and current["throttle_on_t"] is None and throttle >= threshold:
+        if current is not None and current["brake_off_t"] is not None and current["throttle_on_t"] is None and throttle >= throttle_on_threshold:
             current["throttle_on_t"] = t
+            current["coast_duration_s"] = t - current["brake_off_t"]
             
-            zone_pct = current["brake_off_pct"] - current["brake_on_pct"]
+            zone_pct = pct - current["brake_on_pct"] 
             if zone_pct < 0:
                 zone_pct += 1.0
             current["zone_pct"] = zone_pct
