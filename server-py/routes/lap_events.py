@@ -56,7 +56,7 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
                 "throttle_on_t": None,
                 "coast_duration_s": None,  # set at close, not here
             }
-            current["steering_samples"].append({"pct": pct, "t": t, "steering": steering})
+            current["steering_samples"].append({"pct": pct, "t": t, "steering": steering, "throttle": throttle})
             continue
 
         if not braking:
