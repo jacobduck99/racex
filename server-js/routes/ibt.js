@@ -42,9 +42,7 @@ export default async function ibtRoutes(fastify, opts) {
         const yawRate = sample.getParam("YawRate")?.value;
         // uncomment these to see the samples you can use
         //const sampleJson = sample.toJSON()
-        // console.log("here's sample", sampleJson)
-
-       
+        // console.log("here's sample", sampleJson)      
         
       if (typeof t !== "number" || typeof pct !== "number" ||  typeof speed !== "number" || 
         typeof brake !== "number" || typeof throttle !== "number" || typeof steering !== "number" || typeof yawRate !== "number") continue;
@@ -81,7 +79,7 @@ export default async function ibtRoutes(fastify, opts) {
         filename: file.filename,
         bytes: stat.size,
         lapsDetected: lapTimes.length,
-        analysis: pyRes.result,
+        analysis: pyRes.matched_zones,
       };
     } finally {
       await fs.unlink(outPath).catch(() => {});
