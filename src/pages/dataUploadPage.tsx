@@ -58,7 +58,7 @@ return (
                 raceSession === null ? "bg-indigo-400" : "bg-green-400"
               }`}
             />
-            <span className="text-xs font-medium text-indigo-300">Telemetry Analysis</span>
+            <span className="text-xs font-medium text-indigo-300">Ready to be analysed</span>
           </div>
           <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
             Upload Race Data
