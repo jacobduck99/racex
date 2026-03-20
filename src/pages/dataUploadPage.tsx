@@ -76,7 +76,7 @@ return (
           <div className="group relative overflow-hidden rounded-2xl border border-dashed border-white/20 bg-white/5 p-8 transition-all hover:border-indigo-500/50 hover:bg-white/10">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-12">
-                <p className="text-sm text-indigo-300 mb-4">Analysing telemetry...</p>
+                <p className="text-sm text-indigo-300 mb-4">James is analysing your telemetry...</p>
                 <div style={{ width: "100%", maxWidth: "300px", height: "4px", borderRadius: "2px", background: "#1e1e2e", overflow: "hidden" }}>
                   <div style={{
                     width: "40%",
