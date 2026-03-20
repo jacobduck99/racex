@@ -92,9 +92,9 @@ return (
                 type="file"
                 id="raceSession"
                 name="raceSessionFile"
-                onChange={(e) =>
-                  setRaceSession(e.target.files?.[0] ?? null)
-                }
+                onChange={(e) => {
+                  setRaceSession(e.target.files?.[0] ?? null); setErr(null);
+                }}
                 className="block w-full cursor-pointer text-sm text-slate-200
                            file:mr-4 file:cursor-pointer file:rounded-xl file:border-0
                            file:bg-gradient-to-r file:from-indigo-500 file:to-indigo-600 file:px-6 file:py-3
@@ -103,6 +103,8 @@ return (
                            hover:file:from-indigo-400 hover:file:to-indigo-500 hover:file:shadow-xl
                            hover:file:shadow-indigo-500/30"
               />
+
+              
               
               {raceSession && (
                 <div className="mt-4 flex items-center gap-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 px-4 py-2.5">
