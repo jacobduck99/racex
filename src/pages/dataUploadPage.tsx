@@ -23,7 +23,7 @@ export default function DataPage() {
             setLapsAnalysis(result.analysis);
             
             } catch (e) {
-                setErr(e);
+                setErr(e.message);
             }
       }
 
@@ -103,18 +103,19 @@ return (
                            hover:file:from-indigo-400 hover:file:to-indigo-500 hover:file:shadow-xl
                            hover:file:shadow-indigo-500/30"
               />
-
               
-              
-              {raceSession && (
-                <div className="mt-4 flex items-center gap-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 px-4 py-2.5">
-                  <svg className="h-5 w-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span className="text-sm font-medium text-indigo-300">{raceSession.name}</span>
+            {raceSession && (
+              <div className="mt-4 flex items-center gap-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 px-4 py-2.5">
+                <svg className="h-5 w-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-sm font-medium text-indigo-300">{raceSession.name}</span>
+              </div>
+            )}
+            {err && (
+              <span className="text-sm text-red-400">{err}</span>
+            )}
                 </div>
-              )}
-            </div>
           </div>
 
           {/* Info banner */}
