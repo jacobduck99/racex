@@ -4,28 +4,28 @@ import { analyseRaceData } from "../lib/api/dataPageApi.js";
 export default function DataPage() {
     const [raceSession, setRaceSession] = useState(null);
     const [lapsAnalysis, setLapsAnalysis] = useState(null);
+    const [err, setErr] = useState(null);
 
     const sessionRef = useRef(null);
 
     async function handleSubmit(e) {
         e.preventDefault();
 
-    if (!raceSession) {
-      console.log("Missing file:", { raceSession });
-      return;
-    }
-
-    const fd = new FormData();
-    fd.append("raceSession", raceSession );
-
-    try { 
-        const result = await analyseRaceData(fd);
-        setLapsAnalysis(result.analysis);
-        
-        } catch (e) {
-            console.log("error", e.message);
+        if (!raceSession) {
+            return;
         }
-  }
+
+        const fd = new FormData();
+        fd.append("raceSession", raceSession );
+
+        try { 
+            const result = await analyseRaceData(fd);
+            setLapsAnalysis(result.analysis);
+            
+            } catch (e) {
+                setErr(e);
+            }
+      }
 
     function handleCancel() {
         setRaceSession(null);
