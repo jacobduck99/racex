@@ -27,7 +27,6 @@ export default function DataPage() {
     try { 
         const result = await analyseRaceData(fd);
         setLapsAnalysis(result.analysis);
-        // file structure goes comparison, fastest_lap, second_fastest_lap
         
         } catch (e) {
             console.log("error", e.message);
