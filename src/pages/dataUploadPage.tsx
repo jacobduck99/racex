@@ -5,8 +5,6 @@ export default function DataPage() {
     const [raceSession, setRaceSession] = useState(null);
     const [lapsAnalysis, setLapsAnalysis] = useState(null);
 
-    console.log("Here's your laps to compare", lapsAnalysis);
-
     const sessionRef = useRef(null);
 
     async function handleSubmit(e) {
@@ -19,10 +17,6 @@ export default function DataPage() {
 
     const fd = new FormData();
     fd.append("raceSession", raceSession );
-
-    for (const [key, value] of fd.entries()) {
-      console.log(key, value);
-    }
 
     try { 
         const result = await analyseRaceData(fd);
