@@ -107,7 +107,7 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
         "corners": corners,
     }
 
-def find_corners_by_yaw_rate(lap, on_threshold=0.03, off_threshold=0.02, min_duration_s=0.3, rotation_duration_s=0.5):
+def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.02, min_duration_s=0.3, rotation_duration_s=0.2):
     current = None
     turns = []
     car_rotating = False
@@ -119,7 +119,7 @@ def find_corners_by_yaw_rate(lap, on_threshold=0.03, off_threshold=0.02, min_dur
         t = sample["t"]
 
         # Case 1: not in corner, yaw rate above threshold — open corner
-        if not car_rotating and abs(yaw_rate) >= on_threshold:
+        if not car_rotating and abs(yaw_rate) >= yaw_rate_on:
             car_rotating = True
             yaw_rate_dip = None
             current = {
@@ -133,11 +133,11 @@ def find_corners_by_yaw_rate(lap, on_threshold=0.03, off_threshold=0.02, min_dur
             }
 
         # Case 2: in corner, yaw rate back above threshold — false alarm, reset dip
-        elif car_rotating and abs(yaw_rate) >= on_threshold:
+        elif car_rotating and abs(yaw_rate) >= yaw_rate_on:
             yaw_rate_dip = None
 
         # Case 3: in corner, yaw rate below threshold, first dip — start timer
-        elif car_rotating and abs(yaw_rate) < off_threshold and yaw_rate_dip is None:
+        elif car_rotating and abs(yaw_rate) < yaw_rate_off and yaw_rate_dip is None:
             yaw_rate_dip = t
 
         # Case 4: in corner, below threshold long enough — close corner
