@@ -112,12 +112,11 @@ def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.02, min_corne
     turns = []
     car_rotating = False
     yaw_rate_dip = None
-
+    previous_yaw_rate = None
     for sample in lap:
         yaw_rate = sample["yawRate"]
         pct = sample["pct"]
         t = sample["t"]
-
         # Case 1: not in corner, yaw rate above threshold — open corner
         if not car_rotating and abs(yaw_rate) >= yaw_rate_on:
             car_rotating = True
@@ -131,15 +130,29 @@ def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.02, min_corne
                 "car_rotating_off_pct": None,
                 "car_rotating_off_t": None,
             }
-
+        # Sign flip: car changed direction — close current corner, open new one
+        elif car_rotating and previous_yaw_rate is not None and previous_yaw_rate * yaw_rate < 0 and abs(yaw_rate) >= yaw_rate_on:
+            current["car_rotating_off_pct"] = pct
+            current["car_rotating_off_t"] = t
+            current["duration_of_rotation_s"] = t - current["car_rotating_on_t"]
+            if current["duration_of_rotation_s"] >= min_corner_duration:
+                turns.append(current)
+            yaw_rate_dip = None
+            current = {
+                "yaw_rate": yaw_rate,
+                "pct": pct,
+                "t": t,
+                "car_rotating_on_pct": pct,
+                "car_rotating_on_t": t,
+                "car_rotating_off_pct": None,
+                "car_rotating_off_t": None,
+            }
         # Case 2: in corner, yaw rate back above threshold — false alarm, reset dip
         elif car_rotating and abs(yaw_rate) >= yaw_rate_on:
             yaw_rate_dip = None
-
         # Case 3: in corner, yaw rate below threshold, first dip — start timer
         elif car_rotating and abs(yaw_rate) < yaw_rate_off and yaw_rate_dip is None:
             yaw_rate_dip = t
-
         # Case 4: in corner, below threshold long enough — close corner
         elif car_rotating and yaw_rate_dip is not None and (t - yaw_rate_dip) >= yaw_rate_dip_duration_s:
             current["car_rotating_off_pct"] = pct
@@ -150,7 +163,7 @@ def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.02, min_corne
                 turns.append(current)
             current = None
             yaw_rate_dip = None
-
+        previous_yaw_rate = yaw_rate
     if car_rotating and current is not None and lap:
         last = lap[-1]
         current["car_rotating_off_pct"] = last["pct"]
@@ -160,11 +173,9 @@ def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.02, min_corne
             turns.append(current)
         current = None
         car_rotating = False
-
     turns.sort(key=lambda c: c["car_rotating_on_pct"])
     for i, c in enumerate(turns, start=1):
         c["corner_num"] = i
-
     return {
         "found": len(turns) > 0,
         "turns": turns,
