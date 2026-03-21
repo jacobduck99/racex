@@ -107,7 +107,7 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
         "corners": corners,
     }
 
-def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.02, min_duration_s=0.3, rotation_duration_s=0.2):
+def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.02, min_corner_duration=0.3, yaw_rate_dip_duration_s=0.2):
     current = None
     turns = []
     car_rotating = False
@@ -141,12 +141,12 @@ def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.02, min_durat
             yaw_rate_dip = t
 
         # Case 4: in corner, below threshold long enough — close corner
-        elif car_rotating and yaw_rate_dip is not None and (t - yaw_rate_dip) >= rotation_duration_s:
+        elif car_rotating and yaw_rate_dip is not None and (t - yaw_rate_dip) >= yaw_rate_dip_duration_s:
             current["car_rotating_off_pct"] = pct
             current["car_rotating_off_t"] = t
             current["duration_of_rotation_s"] = t - current["car_rotating_on_t"]
             car_rotating = False
-            if current["duration_of_rotation_s"] >= min_duration_s:
+            if current["duration_of_rotation_s"] >= min_corner_duration:
                 turns.append(current)
             current = None
             yaw_rate_dip = None
@@ -156,7 +156,7 @@ def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.02, min_durat
         current["car_rotating_off_pct"] = last["pct"]
         current["car_rotating_off_t"] = last["t"]
         current["duration_of_rotation_s"] = current["car_rotating_off_t"] - current["car_rotating_on_t"]
-        if current["duration_of_rotation_s"] >= min_duration_s:
+        if current["duration_of_rotation_s"] >= min_corner_duration:
             turns.append(current)
         current = None
         car_rotating = False
