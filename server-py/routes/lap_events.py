@@ -183,7 +183,7 @@ def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.02, min_corne
 
 def build_corner_map(lap):
     find_corners_yaw_rate = find_corners_by_yaw_rate(lap)
-    print("Yaw rate", find_corners_yaw_rate["turns"])
+    print("Yaw rate", find_corners_yaw_rate["turns"][0])
     find_braking = find_brake_zones(lap)
     detected_brake_zones = find_braking.get("corners", [])
     # pretty_dump = json.dumps(detected_brake_zones, indent=2)
