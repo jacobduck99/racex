@@ -4,6 +4,7 @@ import { analyseRaceData } from "../lib/api/dataPageApi.js";
 export default function DataPage() {
     const [raceSession, setRaceSession] = useState(null);
     const [lapsAnalysis, setLapsAnalysis] = useState(null);
+    console.log("here's whats in laps", lapsAnalysis);
     const [err, setErr] = useState(null);
     const [loading, setLoading] = useState(false);
 

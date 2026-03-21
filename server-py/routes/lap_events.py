@@ -1,3 +1,5 @@
+import json
+
 #pct means distance around track 
 # lots of comments because this is complex 
 
@@ -105,18 +107,21 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
         "corners": corners,
     }
 
-def find_corners_by_yaw_rate(lap, on_threshold=0.03, off_threshold=0.02, min_duration_s=0.3):
+def find_corners_by_yaw_rate(lap, on_threshold=0.03, off_threshold=0.02, min_duration_s=0.3, rotation_duration_s=0.5):
     current = None
     turns = []
     car_rotating = False
+    yaw_rate_dip = None
 
     for sample in lap:
         yaw_rate = sample["yawRate"]
         pct = sample["pct"]
         t = sample["t"]
 
+        # Case 1: not in corner, yaw rate above threshold — open corner
         if not car_rotating and abs(yaw_rate) >= on_threshold:
             car_rotating = True
+            yaw_rate_dip = None
             current = {
                 "yaw_rate": yaw_rate,
                 "pct": pct,
@@ -127,26 +132,32 @@ def find_corners_by_yaw_rate(lap, on_threshold=0.03, off_threshold=0.02, min_dur
                 "car_rotating_off_t": None,
             }
 
-        if car_rotating and abs(yaw_rate) < off_threshold:
-            car_rotating = False
+        # Case 2: in corner, yaw rate back above threshold — false alarm, reset dip
+        elif car_rotating and abs(yaw_rate) >= on_threshold:
+            yaw_rate_dip = None
+
+        # Case 3: in corner, yaw rate below threshold, first dip — start timer
+        elif car_rotating and abs(yaw_rate) < off_threshold and yaw_rate_dip is None:
+            yaw_rate_dip = t
+
+        # Case 4: in corner, below threshold long enough — close corner
+        elif car_rotating and yaw_rate_dip is not None and (t - yaw_rate_dip) >= rotation_duration_s:
             current["car_rotating_off_pct"] = pct
             current["car_rotating_off_t"] = t
-            current["duration_of_rotation_s"] = current["car_rotating_off_t"] - current["car_rotating_on_t"]
-
+            current["duration_of_rotation_s"] = t - current["car_rotating_on_t"]
+            car_rotating = False
             if current["duration_of_rotation_s"] >= min_duration_s:
                 turns.append(current)
-
             current = None
+            yaw_rate_dip = None
 
     if car_rotating and current is not None and lap:
         last = lap[-1]
         current["car_rotating_off_pct"] = last["pct"]
         current["car_rotating_off_t"] = last["t"]
         current["duration_of_rotation_s"] = current["car_rotating_off_t"] - current["car_rotating_on_t"]
-
         if current["duration_of_rotation_s"] >= min_duration_s:
             turns.append(current)
-
         current = None
         car_rotating = False
 
@@ -161,9 +172,13 @@ def find_corners_by_yaw_rate(lap, on_threshold=0.03, off_threshold=0.02, min_dur
 
 def build_corner_map(lap):
     find_corners_yaw_rate = find_corners_by_yaw_rate(lap)
+    print("Yaw rate", find_corners_yaw_rate["turns"])
     find_braking = find_brake_zones(lap)
     detected_brake_zones = find_braking.get("corners", [])
+    # pretty_dump = json.dumps(detected_brake_zones, indent=2)
+    # print("here's your dump", pretty_dump)
     corners = find_corners_yaw_rate.get("turns", [])
+    # print("here's your corners", corners)
     matched_brake_zones = []
     
     for brake_zone in detected_brake_zones: 
