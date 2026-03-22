@@ -107,7 +107,7 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
         "corners": corners,
     }
 
-def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.02, min_corner_duration=0.3, yaw_rate_dip_duration_s=0.2):
+def find_corners_by_yaw_rate(lap, yaw_rate_on=0.02, yaw_rate_off=0.01, min_corner_duration=0.3, yaw_rate_dip_duration_s=0.2):
     current = None
     turns = []
     car_rotating = False
