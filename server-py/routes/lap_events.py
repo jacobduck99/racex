@@ -116,7 +116,7 @@ def find_corners_by_yaw_rate2(lap, rotation=0.3, not_rotating=0.03):
         yaw_rate = sample["yawRate"]
         pct = sample["pct"]
         t = sample["t"]
-
+        #turn on rotation 
         if not car_rotating and abs(yaw_rate) >= rotation:
             car_rotating = True
             current = {
@@ -135,7 +135,29 @@ def find_corners_by_yaw_rate2(lap, rotation=0.3, not_rotating=0.03):
             current["rotation_ended_t"] = t
             corner.append(current)
             current = None
+
+    for i in range(len(corner) - 1):
+        current = corner[i]
+        print("current", current)
+        next_one = corner[i + 1]
+        print("next_one", next_one)
+
     print("here's your corners", corner)
+        
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.03, min_corner_duration=0.5, yaw_rate_dip_duration_s=0.5, yaw_rate_flipped_duration=1):
     current = None
