@@ -101,13 +101,14 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
 
     for i, c in enumerate(corners, start=1):
         c["corner_num"] = i
+    #print("Here's your corners", json.dumps(corners, indent=2))
 
     return {
         "found": len(corners) > 0,
         "corners": corners,
     }
 
-def find_corners_by_yaw_rate(lap, yaw_rate_on=0.02, yaw_rate_off=0.01, min_corner_duration=0.3, yaw_rate_dip_duration_s=0.2):
+def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.03, min_corner_duration=0.3, yaw_rate_dip_duration_s=0.2):
     current = None
     turns = []
     car_rotating = False
@@ -176,6 +177,7 @@ def find_corners_by_yaw_rate(lap, yaw_rate_on=0.02, yaw_rate_off=0.01, min_corne
     turns.sort(key=lambda c: c["car_rotating_on_pct"])
     for i, c in enumerate(turns, start=1):
         c["corner_num"] = i
+    print("Here are your turns in order", json.dumps(turns, indent=2))
     return {
         "found": len(turns) > 0,
         "turns": turns,
@@ -183,7 +185,7 @@ def find_corners_by_yaw_rate(lap, yaw_rate_on=0.02, yaw_rate_off=0.01, min_corne
 
 def build_corner_map(lap):
     find_corners_yaw_rate = find_corners_by_yaw_rate(lap)
-    print("Yaw rate", find_corners_yaw_rate["turns"][0])
+    #print("Yaw rate", find_corners_yaw_rate["turns"][0])
     find_braking = find_brake_zones(lap)
     detected_brake_zones = find_braking.get("corners", [])
     # pretty_dump = json.dumps(detected_brake_zones, indent=2)
