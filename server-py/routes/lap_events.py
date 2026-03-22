@@ -141,6 +141,10 @@ def find_corners_by_yaw_rate2(lap, rotation=0.3, not_rotating=0.03):
         print("current", current)
         next_one = corner[i + 1]
         print("next_one", next_one)
+        time_to_next_corner = next_one["rotation_started_t"] - current["rotation_ended_t"]
+        if time_to_next_corner < 0.5 and current["yaw_rate"] * next_one["yaw_rate"] > 0:
+
+
 
     print("here's your corners", corner)
         
