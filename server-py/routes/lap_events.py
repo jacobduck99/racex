@@ -157,6 +157,17 @@ def find_corners_by_yaw_rate(lap, rotation=0.3, not_rotating=0.03):
         "turns": merged_corners,
     }
 
+def match_braking_to_corners(lap):
+    corners_yaw_rate = find_corners_by_yaw_rate(lap)
+    braking = find_brake_zones(lap)
+    detected_brake_zones = braking.get("corners", [])
+    corners = corners_yaw_rate.get("merged_corners", [])
+
+    match_corner = []
+
+    for brake_zone in detected_brake_zones:
+        
+
 def build_corner_map(lap):
     find_corners_yaw_rate = find_corners_by_yaw_rate(lap)
     #print("Yaw rate", find_corners_yaw_rate["turns"][0])
