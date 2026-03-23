@@ -161,16 +161,17 @@ def match_braking_to_corners(lap):
     corners_yaw_rate = find_corners_by_yaw_rate(lap)
     braking = find_brake_zones(lap)
     detected_brake_zones = braking.get("corners", [])
-    corners = corners_yaw_rate.get("merged_corners", [])
+    corners = corners_yaw_rate.get("turns", [])
 
     matched_corners = []
 
     for corner in corners:
         for brake_zone in detected_brake_zones:
-            if brake_zone["brake_on_pct"] >= corner["rotation_started_pct"] - 0.05 and brake_zone["brake_off_pct"] <= corner["rotation_ended_pct"]
+            if brake_zone["brake_on_pct"] >= corner["rotation_started_pct"] - 0.05 and brake_zone["brake_off_pct"] <= corner["rotation_ended_pct"]:
                 corner["brake_zone"] = brake_zone
         matched_corners.append(corner)
     print("here's matched corners", matched_corners)
+    return matched_corners
         
 
 def build_corner_map(lap):
