@@ -164,7 +164,7 @@ def build_corner_map(lap):
     detected_brake_zones = find_braking.get("corners", [])
     # pretty_dump = json.dumps(detected_brake_zones, indent=2)
     # print("here's your dump", pretty_dump)
-    corners = find_corners_yaw_rate.get("turns", [])
+    corners = find_corners_yaw_rate.get("merged_corners", [])
     # print("here's your corners", corners)
     matched_brake_zones = []
     
@@ -172,14 +172,14 @@ def build_corner_map(lap):
         best_match = None
         best_distance = float("inf")
         for corner in corners:
-            if brake_zone["brake_on_pct"] >= corner["car_rotating_on_pct"] - 0.05 and brake_zone["brake_on_pct"] <= corner["car_rotating_off_pct"]:
-                distance = abs(brake_zone["brake_on_pct"] - corner["car_rotating_on_pct"])
+            if brake_zone["brake_on_pct"] >= corner["rotation_started_pct"] - 0.05 and brake_zone["brake_on_pct"] <= corner["rotation_ended_pct"]:
+                distance = abs(brake_zone["brake_on_pct"] - corner["rotation_started_pct"])
                 if distance < best_distance:
                     best_distance = distance
                     best_match = corner
         if best_match is not None:
-            brake_zone["car_rotating_on_pct"] = best_match["car_rotating_on_pct"]
-            brake_zone["car_rotating_off_pct"] = best_match["car_rotating_off_pct"]
+            brake_zone["car_rotating_on_pct"] = best_match["rotation_started_pct"]
+            brake_zone["car_rotating_off_pct"] = best_match["rotation_ended_pct"]
             brake_zone["yaw_rate"] = best_match["yaw_rate"]
             brake_zone["duration_of_rotation_s"] = best_match["duration_of_rotation_s"]
             matched_brake_zones.append(brake_zone)
