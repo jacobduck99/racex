@@ -136,17 +136,20 @@ def find_corners_by_yaw_rate2(lap, rotation=0.3, not_rotating=0.03):
             corner.append(current)
             current = None
 
+    #Get index next to first
     for i in range(len(corner) - 1):
+        merged_corner = []
         current = corner[i]
-        print("current", current)
+        print("Current:", current)
         next_one = corner[i + 1]
-        print("next_one", next_one)
+        print("Next one:", next_one)
         time_to_next_corner = next_one["rotation_started_t"] - current["rotation_ended_t"]
+        #Time less than 0.5 and yawrate is same direction NO FLIP
         if time_to_next_corner < 0.5 and current["yaw_rate"] * next_one["yaw_rate"] > 0:
+            current["rotation_ended_t"] = next_one["rotation_ended_t"]
+            merged_corner.append(current["rotation_ended_t"])
 
-
-
-    print("here's your corners", corner)
+        print("here's your corners", merged_corner)
         
     
 
