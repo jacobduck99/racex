@@ -27,7 +27,7 @@ def analyse_lap_upload():
     
     fast_lap_corner_map = build_corner_map(fastest_samples)
     fast_lap_corner_matched = match_braking_to_corners(fastest_samples)
-    print("here's returned matched corners", fast_lap_corner_matched)
+    print("here's returned matched corners", json.dumps(fast_lap_corner_matched, indent=2))
     reference_lap_corner_map = build_corner_map(reference_samples)
     matched_zones = match_zones(fast_lap_corner_map, reference_lap_corner_map)
 
