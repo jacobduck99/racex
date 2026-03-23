@@ -173,41 +173,11 @@ def match_braking_to_corners(lap):
         matched_corners.append(corner)
     return matched_corners
         
-
-def build_corner_map(lap):
-    find_corners_yaw_rate = find_corners_by_yaw_rate(lap)
-    #print("Yaw rate", find_corners_yaw_rate["turns"][0])
-    find_braking = find_brake_zones(lap)
-    detected_brake_zones = find_braking.get("corners", [])
-    # pretty_dump = json.dumps(detected_brake_zones, indent=2)
-    # print("here's your dump", pretty_dump)
-    corners = find_corners_yaw_rate.get("merged_corners", [])
-    # print("here's your corners", corners)
-    matched_brake_zones = []
-    
-    for brake_zone in detected_brake_zones: 
-        best_match = None
-        best_distance = float("inf")
-        for corner in corners:
-            if brake_zone["brake_on_pct"] >= corner["rotation_started_pct"] - 0.05 and brake_zone["brake_on_pct"] <= corner["rotation_ended_pct"]:
-                distance = abs(brake_zone["brake_on_pct"] - corner["rotation_started_pct"])
-                if distance < best_distance:
-                    best_distance = distance
-                    best_match = corner
-        if best_match is not None:
-            brake_zone["car_rotating_on_pct"] = best_match["rotation_started_pct"]
-            brake_zone["car_rotating_off_pct"] = best_match["rotation_ended_pct"]
-            brake_zone["yaw_rate"] = best_match["yaw_rate"]
-            brake_zone["duration_of_rotation_s"] = best_match["duration_of_rotation_s"]
-            matched_brake_zones.append(brake_zone)
-                     
-    return matched_brake_zones
-
 def match_zones(fast_lap, reference_lap):
     matched_zones = []
     for fast_zones in fast_lap:
         for reference_zones in reference_lap:
-            if abs(fast_zones["car_rotating_on_pct"] - reference_zones["car_rotating_on_pct"]) <= 0.05:
+            if abs(fast_zones["rotation_started_pct"] - reference_zones["rotation_started_pct"]) <= 0.05:
                 matched_zones.append({
                     "fast": fast_zones,
                     "reference": reference_zones
