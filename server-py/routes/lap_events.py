@@ -111,9 +111,9 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
 def find_corners_by_yaw_rate2(lap, rotation=0.3, not_rotating=0.03):
     car_rotating = False
     current = None
-    current_corner = None
+    previous_corner = None
     merged_corners = []
-    corner = []
+    corners = []
     for sample in lap:
         yaw_rate = sample["yawRate"]
         pct = sample["pct"]
@@ -135,21 +135,19 @@ def find_corners_by_yaw_rate2(lap, rotation=0.3, not_rotating=0.03):
             car_rotating = False
             current["rotation_ended_pct"] = pct
             current["rotation_ended_t"] = t
-            corner.append(current)
+            corners.append(current)
             current = None
 
-    for corners in corner:
+    for next_corner in corners:
         #First iteration sets the current_corner
-        if current_corner is None:
-            current_corner = corners
+        if previous_corner is None:
+            previous_corner = next_corner
         #compare current corner to corners loop
-        elif:
-            time_to_next_corner = current_corner["rotation_ended_t"] - corners["rotation_started_t"]
-            if time_to_next_corner < 0.5 and current_corner["yaw_rate"] * corners["yaw_rate"] > 0:
-                current_corner["rotation_ended_t"] = corners["rotation_ended_t"]
-                merged_corners.append(current_corner)
-            current_corner = corners
-            merged_corners.append(current_corner)
+        time_to_next_corner = previous_corner["rotation_ended_t"] - next_corner["rotation_started_t"]
+        if time_to_next_corner < 0.5 and previous_corner["yaw_rate"] * next_corner["yaw_rate"] > 0:
+            previous_corner["rotation_ended_t"] = next_corner["rotation_ended_t"]
+        else:
+            merged_corners.append(previous_corner)
     print("Merged corners:", merged_corners)
 
 def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.03, min_corner_duration=0.5, yaw_rate_dip_duration_s=0.5, yaw_rate_flipped_duration=1):
