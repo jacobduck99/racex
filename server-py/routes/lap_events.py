@@ -111,6 +111,8 @@ def find_brake_zones(lap, threshold=0.05, throttle_off_threshold=0.2, throttle_o
 def find_corners_by_yaw_rate2(lap, rotation=0.3, not_rotating=0.03):
     car_rotating = False
     current = None
+    current_corner = None
+    merged_corners = []
     corner = []
     for sample in lap:
         yaw_rate = sample["yawRate"]
@@ -136,35 +138,19 @@ def find_corners_by_yaw_rate2(lap, rotation=0.3, not_rotating=0.03):
             corner.append(current)
             current = None
 
-    #Get index next to first
-    for i in range(len(corner) - 1):
-        merged_corner = []
-        current = corner[i]
-        print("Current:", current)
-        next_one = corner[i + 1]
-        print("Next one:", next_one)
-        time_to_next_corner = next_one["rotation_started_t"] - current["rotation_ended_t"]
-        #Time less than 0.5 and yawrate is same direction NO FLIP
-        if time_to_next_corner < 0.5 and current["yaw_rate"] * next_one["yaw_rate"] > 0:
-            current["rotation_ended_t"] = next_one["rotation_ended_t"]
-            merged_corner.append(current["rotation_ended_t"])
-
-        print("here's your corners", merged_corner)
-        
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
+    for corners in corner:
+        #First iteration sets the current_corner
+        if current_corner is None:
+            current_corner = corners
+        #compare current corner to corners loop
+        elif:
+            time_to_next_corner = current_corner["rotation_ended_t"] - corners["rotation_started_t"]
+            if time_to_next_corner < 0.5 and current_corner["yaw_rate"] * corners["yaw_rate"] > 0:
+                current_corner["rotation_ended_t"] = corners["rotation_ended_t"]
+                merged_corners.append(current_corner)
+            current_corner = corners
+            merged_corners.append(current_corner)
+    print("Merged corners:", merged_corners)
 
 def find_corners_by_yaw_rate(lap, yaw_rate_on=0.03, yaw_rate_off=0.03, min_corner_duration=0.5, yaw_rate_dip_duration_s=0.5, yaw_rate_flipped_duration=1):
     current = None
