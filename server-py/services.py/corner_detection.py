@@ -1,11 +1,15 @@
 from dataclasses import dataclass
+from typing import optional
 
 class CornerDetector:
-    def __init__(self):
+    def __init__(self, brake_on_threshold=0.05, brake_off_threshold=0.05):
         self.car_rotating = False
         self.braking = False
         self.corners = []
         self.brake = []
+        self.brake_on_threshold = brake_on_threshold
+        self.brake_on_pct = None
+        self.brake_off_threshold = brake_off_threshold
         self.throttle = []
 
     def open_corner(self, pct, t):
@@ -15,15 +19,13 @@ class CornerDetector:
             self.rotating_t = t
 
     def brake_on(self, pct, t, b):
-        brake_on = 0.05 
-        if not self.braking and b >= brake_on:
+        if not self.braking and b >= self.brake_on_threshold:
             self.braking = True
-            self.brake_start_pct = pct
-            self.brake_start_t = t
+            self.brake_on_pct = pct
+            self.brake_on_t = t
 
     def brake_off(self, pct, t, b):
-        brake_off = 0.05
-        if self.braking and b <= brake_off:
+        if self.braking and b <= self.brake_off_threshold:
             self.braking = False
             self.brake_off_pct = pct
             self.brake_off_t = t
@@ -33,7 +35,10 @@ class CornerDetector:
             self.car_rotating = False
             self.rotation_ended_pct = pct
             self.rotation_ended_t = t
-            completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t)
+            if self.brake_on_pct is not None:
+                completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, self.brake_on_pct, self.brake_on_t, self.brake_off_pct, self.brake_off_t)
+            else:
+                completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t)
             self.corners.append(completed_corner)
 
 @dataclass
@@ -42,7 +47,8 @@ class Corner:
     rotating_t: float 
     rotation_ended_pct: float 
     rotation_ended_t: float        
-    brake_started: float
-
-
+    brake_on_pct: Optional[float] = None    
+    brake_on_t: Optional[float] = None
+    brake_off_pct: Optional[float] = None
+    brake_off_t: Optional[float] = None
 
