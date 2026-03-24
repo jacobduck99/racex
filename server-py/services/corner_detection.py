@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 class CornerDetector:
-    def __init__(self, brake_on_threshold=0.05, brake_off_threshold=0.05):
+    def __init__(self, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
         self.car_rotating = False
         self.braking = False
         self.corners = []
@@ -10,6 +10,12 @@ class CornerDetector:
         self.brake_on_threshold = brake_on_threshold
         self.brake_on_pct = None
         self.brake_off_threshold = brake_off_threshold
+        self.throttle_on_threshold = throttle_on_threshold
+        self.throttle_off_threshold = throttle_off_threshold
+        self.throttle_on_t = None
+        self.throttle_on_pct = None
+        self.throttle_off_t = None
+        self.throttle_off_pct = None
         self.throttle = []
 
     def open_corner(self, pct, t):
@@ -18,6 +24,11 @@ class CornerDetector:
             self.rotating_pct = pct
             self.rotating_t = t
 
+    def throttle_off(self, pct, t, throttle):
+        if self.throttle_off_t is None and throttle <= self.throttle_off_threshold:
+            self.throttle_off_t = t
+            self.throttle_off_pct = pct
+            
     def brake_on(self, pct, t, b):
         if not self.braking and b >= self.brake_on_threshold:
             self.braking = True
@@ -31,6 +42,14 @@ class CornerDetector:
             self.brake_off_t = t
             completed_braking_zones = Brake(self.brake_on_pct, self.brake_on_t,self.brake_off_pct, self.brake_off_t)
             self.brake_zones.append(completed_braking_zones)
+
+    def throttle_on(self, pct, t, throttle):
+        if throttle >= self.throttle_on_threshold:
+            self.throttle_on_t = t
+            self.throttle_on_pct = pct
+            apex = Throttle(self.throttle_off_pct, self.throttle_off_t, self.throttle_on_pct, self.throttle_on_t) 
+            self.throttle.append(apex)
+
 
     def close_corner(self, pct, t):
         if self.car_rotating:
@@ -61,4 +80,11 @@ class Brake:
     brake_on_t: float 
     brake_off_pct: float 
     brake_off_t: float
+
+@dataclass
+class Throttle:
+    throttle_on_pct: float
+    throttle_on_t: float
+    throttle_off_pct: float
+    throttle_off_t: float
 
