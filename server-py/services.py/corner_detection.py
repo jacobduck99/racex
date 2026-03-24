@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-from typing import optional
+from typing import Optional
 
 class CornerDetector:
     def __init__(self, brake_on_threshold=0.05, brake_off_threshold=0.05):
         self.car_rotating = False
         self.braking = False
         self.corners = []
-        self.brake = []
+        self.brake_zones = []
         self.brake_on_threshold = brake_on_threshold
         self.brake_on_pct = None
         self.brake_off_threshold = brake_off_threshold
@@ -29,6 +29,8 @@ class CornerDetector:
             self.braking = False
             self.brake_off_pct = pct
             self.brake_off_t = t
+            completed_braking_zones = Brake(self.brake_on_pct, self.brake_on_t,self.brake_off_pct, self.brake_off_t)
+            self.brake_zones.append(completed_braking_zones)
 
     def close_corner(self, pct, t):
         if self.car_rotating:
@@ -51,4 +53,11 @@ class Corner:
     brake_on_t: Optional[float] = None
     brake_off_pct: Optional[float] = None
     brake_off_t: Optional[float] = None
+
+@dataclass
+class Brake:
+    brake_on_pct: float  
+    brake_on_t: float 
+    brake_off_pct: float 
+    brake_off_t: float
 
