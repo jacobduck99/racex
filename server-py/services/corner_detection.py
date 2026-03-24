@@ -45,7 +45,7 @@ class CornerDetector:
 
     def throttle_on(self, pct, t, throttle):
         if not self.braking:
-            if throttle >= self.throttle_on_threshold and self.throttle_off_pct is not None:
+            if throttle >= self.throttle_on_threshold: 
                 self.throttle_on_t = t
                 self.throttle_on_pct = pct
                 apex = Throttle(self.throttle_off_pct, self.throttle_off_t, self.throttle_on_pct, self.throttle_on_t) 
