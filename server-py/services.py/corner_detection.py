@@ -1,20 +1,16 @@
 
-class Corner:
-    def __init__(self, pct, t, brake, yaw_rate):
-        self.pct = []
-        self.t = []
-        self.brake = []
-        self.yaw_rate = []
+class CornerDetector:
+    def __init__(self, yaw_rate):
+        self.yaw_rate = yaw_rate
         self.car_rotating = False
-        self.rotating_t = None
-        self.rotating_pct = None
-        self.not_rotating_t = None
-        self.not_rotating_pct = None
 
-    def cornering(self, pct, t):
+    def open_corner(self, pct, t):
         self.car_rotating = True
-        self.rotating_pct = self.pct
-        self.rotating_t = self.t
+        self.rotating_pct = pct
+        self.rotating_t = t
 
-
+    def close_corner(self, pct, t):
+        self.car_rotating = False
+        self.rotating_ended_pct = pct
+        self.rotating_ended_t = t
 
