@@ -48,7 +48,8 @@ class Corner:
     rotating_pct: float
     rotating_t: float 
     rotation_ended_pct: float 
-    rotation_ended_t: float        
+    rotation_ended_t: float
+    brake_zone: Optional[float] = None
     brake_on_pct: Optional[float] = None    
     brake_on_t: Optional[float] = None
     brake_off_pct: Optional[float] = None
