@@ -58,23 +58,8 @@ class CornerDetector:
             self.rotation_ended_pct = pct
             self.rotation_ended_t = t
             if self.brake_on_pct is not None:
-                completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, self.brake_on_pct, self.brake_on_t, self.brake_off_pct, self.brake_off_t)
-            else:
                 completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t)
             self.corners.append(completed_corner)
-
-@dataclass
-class Corner:
-    rotating_pct: float
-    rotating_t: float 
-    rotation_ended_pct: float 
-    rotation_ended_t: float
-    brake_zone: Optional[brake] = None
-    brake_on_pct: Optional[float] = None    
-    brake_on_t: Optional[float] = None
-    brake_off_pct: Optional[float] = None
-    brake_off_t: Optional[float] = None
-    throttle: Optional[throttle] = None
 
 @dataclass
 class Brake:
@@ -89,4 +74,18 @@ class Throttle:
     throttle_on_t: float
     throttle_off_pct: float
     throttle_off_t: float
+
+@dataclass
+class Corner:
+    rotating_pct: float
+    rotating_t: float 
+    rotation_ended_pct: float 
+    rotation_ended_t: float
+    brake_zone: Optional[Brake] = None
+    brake_on_pct: Optional[float] = None    
+    brake_on_t: Optional[float] = None
+    brake_off_pct: Optional[float] = None
+    brake_off_t: Optional[float] = None
+    throttle: Optional[Throttle] = None
+
 
