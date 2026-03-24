@@ -27,9 +27,7 @@ def detect_brake_zones(lap, brake_on_threshold=0.05, brake_off_threshold=0.05):
             brake.brake_off(pct, t, b)
     return brake.brake_zones
 
-def match_braking_to_corners1(lap):
-    corners = detect_corners(lap)
-    braking = detect_brake_zones(lap)
+def match_braking_to_corners1(corners, braking):
 
     matched_corners = []
 
@@ -43,7 +41,26 @@ def match_braking_to_corners1(lap):
     print("here's matched corners brake and corners", matched_corners)
     return matched_corners
 
+def analyse_lap(lap, rotation=0.3, not_rotating=0.03, brake_on_threshold=0.05, brake_off_threshold=0.05):
+    corner = CornerDetector()
+    for sample in lap:
+        yaw_rate = sample["yawRate"]
+        pct = sample["pct"]
+        t = sample["t"]
+        b = sample["brake"]
 
+        if abs(yaw_rate) >= rotation:
+            corner.open_corner(pct, t)
+        elif abs(yaw_rate) <= not_rotating:
+            corner.close_corner(pct, t)
+        
+        if b >= brake_on_threshold:
+            corner.brake_on(pct, t, b)
+        elif b <= brake_off_threshold:
+            corner.brake_off(pct, t, b)
+    matched = match_braking_to_corners1(corner.corners, corner.brake_zones)
+    print("here's matched", matched)
+    return matched
 
 
 
