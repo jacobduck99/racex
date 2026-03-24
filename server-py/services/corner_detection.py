@@ -69,11 +69,12 @@ class Corner:
     rotating_t: float 
     rotation_ended_pct: float 
     rotation_ended_t: float
-    brake_zone: Optional[float] = None
+    brake_zone: Optional[brake] = None
     brake_on_pct: Optional[float] = None    
     brake_on_t: Optional[float] = None
     brake_off_pct: Optional[float] = None
     brake_off_t: Optional[float] = None
+    throttle: Optional[throttle] = None
 
 @dataclass
 class Brake:

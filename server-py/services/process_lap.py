@@ -1,34 +1,7 @@
 from services.corner_detection import CornerDetector, Corner, Brake
 import json
 
-def detect_corners(lap, rotation=0.3, not_rotating=0.03):
-    corner = CornerDetector()
-    for sample in lap:
-        yaw_rate = sample["yawRate"]
-        pct = sample["pct"]
-        t = sample["t"]
-
-        if abs(yaw_rate) >= rotation:
-            corner.open_corner(pct, t)
-        elif abs(yaw_rate) <= not_rotating:
-            corner.close_corner(pct, t)
-    return corner.corners
-
-def detect_brake_zones(lap, brake_on_threshold=0.05, brake_off_threshold=0.05):
-    brake = CornerDetector()
-    for sample in lap:
-        b = sample["brake"]
-        pct = sample["pct"]
-        t = sample["t"]
-
-        if b >= brake_on_threshold:
-            brake.brake_on(pct, t, b)
-        elif b <= brake_off_threshold:
-            brake.brake_off(pct, t, b)
-    return brake.brake_zones
-
-def match_braking_to_corners1(corners, braking):
-
+def match_braking_to_corners(corners, braking):
     matched_corners = []
 
     for corner in corners:
@@ -41,13 +14,14 @@ def match_braking_to_corners1(corners, braking):
     print("here's matched corners brake and corners", matched_corners)
     return matched_corners
 
-def analyse_lap(lap, rotation=0.3, not_rotating=0.03, brake_on_threshold=0.05, brake_off_threshold=0.05):
+def analyse_lap(lap, rotation=0.3, not_rotating=0.03, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
     corner = CornerDetector()
     for sample in lap:
         yaw_rate = sample["yawRate"]
         pct = sample["pct"]
         t = sample["t"]
         b = sample["brake"]
+        throttle = sample["throttle"]
 
         if abs(yaw_rate) >= rotation:
             corner.open_corner(pct, t)
@@ -58,7 +32,13 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.03, brake_on_threshold=0.05, b
             corner.brake_on(pct, t, b)
         elif b <= brake_off_threshold:
             corner.brake_off(pct, t, b)
-    matched = match_braking_to_corners1(corner.corners, corner.brake_zones)
+
+        if throttle > throttle_on_threshold:
+            corner.throttle_on(pct, t, throttle)
+        elif throttle < throttle_off_threshold:
+            corner.throttle_off(pct, t, throttle)
+
+    matched = match_braking_to_corners(corner.corners, corner.brake_zones)
     print("here's matched", matched)
     return matched
 
