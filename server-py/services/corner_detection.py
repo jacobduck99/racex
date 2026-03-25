@@ -52,8 +52,6 @@ class CornerDetector:
     def min_speed(self, spd, pct):
         if self.throttle_on_pct is not None and self.rotating_pct is not None:
             if spd < self.current_min_speed:
-                print("here's your spd", spd)
-                print("here's min spd", self.current_min_speed)
                 self.current_min_speed = spd 
                 self.min_speed_pct = pct
                 self.min_speed_kph = convert_to_kph1(self.current_min_speed)
