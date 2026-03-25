@@ -16,6 +16,7 @@ class CornerDetector:
         self.throttle_on_pct = None
         self.throttle_off_t = None
         self.throttle_off_pct = None
+        self.gear = None
         self.throttle = []
 
     def open_corner(self, pct, t):
@@ -43,12 +44,13 @@ class CornerDetector:
             completed_braking_zones = Brake(self.brake_on_pct, self.brake_on_t,self.brake_off_pct, self.brake_off_t)
             self.brake_zones.append(completed_braking_zones)
 
-    def throttle_on(self, pct, t, throttle):
+    def throttle_on(self, pct, t, throttle, gear):
         if not self.braking:
             if throttle >= self.throttle_on_threshold: 
                 self.throttle_on_t = t
                 self.throttle_on_pct = pct
-                apex = Throttle(self.throttle_off_pct, self.throttle_off_t, self.throttle_on_pct, self.throttle_on_t) 
+                self.gear = gear
+                apex = Throttle(self.throttle_off_pct, self.throttle_off_t, self.throttle_on_pct, self.throttle_on_t, self.gear) 
                 self.throttle.append(apex)
                 self.throttle_off_pct = None
 
@@ -74,6 +76,7 @@ class Throttle:
     throttle_on_t: float
     throttle_off_pct: float
     throttle_off_t: float
+    gear: int
 
 @dataclass
 class Corner:
