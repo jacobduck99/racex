@@ -18,7 +18,7 @@ def match_throttle_to_corners(corners, throttle):
 
     for corner in corners:
         for detected_throttle in throttle:
-            if detected_throttle.throttle_off_pct >= corner.rotating_pct - 0.05and detected_throttle.throttle_off_pct <= corner.rotation_ended_pct:
+            if detected_throttle.throttle_off_pct >= corner.rotating_pct - 0.05 and detected_throttle.throttle_off_pct <= corner.rotation_ended_pct:
                 corner.throttle = detected_throttle  
                 throttle.remove(detected_throttle)
                 break
