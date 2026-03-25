@@ -22,6 +22,7 @@ class CornerDetector:
         self.min_speed_pct = None
         self.min_speed_kph = None
         self.throttle = []
+        self.rotating_pct = None
 
     def open_corner(self, pct, t):
         if not self.car_rotating:
@@ -49,12 +50,13 @@ class CornerDetector:
             self.brake_zones.append(completed_braking_zones)
 
     def min_speed(self, spd, pct):
-        if self.throttle_on_pct is None and self.rotating is not None:
-            self.curent_min_speed = spd
+        if self.throttle_on_pct is not None and self.rotating_pct is not None:
             if spd < self.current_min_speed:
+                print("here's your spd", spd)
+                print("here's min spd", self.current_min_speed)
                 self.current_min_speed = spd 
                 self.min_speed_pct = pct
-                self.min_speed_kph = convert_to_kph1(self.min_speed)
+                self.min_speed_kph = convert_to_kph1(self.current_min_speed)
 
     def throttle_on(self, pct, t, throttle, gear):
         if not self.braking:
@@ -66,13 +68,12 @@ class CornerDetector:
                 self.throttle.append(apex)
                 self.throttle_off_pct = None
 
-    def close_corner(self, pct, t):
+    def close_corner(self, pct, t, min_speed):
         if self.car_rotating:
             self.car_rotating = False
             self.rotation_ended_pct = pct
             self.rotation_ended_t = t
-            if self.brake_on_pct is not None:
-                completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t)
+            completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, min_speed=self.min_speed_kph)
             self.corners.append(completed_corner)
 
 @dataclass
@@ -101,6 +102,7 @@ class Corner:
     brake_on_t: Optional[float] = None
     brake_off_pct: Optional[float] = None
     brake_off_t: Optional[float] = None
+    min_speed: Optional[float] = None
     throttle: Optional[Throttle] = None
 
 
