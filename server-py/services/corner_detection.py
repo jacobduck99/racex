@@ -75,6 +75,8 @@ class CornerDetector:
             self.rotation_ended_t = t
             completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, min_speed=self.min_speed_kph)
             self.corners.append(completed_corner)
+            self.current_min_speed = float('inf')
+            self.min_speed_kph = None
 
 @dataclass
 class Brake:
