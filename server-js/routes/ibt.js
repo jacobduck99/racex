@@ -40,9 +40,10 @@ export default async function ibtRoutes(fastify, opts) {
         const throttle = sample.getParam("Throttle")?.value;
         const steering = sample.getParam("SteeringWheelAngle")?.value;
         const yawRate = sample.getParam("YawRate")?.value;
+        const gear = sample.getParam("Gear")?.value;
         // uncomment these to see the samples you can use
-        //const sampleJson = sample.toJSON()
-        // console.log("here's sample", sampleJson)      
+        const sampleJson = sample.toJSON()
+        console.log("here's sample", sampleJson)      
         
       if (typeof t !== "number" || typeof pct !== "number" ||  typeof speed !== "number" || 
         typeof brake !== "number" || typeof throttle !== "number" || typeof steering !== "number" || typeof yawRate !== "number") continue;
