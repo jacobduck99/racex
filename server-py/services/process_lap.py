@@ -1,6 +1,10 @@
 from services.corner_detection import CornerDetector, Corner, Brake
 import json
 
+def convert_to_kph1(speed):
+    speed_in_kph = speed * 3.6
+    return speed_in_kph
+
 def match_braking_to_corners(corners, braking):
     matched_corners = []
 
@@ -34,6 +38,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.03, brake_on_threshold=0.05, b
         t = sample["t"]
         b = sample["brake"]
         throttle = sample["throttle"]
+        speed = sample["speed"]
         gear = sample["gear"]
 
         if abs(yaw_rate) >= rotation:

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Optional
+from services.utils import convert_to_kph1
 
 class CornerDetector:
     def __init__(self, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
@@ -17,6 +18,9 @@ class CornerDetector:
         self.throttle_off_t = None
         self.throttle_off_pct = None
         self.gear = None
+        self.current_min_speed = float('inf')
+        self.min_speed_pct = None
+        self.min_speed_kph = None
         self.throttle = []
 
     def open_corner(self, pct, t):
@@ -43,6 +47,14 @@ class CornerDetector:
             self.brake_off_t = t
             completed_braking_zones = Brake(self.brake_on_pct, self.brake_on_t,self.brake_off_pct, self.brake_off_t)
             self.brake_zones.append(completed_braking_zones)
+
+    def min_speed(self, spd, pct):
+        if self.throttle_on_pct is None and self.rotating is not None:
+            self.curent_min_speed = spd
+            if spd < self.current_min_speed:
+                self.current_min_speed = spd 
+                self.min_speed_pct = pct
+                self.min_speed_kph = convert_to_kph1(self.min_speed)
 
     def throttle_on(self, pct, t, throttle, gear):
         if not self.braking:
