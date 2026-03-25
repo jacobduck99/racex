@@ -54,9 +54,6 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.03, brake_on_threshold=0.05, b
         elif throttle < throttle_off_threshold:
             corner.throttle_off(pct, t, throttle)
         
-
-
-
     braking_matched = match_braking_to_corners(corner.corners, corner.brake_zones)
     throttle_matched = match_throttle_to_corners(corner.corners, corner.throttle)
     print("here's matched", throttle_matched)
