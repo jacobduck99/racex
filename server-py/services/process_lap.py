@@ -37,14 +37,15 @@ def match_zones(fast_lap, reference_lap):
                         "fast": fast_zones,
                         "reference": reference_zones
                     })
-                    break
-            elif abs(fast_zones.brake_zone.brake_on_pct - reference_zones.brake_zone.brake_on_pct) <= 0.05:
+                    break 
+
+            elif fast_zones.brake_zone is not None and reference_zones.brake_zone is not None and abs(fast_zones.brake_zone.brake_on_pct - reference_zones.brake_zone.brake_on_pct) <= 0.05:
                     matched_zones.append({
                         "fast": fast_zones,
                         "reference": reference_zones
                 })
-            break
-    return match_zones
+                    break
+    return matched_zones
 
 
 def analyse_lap(lap, rotation=0.3, not_rotating=0.03, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
