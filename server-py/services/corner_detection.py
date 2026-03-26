@@ -35,7 +35,7 @@ class CornerDetector:
             self.yaw_rate = yaw_rate
 
     def throttle_off(self, pct, t, throttle):
-        if self.throttle_on_pct is not None and throttle <= self.throttle_off_threshold:
+        if throttle <= self.throttle_off_threshold:
             self.throttle_off_t = t
             self.throttle_off_pct = pct
             
