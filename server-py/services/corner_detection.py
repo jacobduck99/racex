@@ -50,7 +50,6 @@ class CornerDetector:
         if self.braking:
             if b > self.max_brake_pressure:
                 self.max_brake_pressure = b
-                print("MAX BRAKE P", self.max_brake_pressure)
 
     def brake_off(self, pct, t, b):
         if self.braking and b <= self.brake_off_threshold:
@@ -129,13 +128,9 @@ class Corner:
     rotation_ended_pct: float 
     rotation_ended_t: float
     brake_zone: Optional[Brake] = None
-    brake_on_pct: Optional[float] = None    
-    brake_on_t: Optional[float] = None
-    brake_off_pct: Optional[float] = None
-    brake_off_t: Optional[float] = None
     min_speed: Optional[float] = None
     throttle: Optional[Throttle] = None
-    corner_num: Optional[int] = None
     yaw_rate: Optional[float] = None
+    corner_num: Optional[int] = None
 
 
