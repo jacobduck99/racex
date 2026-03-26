@@ -23,12 +23,15 @@ class CornerDetector:
         self.min_speed_kph = None
         self.throttle = []
         self.rotating_pct = None
+        self.previous_corner = None
+        self.merged_corners = []
 
-    def open_corner(self, pct, t):
+    def open_corner(self, pct, t, yaw_rate):
         if not self.car_rotating:
             self.car_rotating = True
             self.rotating_pct = pct
             self.rotating_t = t
+            self.yaw_rate = yaw_rate
 
     def throttle_off(self, pct, t, throttle):
         if self.throttle_on_pct is not None and throttle <= self.throttle_off_threshold:
@@ -66,15 +69,33 @@ class CornerDetector:
                 self.throttle.append(apex)
                 self.throttle_off_pct = None
 
-    def close_corner(self, pct, t, min_speed):
+    def close_corner(self, pct, t, min_speed, yaw_rate):
         if self.car_rotating:
             self.car_rotating = False
             self.rotation_ended_pct = pct
             self.rotation_ended_t = t
-            completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, min_speed=self.min_speed_kph)
+            self.yaw_rate = yaw_rate
+            completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, min_speed=self.min_speed_kph, yaw_rate=self.yaw_rate)
             self.corners.append(completed_corner)
             self.current_min_speed = float('inf')
+            self.yaw_rate = None
             self.min_speed_kph = None
+
+    def merge_corner(self, corners):
+        for next_corner in corners:
+            if self.previous_corner is None:
+                self.previous_corner = next_corner
+            else:
+                time_to_next_corner = self.previous_corner.rotation_ended_t - next_corner.rotating_t
+
+                if time_to_next_corner < 0.5 and self.previous_corner.yaw_rate * next_corner.yaw_rate > 0:
+                    self.previous_corner.rotation_ended_t = next_corner.rotation_ended_t
+                else:
+                    self.merged_corners.append(self.previous_corner)
+                    self.previous_corner = next_corner
+        self.merged_corners.append(self.previous_corner)
+        print("here's whats in merged corners", self.merged_corners)
+
 
 @dataclass
 class Brake:
@@ -105,5 +126,6 @@ class Corner:
     min_speed: Optional[float] = None
     throttle: Optional[Throttle] = None
     corner_num: Optional[int] = None
+    yaw_rate: Optional[float] = None
 
 
