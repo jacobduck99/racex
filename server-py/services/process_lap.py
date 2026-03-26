@@ -27,6 +27,19 @@ def match_throttle_to_corners(corners, throttle):
     return matched_corners
 
 
+def match_zones1(fast_lap, reference_lap):
+    matched_zones = []
+    for fast_zones in fast_lap:
+        for reference_zones in reference_lap:
+            if abs(fast_zones.rotating_pct - reference_zones.rotating_pct) <= 0.05:
+                matched_zones.append({
+                    "fast": fast_zones,
+                    "reference": reference_zones
+                })
+                break
+    return matched_zones
+
+
 def analyse_lap(lap, rotation=0.3, not_rotating=0.03, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
     corner = CornerDetector()
     for sample in lap:
@@ -59,8 +72,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.03, brake_on_threshold=0.05, b
     braking_matched = match_braking_to_corners(corner.corners, corner.brake_zones)
     throttle_matched = match_throttle_to_corners(corner.corners, corner.throttle)
     merged = corner.merge_corner(throttle_matched)
-    print("here's merged corners", merged)
-    return throttle_matched
+    return merged
 
 
 

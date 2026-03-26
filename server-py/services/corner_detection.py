@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import Optional
-from services.utils import convert_to_kph1
+from services.utils import convert_to_kph
 
 class CornerDetector:
     def __init__(self, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
@@ -64,7 +64,7 @@ class CornerDetector:
             if spd < self.current_min_speed:
                 self.current_min_speed = spd 
                 self.min_speed_pct = pct
-                self.min_speed_kph = convert_to_kph1(self.current_min_speed)
+                self.min_speed_kph = convert_to_kph(self.current_min_speed)
 
     def throttle_on(self, pct, t, throttle, gear):
         if not self.braking and self.throttle_off_pct is not None:
