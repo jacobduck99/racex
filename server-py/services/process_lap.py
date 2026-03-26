@@ -24,9 +24,6 @@ def match_throttle_to_corners(corners, throttle):
                 throttle.remove(detected_throttle)
                 break
         matched_corners.append(corner)
-        for i, c in enumerate(matched_corners, start=1):
-            c.corner_num = i
-
     return matched_corners
 
 
@@ -61,8 +58,6 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.03, brake_on_threshold=0.05, b
     braking_matched = match_braking_to_corners(corner.corners, corner.brake_zones)
     throttle_matched = match_throttle_to_corners(corner.corners, corner.throttle)
     merged = corner.merge_corner(throttle_matched)
-    for values in throttle_matched:
-        print("corner num", values.corner_num, "rotation started", values.rotating_pct, "rotation_ended", values.rotation_ended_pct)
     print("here's your merged_corners", merged)
     return throttle_matched
 

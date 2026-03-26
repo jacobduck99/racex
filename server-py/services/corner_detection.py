@@ -94,8 +94,9 @@ class CornerDetector:
                     self.merged_corners.append(self.previous_corner)
                     self.previous_corner = next_corner
         self.merged_corners.append(self.previous_corner)
-        print("here's whats in merged corners", self.merged_corners)
-
+        for i, c in enumerate(self.merged_corners, start=1):
+            c.corner_num = i
+        return self.merged_corners
 
 @dataclass
 class Brake:
