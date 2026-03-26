@@ -27,7 +27,7 @@ def match_throttle_to_corners(corners, throttle):
     return matched_corners
 
 
-def match_zones1(fast_lap, reference_lap):
+def match_zones(fast_lap, reference_lap):
     matched_zones = []
     for fast_zones in fast_lap:
         for reference_zones in reference_lap:
