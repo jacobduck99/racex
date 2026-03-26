@@ -72,7 +72,7 @@ class CornerDetector:
                 self.throttle_on_pct = pct
                 self.throttle_on_t = t
                 self.gear = gear
-                apex = Throttle(self.throttle_off_pct, self.throttle_off_t, self.throttle_on_pct, self.throttle_on_t, self.gear) 
+                apex = Throttle(self.throttle_off_pct, self.throttle_off_t,self.throttle_on_pct, self.throttle_on_t, self.gear) 
                 self.throttle.append(apex)
                 self.throttle_off_pct = None
 
