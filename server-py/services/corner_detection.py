@@ -95,7 +95,7 @@ class CornerDetector:
             else:
                 time_to_next_corner = self.previous_corner.rotation_ended_t - next_corner.rotating_t
 
-                if time_to_next_corner < 0.5 and self.previous_corner.yaw_rate * next_corner.yaw_rate > 0:
+                if abs(time_to_next_corner) < 0.5 and self.previous_corner.yaw_rate * next_corner.yaw_rate > 0:
                     self.previous_corner.rotation_ended_t = next_corner.rotation_ended_t
                 else:
                     self.merged_corners.append(self.previous_corner)
