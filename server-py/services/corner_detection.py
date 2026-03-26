@@ -72,9 +72,8 @@ class CornerDetector:
                 self.throttle_on_pct = pct
                 self.throttle_on_t = t
                 self.gear = gear
-                apex = Throttle(self.throttle_on_pct, self.throttle_on_t, self.throttle_off_pct, self.throttle_off_t, self.gear) 
+                apex = Throttle(self.throttle_off_pct, self.throttle_off_t, self.throttle_on_pct, self.throttle_on_t, self.gear) 
                 self.throttle.append(apex)
-                print("throttle", self.throttle)
                 self.throttle_off_pct = None
 
     def close_corner(self, pct, t, min_speed, yaw_rate):
@@ -116,10 +115,10 @@ class Brake:
 
 @dataclass
 class Throttle:
-    throttle_on_pct: float
-    throttle_on_t: float
     throttle_off_pct: float
     throttle_off_t: float
+    throttle_on_pct: float
+    throttle_on_t: float
     gear: int
 
 @dataclass
