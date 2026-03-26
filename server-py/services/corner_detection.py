@@ -60,20 +60,21 @@ class CornerDetector:
             self.brake_zones.append(completed_braking_zones)
 
     def min_speed(self, spd, pct):
-        if self.throttle_on_pct is not None and self.rotating_pct is not None:
+        if self.car_rotating and self.rotating_pct is not None:
             if spd < self.current_min_speed:
                 self.current_min_speed = spd 
                 self.min_speed_pct = pct
                 self.min_speed_kph = convert_to_kph1(self.current_min_speed)
 
     def throttle_on(self, pct, t, throttle, gear):
-        if not self.braking:
-            if throttle >= self.throttle_on_threshold: 
-                self.throttle_on_t = t
+        if not self.braking and self.throttle_off_pct is not None:
+            if throttle >= self.throttle_on_threshold:
                 self.throttle_on_pct = pct
+                self.throttle_on_t = t
                 self.gear = gear
-                apex = Throttle(self.throttle_off_pct, self.throttle_off_t, self.throttle_on_pct, self.throttle_on_t, self.gear) 
+                apex = Throttle(self.throttle_on_pct, self.throttle_on_t, self.throttle_off_pct, self.throttle_off_t, self.gear) 
                 self.throttle.append(apex)
+                print("throttle", self.throttle)
                 self.throttle_off_pct = None
 
     def close_corner(self, pct, t, min_speed, yaw_rate):
