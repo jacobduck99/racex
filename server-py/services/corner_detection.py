@@ -129,6 +129,5 @@ class Corner:
     min_speed: Optional[float] = None
     throttle: Optional[Throttle] = None
     yaw_rate: Optional[float] = None
-    corner_num: Optional[int] = None
 
 

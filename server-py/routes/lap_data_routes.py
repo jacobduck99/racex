@@ -29,7 +29,6 @@ def analyse_lap_upload():
     fast_matched_corners = analyse_lap(fastest_samples) 
     reference_matched_corners = analyse_lap(reference_samples)
     matched_zones = match_zones(fast_matched_corners, reference_matched_corners)
-    print("here's matched_zones", matched_zones)
 
     return jsonify({"matched_zones": matched_zones})
                     

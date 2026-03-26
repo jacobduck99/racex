@@ -45,7 +45,7 @@ def match_zones(fast_lap, reference_lap):
                         "reference": reference_zones
                 })
                     break
-    for i, c in enumerate(matched_zones, start=1)
+    for i, c in enumerate(matched_zones, start=1):
         c["corner_num"] = i
     return matched_zones
 
