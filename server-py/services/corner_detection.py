@@ -104,5 +104,6 @@ class Corner:
     brake_off_t: Optional[float] = None
     min_speed: Optional[float] = None
     throttle: Optional[Throttle] = None
+    corner_num: Optional[int] = None
 
 

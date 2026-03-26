@@ -23,6 +23,9 @@ def match_throttle_to_corners(corners, throttle):
                 throttle.remove(detected_throttle)
                 break
         matched_corners.append(corner)
+        for i, c in enumerate(matched_corners, start=1):
+            c.corner_num = i
+
     return matched_corners
 
 
