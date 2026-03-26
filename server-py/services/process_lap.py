@@ -15,8 +15,9 @@ def match_braking_to_corners(corners, braking):
 
 def match_throttle_to_corners(corners, throttle):
     matched_corners = []
+    copy_brake_list = corners.copy()
 
-    for corner in corners:
+    for corner in copy_brake_list:
         for detected_throttle in throttle:
             if detected_throttle.throttle_off_pct >= corner.rotating_pct - 0.05 and detected_throttle.throttle_off_pct <= corner.rotation_ended_pct:
                 corner.throttle = detected_throttle  
@@ -59,7 +60,8 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.03, brake_on_threshold=0.05, b
         
     braking_matched = match_braking_to_corners(corner.corners, corner.brake_zones)
     throttle_matched = match_throttle_to_corners(corner.corners, corner.throttle)
-    print("here's matched", throttle_matched)
+    for values in throttle_matched:
+        print("corner num", values.corner_num, "rotation started", values.rotating_pct, "rotation_ended", values.rotation_ended_pct)
     return throttle_matched
 
 
