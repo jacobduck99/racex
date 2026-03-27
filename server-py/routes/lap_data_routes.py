@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 import json
 
-from services.process_lap import analyse_lap, match_zones
+from data_processing.process_lap import analyse_lap, match_zones
 
 analyse_bp = Blueprint("analyse", __name__)
 
