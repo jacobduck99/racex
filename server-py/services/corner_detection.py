@@ -101,7 +101,7 @@ class CornerDetector:
                     self.merged_corners.append(self.previous_corner)
                     self.previous_corner = next_corner
         self.merged_corners.append(self.previous_corner)
-        return self.merged_corners
+        return self.merged_corners 
 
 @dataclass
 class Brake:
@@ -129,5 +129,11 @@ class Corner:
     min_speed: Optional[float] = None
     throttle: Optional[Throttle] = None
     yaw_rate: Optional[float] = None
+
+@dataclass
+class Matched:
+    fast: list
+    ref: list
+
 
 

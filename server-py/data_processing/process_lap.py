@@ -1,4 +1,4 @@
-from services.corner_detection import CornerDetector, Corner, Brake
+from services.corner_detection import CornerDetector, Corner, Brake, Matched
 import json
 
 def match_braking_to_corners(corners, braking):
@@ -33,20 +33,20 @@ def match_zones(fast_lap, reference_lap):
         for reference_zones in reference_lap:
             if fast_zones.brake_zone is None and reference_zones.brake_zone is None:
                 if abs(fast_zones.rotating_pct - reference_zones.rotating_pct) <= 0.05:
-                    matched_zones.append({
-                        "fast": fast_zones,
-                        "reference": reference_zones
-                    })
+                    matched_zones.append(
+                        Matched(fast=fast_zones,
+                                ref=reference_zones)
+                    )
                     break 
 
             elif fast_zones.brake_zone is not None and reference_zones.brake_zone is not None and abs(fast_zones.brake_zone.brake_on_pct - reference_zones.brake_zone.brake_on_pct) <= 0.05:
-                    matched_zones.append({
-                        "fast": fast_zones,
-                        "reference": reference_zones
-                })
+                    matched_zones.append(
+                        Matched(fast=fast_zones,
+                                ref=reference_zones)
+                    )
                     break
     for i, c in enumerate(matched_zones, start=1):
-        c["corner_num"] = i
+        c.corner_num = i
     return matched_zones
 
 
