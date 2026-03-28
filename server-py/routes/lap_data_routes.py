@@ -31,7 +31,11 @@ def analyse_lap_upload():
     fast_matched_corners = analyse_lap(fastest_samples) 
     reference_matched_corners = analyse_lap(reference_samples)
     matched_corners = match_zones(fast_matched_corners, reference_matched_corners) 
-    print("matched corners", matched_corners)
+    for corners in matched_corners:
+        print("here's your ref rotating", corners.ref.rotating_pct)
+        print("here's your ref rotating end", corners.ref.rotation_ended_pct)
+        print("here's your fast rotating", corners.fast.rotating_pct)
+        print("here's your fast rotating_ended", corners.fast.rotation_ended_pct)
 
     return jsonify({"matched_zones": matched_corners})
                     

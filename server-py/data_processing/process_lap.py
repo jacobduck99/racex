@@ -28,11 +28,15 @@ def match_throttle_to_corners(corners, throttle):
 
 
 def match_zones(fast_lap, reference_lap):
+    seen_ref_corners = []
     matched_zones = []
     for fast_zones in fast_lap:
         for reference_zones in reference_lap:
+            if reference_zones in seen_ref_corners:
+                continue
             if fast_zones.brake_zone is None and reference_zones.brake_zone is None:
                 if abs(fast_zones.rotating_pct - reference_zones.rotating_pct) <= 0.05:
+                    seen_ref_corners.append(reference_zones)
                     matched_zones.append(
                         Matched(fast=fast_zones,
                                 ref=reference_zones)
@@ -40,6 +44,7 @@ def match_zones(fast_lap, reference_lap):
                     break 
 
             elif fast_zones.brake_zone is not None and reference_zones.brake_zone is not None and abs(fast_zones.brake_zone.brake_on_pct - reference_zones.brake_zone.brake_on_pct) <= 0.05:
+                    seen_ref_corners.append(reference_zones)
                     matched_zones.append(
                         Matched(fast=fast_zones,
                                 ref=reference_zones, corner_num=None)
