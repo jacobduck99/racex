@@ -42,7 +42,7 @@ def match_zones(fast_lap, reference_lap):
             elif fast_zones.brake_zone is not None and reference_zones.brake_zone is not None and abs(fast_zones.brake_zone.brake_on_pct - reference_zones.brake_zone.brake_on_pct) <= 0.05:
                     matched_zones.append(
                         Matched(fast=fast_zones,
-                                ref=reference_zones)
+                                ref=reference_zones, corner_num=None)
                     )
                     break
     for i, c in enumerate(matched_zones, start=1):
