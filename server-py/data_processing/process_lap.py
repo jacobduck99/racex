@@ -26,7 +26,6 @@ def match_throttle_to_corners(corners, throttle):
         matched_corners.append(corner)
     return matched_corners
 
-
 def match_zones(fast_lap, reference_lap):
     seen_ref_corners = []
     matched_zones = []
@@ -53,7 +52,6 @@ def match_zones(fast_lap, reference_lap):
     for i, c in enumerate(matched_zones, start=1):
         c.corner_num = i
     return matched_zones
-
 
 def analyse_lap(lap, rotation=0.3, not_rotating=0.03, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
     corner = CornerDetector()
@@ -88,6 +86,3 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.03, brake_on_threshold=0.05, b
     throttle_matched = match_throttle_to_corners(corner.corners, corner.throttle)
     merged = corner.merge_corner(throttle_matched)
     return merged
-
-
-
