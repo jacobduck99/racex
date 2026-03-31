@@ -90,26 +90,14 @@ class CornerDetector:
 
     def merge_corner(self, corners):
         for current_corner in corners:
-            print("here's current_corner", current_corner)
             if self.previous_corner is None:
                 self.previous_corner = current_corner
-                print("previous corner set \n", self.previous_corner)
-            elif current_corner.throttle is None:
+            elif current_corner.throttle is None and current_corner.rotating_pct - self.previous_corner.rotation_ended_pct < 0.05:
                 self.previous_corner.rotation_ended_t = current_corner.rotation_ended_t
-                print("no throttle, merging into previous", self.previous_corner)
-            elif current_corner.throttle is not None:
-                time_to_next_corner = self.previous_corner.rotation_ended_pct - current_corner.throttle.throttle_on_pct
-                print("time between corners", time_to_next_corner)
-                if abs(time_to_next_corner) > 1:
-                    self.previous_corner.rotation_ended_t = current_corner.rotation_ended_t
-                    print("two corners turned into one", self.previous_corner)
-                else:
-                    self.merged_corners.append(self.previous_corner)
-                    print("in else loop length", len(self.merged_corners))
-                    self.previous_corner = current_corner
-                    print("New current corner", self.previous_corner)
+            else:
+                self.merged_corners.append(self.previous_corner)
+                self.previous_corner = current_corner
         self.merged_corners.append(self.previous_corner)
-        print("length of corners", len(self.merged_corners))
         return self.merged_corners
 
 @dataclass
