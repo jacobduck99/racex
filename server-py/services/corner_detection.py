@@ -92,15 +92,18 @@ class CornerDetector:
         for current_corner in corners:
             if self.previous_corner is None:
                 self.previous_corner = current_corner
+                print("previous corner set", self.previous_corner)
             else:
                 time_to_next_corner = self.previous_corner.rotation_ended_t - current_corner.rotating_t
 
                 if abs(time_to_next_corner) < 0.5 and self.previous_corner.yaw_rate * current_corner.yaw_rate > 0:
                     self.previous_corner.rotation_ended_t = current_corner.rotation_ended_t
+                    print("two corners turned into one", self.previous_corner)
 
                 else:
                     self.merged_corners.append(self.previous_corner)
                     self.previous_corner = current_corner
+                    print("New current corner", self.previous_corner)
         self.merged_corners.append(self.previous_corner)
         return self.merged_corners 
 
