@@ -83,24 +83,26 @@ class CornerDetector:
             self.rotation_ended_t = t
             self.yaw_rate = yaw_rate
             completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, min_speed=self.min_speed_kph, yaw_rate=self.yaw_rate)
-            self.corners.append(completed_corner)
+            self.corners.append(completed_corner) 
             self.current_min_speed = float('inf')
             self.yaw_rate = None
             self.min_speed_kph = None
 
     def merge_corner(self, corners):
         for current_corner in corners:
+            print("here's current_corner", current_corner)
             if self.previous_corner is None:
                 self.previous_corner = current_corner
                 print("previous corner set \n", self.previous_corner)
-            else:
-                time_to_next_corner = self.previous_corner.rotation_ended_t - current_corner.rotating_t
+            elif current_corner.throttle is None:
+                self.previous_corner.rotation_ended_t = current_corner.rotation_ended_t
+                print("no throttle, merging into previous", self.previous_corner)
+            elif current_corner.throttle is not None:
+                time_to_next_corner = self.previous_corner.rotation_ended_pct - current_corner.throttle.throttle_on_pct
                 print("time between corners", time_to_next_corner)
-
-                if abs(time_to_next_corner) < 0.5:
+                if abs(time_to_next_corner) > 1:
                     self.previous_corner.rotation_ended_t = current_corner.rotation_ended_t
                     print("two corners turned into one", self.previous_corner)
-
                 else:
                     self.merged_corners.append(self.previous_corner)
                     print("in else loop length", len(self.merged_corners))
@@ -108,7 +110,7 @@ class CornerDetector:
                     print("New current corner", self.previous_corner)
         self.merged_corners.append(self.previous_corner)
         print("length of corners", len(self.merged_corners))
-        return self.merged_corners 
+        return self.merged_corners
 
 @dataclass
 class Brake:
