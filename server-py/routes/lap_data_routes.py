@@ -10,12 +10,11 @@ analyse_bp = Blueprint("analyse", __name__)
 @analyse_bp.route("/lap-data/analyse", methods=["POST"])
 def analyse_lap_upload():
     data = request.get_json()
-    print("heres data", data)
-
     if not isinstance(data, dict):
         return jsonify({"error": "Expected JSON object"}), 400
 
     laps = data.get("laps")
+
     if not isinstance(laps, list):
         return jsonify({"error": "Expected 'laps' to be a list"}), 400
 
