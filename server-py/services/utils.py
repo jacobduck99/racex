@@ -4,11 +4,7 @@ def convert_to_kph(speed):
     return speed_in_kph
 
 def get_lap_dist(samples):
-    track_length = []
-    for sample in samples:
-        track_length.append(sample["lapDist"])
-    track_length = max(track_length)
-    return track_length
+    return max(sample["lapDist"] for sample in samples)
 
 def convert_to_meters(lap_dist, distance):
     meters = lap_dist * distance
