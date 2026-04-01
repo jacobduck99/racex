@@ -6,12 +6,12 @@ def brake_coaching(corners):
             distance = (matched_corners.fast.brake_zone.brake_on_pct - matched_corners.ref.brake_zone.brake_on_pct) * 100
             if matched_corners.fast.brake_zone.brake_on_pct > matched_corners.ref.brake_zone.brake_on_pct:
                 tip = {
-                    "braking" : "fast lap is braking later"
+                    "Sector": matched_corners.corner_num ,"braking" : "fast lap is braking later", "Distance" : distance
                 }
                 brake_tips.append(tip)
             elif matched_corners.fast.brake_zone.brake_on_pct < matched_corners.ref.brake_zone.brake_on_pct:
                 tip = {
-                    "braking" : "ref lap is braking later"
+                    "Sector": matched_corners.corner_num ,"braking" : "ref lap is braking later", "Distance" : distance
                 }
                 brake_tips.append(tip)
                 print("brake_tips", brake_tips)
