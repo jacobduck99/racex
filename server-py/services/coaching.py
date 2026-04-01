@@ -11,7 +11,7 @@ def brake_marker_coaching(corners, lap_dist):
             check_tip = "later" if fast_brake_zone.brake_on_pct > ref_brake_zone.brake_on_pct else "earlier"
             distance = abs(fast_brake_zone.brake_on_pct - ref_brake_zone.brake_on_pct)
             meters = int(convert_to_meters(lap_dist, distance))
-            tips = {"Sector": brake_zones.corner_num ,"braking" : f"Ref is braking {meters} meters {check_tip}"}
+            tips = {"Sector": brake_zones.corner_num ,"braking" : f"You are braking {meters} meters {check_tip} compared to your fastest laps sector {brake_zones.corner_num}"}
 
             brake_tips.append(tips)
     print("brake_tips", brake_tips)
