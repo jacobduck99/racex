@@ -3,7 +3,7 @@ import json
 
 from data_processing.process_lap import analyse_lap, match_zones
 
-from services.coaching import brake_coaching
+from services.coaching import brake_marker_coaching
 
 analyse_bp = Blueprint("analyse", __name__)
 
@@ -32,7 +32,7 @@ def analyse_lap_upload():
     reference_matched_corners = analyse_lap(reference_samples)
 
     matched_corners = match_zones(fast_matched_corners, reference_matched_corners) 
-    brake_coaching(matched_corners)
+    brake_marker_coaching(matched_corners)
 
     return jsonify({"matched_zones": matched_corners})
                     
