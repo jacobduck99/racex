@@ -5,12 +5,11 @@ def convert_to_kph(speed):
 
 def get_lap_dist(samples):
     track_length = []
+    track_dist = []
     for sample in samples:
-        if sample["lapDist"]:
-            max_length = max(sample["lapDist"])
-            track_length.append(max_length)
-    print("track_length", track_length)
-    return track_length
+        track_dist.append(sample["lapDist"])
+        track_length = max(track_dist)
+    print("here's track_length", track_length)
 
             
 

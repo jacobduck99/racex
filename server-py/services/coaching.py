@@ -1,5 +1,5 @@
 
-def brake_marker_coaching(corners):
+def brake_marker_coaching(corners, lap_dist):
     brake_tips = []
     for brake_zones in corners:
         
