@@ -9,8 +9,7 @@ def brake_coaching(corners):
             "Sector": matched_corners.corner_num ,"braking" : f"{check_tip} is braking later", "Distance" : distance
             }
             brake_tips.append(tip)
-            print("brake_tips", brake_tips)
-        else:
-            continue 
+    print("brake_tips", brake_tips)
+    return brake_tips
             
 
