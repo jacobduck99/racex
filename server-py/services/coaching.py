@@ -1,12 +1,16 @@
 
 def brake_marker_coaching(corners):
     brake_tips = []
-    for matched_corners in corners:
-        if matched_corners.fast.brake_zone is not None and matched_corners.ref.brake_zone is not None:
-            check_tip = "Fast" if matched_corners.fast.brake_zone.brake_on_pct > matched_corners.ref.brake_zone.brake_on_pct else "Ref"
-            distance = abs(matched_corners.fast.brake_zone.brake_on_pct - matched_corners.ref.brake_zone.brake_on_pct) * 100
+    for brake_zones in corners:
+        
+        fast_brake_zone = brake_zones.fast.brake_zone
+        ref_brake_zone = brake_zones.ref.brake_zone
+
+        if fast_brake_zone is not None and ref_brake_zone is not None:
+            check_tip = "Fast" if fast_brake_zone.brake_on_pct > ref_brake_zone.brake_on_pct else "Ref"
+            distance = abs(fast_brake_zone.brake_on_pct - ref_brake_zone.brake_on_pct) * 100
             tip = {
-            "Sector": matched_corners.corner_num ,"braking" : f"{check_tip} is braking later", "Distance" : distance
+            "Sector": brake_zones.corner_num ,"braking" : f"{check_tip} is braking later", "Distance" : distance
             }
             brake_tips.append(tip)
     print("brake_tips", brake_tips)
