@@ -90,20 +90,28 @@ class CornerDetector:
 
     def merge_corner(self, corners):
         for current_corner in corners:
-            print("current_corner", current_corner)
             if self.previous_corner is None:
                 self.previous_corner = current_corner
-                print("previous corner", self.previous_corner)
-            elif current_corner.throttle is None and current_corner.rotating_pct - self.previous_corner.rotation_ended_pct < 0.05:
-                self.previous_corner.rotation_ended_t = current_corner.rotation_ended_t
-                print("previous corner rotation ended", self.previous_corner.rotation_ended_t)
             else:
-                self.merged_corners.append(self.previous_corner)
-                print("here's merged corner", self.merged_corners)
-                self.previous_corner = current_corner
-                print("here's updated prev corner", self.previous_corner)
+                gap_start = self.previous_corner.rotation_ended_pct
+                gap_end = current_corner.rotating_pct
+                gap = gap_end - gap_start
+
+                throttle_in_gap = False
+                for t in self.throttle:
+                    if t.throttle_on_pct > gap_start and t.throttle_on_pct < gap_end:
+                        throttle_distance = t.throttle_on_pct - t.throttle_off_pct
+                        if throttle_distance > 0.02:
+                            throttle_in_gap = True
+                            break
+
+                if gap < 0.05 and not throttle_in_gap:
+                    self.previous_corner.rotation_ended_t = current_corner.rotation_ended_t
+                    self.previous_corner.rotation_ended_pct = current_corner.rotation_ended_pct
+                else:
+                    self.merged_corners.append(self.previous_corner)
+                    self.previous_corner = current_corner
         self.merged_corners.append(self.previous_corner)
-        print("merged corner after loop", len(self.merged_corners))
         return self.merged_corners
 
 @dataclass
