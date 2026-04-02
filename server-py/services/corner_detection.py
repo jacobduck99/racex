@@ -18,6 +18,7 @@ class CornerDetector:
         self.throttle_on_pct = None
         self.throttle_off_t = None
         self.throttle_off_pct = None
+        self.last_full_throttle_pcts = []
         self.gear = None
         self.current_min_speed = float('inf')
         self.min_speed_pct = None
@@ -97,13 +98,10 @@ class CornerDetector:
                 gap_end = current_corner.rotating_pct
                 gap = gap_end - gap_start
 
-                throttle_in_gap = False
-                for t in self.throttle:
-                    if t.throttle_on_pct > gap_start and t.throttle_on_pct < gap_end:
-                        throttle_distance = t.throttle_on_pct - t.throttle_off_pct
-                        if throttle_distance > 0.02:
-                            throttle_in_gap = True
-                            break
+                throttle_in_gap = any(
+                    gap_start < pct < gap_end
+                    for pct in self.last_full_throttle_pcts
+                )
 
                 if gap < 0.05 and not throttle_in_gap:
                     self.previous_corner.rotation_ended_t = current_corner.rotation_ended_t
