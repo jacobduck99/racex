@@ -98,12 +98,12 @@ class CornerDetector:
                 gap_end = current_corner.rotating_pct
                 gap = gap_end - gap_start
 
-                throttle_in_gap = any(
-                    gap_start < pct < gap_end
-                    for pct in self.last_full_throttle_pcts
+                full_throttle_count = sum(
+                    1 for pct in self.last_full_throttle_pcts
+                    if gap_start < pct < gap_end
                 )
 
-                if gap < 0.05 and not throttle_in_gap:
+                if gap < 0.05 and full_throttle_count < 10:
                     self.previous_corner.rotation_ended_t = current_corner.rotation_ended_t
                     self.previous_corner.rotation_ended_pct = current_corner.rotation_ended_pct
                 else:
