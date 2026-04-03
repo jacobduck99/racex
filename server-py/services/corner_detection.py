@@ -101,6 +101,9 @@ class CornerDetector:
                 if gap < 0.05:
                     self.previous_corner.rotation_ended_t = current_corner.rotation_ended_t
                     self.previous_corner.rotation_ended_pct = current_corner.rotation_ended_pct
+
+                elif self.previous_corner.yaw_rate * current_corner.yaw_rate < 0:
+                    self.merge_corners.append(self.previous_corner)
                 else:
                     print("NOT MERGED", "gap:", gap, "from:", gap_start, "to:", gap_end)
                     self.merged_corners.append(self.previous_corner)

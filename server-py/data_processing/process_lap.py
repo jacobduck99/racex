@@ -91,7 +91,10 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
         corner_duration_pct = corners.rotation_ended_pct - corners.rotating_pct
         if corner_duration_pct > 0.004:
             clean.append(corners)
-
+    
+    for stuff in clean:
+        print("here's clean list", "rotating_pct", stuff.rotating_pct, "rotating_ended_pct", stuff.rotation_ended_pct)
+    
     merged = corner.merge_corner(clean)
     
     for r in merged:
