@@ -85,7 +85,6 @@ class CornerDetector:
             self.yaw_rate = yaw_rate
             completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, min_speed=self.min_speed_kph, yaw_rate=self.yaw_rate)
             self.corners.append(completed_corner) 
-            print("corner completed list", len(self.corners))
             self.current_min_speed = float('inf')
             self.yaw_rate = None
             self.min_speed_kph = None
