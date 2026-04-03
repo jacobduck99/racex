@@ -90,11 +90,12 @@ class CornerDetector:
             self.yaw_rate = None
             self.min_speed_kph = None
 
-    def filter_corners(self):
-        for corner in self.corners:
-            corner_duration_pct = corners.rotation_ended_pct - corners.rotating_pct
-        if corner_duration_pct > 0.04:  
-            clean_corners.append(corner)
+    def filter_corners(self, corners):
+        for corner in corners:
+            corner_duration_pct = corner.rotation_ended_pct - corner.rotating_pct
+            if corner_duration_pct > 0.04:  
+                self.clean_corners.append(corner)
+        return self.clean_corners
 
     def merge_corner(self, corners):
         for current_corner in corners:
