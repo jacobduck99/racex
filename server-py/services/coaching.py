@@ -9,8 +9,8 @@ def brake_marker_coaching(corners, lap_dist):
 
         if fast_brake_zone is not None and ref_brake_zone is not None:
 
-            fast_brake_pressure = fast_brake_zone.max_brake_pressure
-            ref_brake_pressure = ref_brake_zone.max_brake_pressure
+            fast_brake_pressure = fast_brake_zone.max_brake_pressure 
+            ref_brake_pressure = ref_brake_zone.max_brake_pressure * 100
 
             decide_tip = "later" if fast_brake_zone.brake_on_pct > ref_brake_zone.brake_on_pct else "earlier"
             distance = abs(fast_brake_zone.brake_on_pct - ref_brake_zone.brake_on_pct)
@@ -24,7 +24,7 @@ def brake_marker_coaching(corners, lap_dist):
                 coaching.append(brake_marker_same)
                 continue
 
-            tips = {"Sector": brake_zones.corner_num, "braking" : f"You are braking {meters} {check_meters} {decide_tip} compared to your fastest laps sector {brake_zones.corner_num} brake marker"}
+            tips = {"Sector": brake_zones.corner_num, "braking" : f"You are braking at {ref_brake_pressure}% brake pressure {meters} {check_meters} {decide_tip} compared to your fastest laps sector {brake_zones.corner_num} brake marker"}
 
             coaching.append(tips)
     print("brake_tips", coaching)
