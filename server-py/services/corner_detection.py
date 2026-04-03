@@ -92,7 +92,6 @@ class CornerDetector:
     def filter_corners(self, corners):
         clean_corners = []
         for corner in corners:
-            print("here's what in corner", corner)
             corner_duration_pct = corner.rotation_ended_pct - corner.rotating_pct
             if corner_duration_pct > 0.004:  
                 clean_corners.append(corner)
@@ -114,7 +113,6 @@ class CornerDetector:
                     self.previous_corner.rotation_ended_t = current_corner.rotation_ended_t
                     self.previous_corner.rotation_ended_pct = current_corner.rotation_ended_pct
                 else:
-                    print("NOT MERGED", "gap:", gap, "from:", gap_start, "to:", gap_end)
                     self.merged_corners.append(self.previous_corner)
                     self.previous_corner = current_corner
         self.merged_corners.append(self.previous_corner)
