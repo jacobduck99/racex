@@ -9,6 +9,9 @@ def brake_marker_coaching(corners, lap_dist):
 
         if fast_brake_zone is not None and ref_brake_zone is not None:
 
+            fast_brake_pressure = fast_brake_zone.max_brake_pressure
+            ref_brake_pressure = ref_brake_zone.max_brake_pressure
+
             decide_tip = "later" if fast_brake_zone.brake_on_pct > ref_brake_zone.brake_on_pct else "earlier"
             distance = abs(fast_brake_zone.brake_on_pct - ref_brake_zone.brake_on_pct)
 
