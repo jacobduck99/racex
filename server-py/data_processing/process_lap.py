@@ -54,9 +54,9 @@ def match_zones(fast_lap, reference_lap):
     return matched_zones
 
 def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
-    clean = []
-
+    clean = [] 
     corner = CornerDetector()
+
     for sample in lap:
         yaw_rate = sample["yawRate"]
         pct = sample["pct"]
