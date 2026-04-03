@@ -98,15 +98,11 @@ class CornerDetector:
                 gap_end = current_corner.rotating_pct
                 gap = gap_end - gap_start
 
-                full_throttle_count = sum(
-                    1 for pct in self.last_full_throttle_pcts
-                    if gap_start < pct < gap_end
-                )
-
-                if gap < 0.05 and full_throttle_count < 10:
+                if gap < 0.05:
                     self.previous_corner.rotation_ended_t = current_corner.rotation_ended_t
                     self.previous_corner.rotation_ended_pct = current_corner.rotation_ended_pct
                 else:
+                    print("NOT MERGED", "gap:", gap, "from:", gap_start, "to:", gap_end)
                     self.merged_corners.append(self.previous_corner)
                     self.previous_corner = current_corner
         self.merged_corners.append(self.previous_corner)
