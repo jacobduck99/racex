@@ -84,22 +84,13 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
         elif throttle < throttle_off_threshold:
             corner.throttle_off(pct, t, throttle)
 
-    for r in corner.corners:
-        print("here's corners before merging", "rotation pct", r.rotating_pct, "rotation ended pct", r.rotation_ended_pct, r)
-
     for corners in corner.corners:
         corner_duration_pct = corners.rotation_ended_pct - corners.rotating_pct
         if corner_duration_pct > 0.004:
             clean.append(corners)
-    
-    for stuff in clean:
-        print("here's clean list", "rotating_pct", stuff.rotating_pct, "rotating_ended_pct", stuff.rotation_ended_pct)
-    
+     
     merged = corner.merge_corner(clean)
     
-    for r in merged:
-        print("corners merged", "rotating pct", r.rotating_pct, "rotation ended pct", r.rotation_ended_pct)
-
     braking_matched = match_braking_to_corners(merged, corner.brake_zones)
     throttle_matched = match_throttle_to_corners(merged, corner.throttle)
     return throttle_matched
