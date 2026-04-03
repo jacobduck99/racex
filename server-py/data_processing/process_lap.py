@@ -54,6 +54,8 @@ def match_zones(fast_lap, reference_lap):
     return matched_zones
 
 def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
+    clean = []
+
     corner = CornerDetector()
     for sample in lap:
         yaw_rate = sample["yawRate"]
@@ -83,9 +85,14 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
             corner.throttle_off(pct, t, throttle)
 
     for r in corner.corners:
-        print("here's corners before merging", "rotation pct", r.rotating_pct, "rotation ended pct", r.rotation_ended_pct)
-    
-    merged = corner.merge_corner(corner.corners)
+        print("here's corners before merging", "rotation pct", r.rotating_pct, "rotation ended pct", r.rotation_ended_pct, r)
+
+    for corners in corner.corners:
+        corner_duration_pct = corners.rotation_ended_pct - corners.rotating_pct
+        if corner_duration_pct > 0.004:
+            clean.append(corners)
+
+    merged = corner.merge_corner(clean)
     
     for r in merged:
         print("corners merged", "rotating pct", r.rotating_pct, "rotation ended pct", r.rotation_ended_pct)
