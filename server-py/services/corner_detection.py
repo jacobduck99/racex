@@ -92,8 +92,9 @@ class CornerDetector:
     def filter_corners(self, corners):
         clean_corners = []
         for corner in corners:
+            print("here's what in corner", corner)
             corner_duration_pct = corner.rotation_ended_pct - corner.rotating_pct
-            if corner_duration_pct > 0.04:  
+            if corner_duration_pct > 0.004:  
                 clean_corners.append(corner)
         return clean_corners
 
