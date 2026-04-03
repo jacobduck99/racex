@@ -12,7 +12,6 @@ analyse_bp = Blueprint("analyse", __name__)
 @analyse_bp.route("/lap-data/analyse", methods=["POST"])
 def analyse_lap_upload():
     data = request.get_json()
-    print("DATA", data)
     if not isinstance(data, dict):
         return jsonify({"error": "Expected JSON object"}), 400
 
@@ -29,7 +28,7 @@ def analyse_lap_upload():
     reference_lap = sorted_laps[1]
 
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
-
+    #print("here's fastest samples", fastest_samples)
     lap_dist = get_lap_dist(fastest_samples)
     reference_samples = reference_lap.get("samples", []) if reference_lap else []
 
