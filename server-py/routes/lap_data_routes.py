@@ -33,10 +33,10 @@ def analyse_lap_upload():
     reference_samples = reference_lap.get("samples", []) if reference_lap else []
 
     fast_matched_corners = analyse_lap(fastest_samples) 
-    reference_matched_corners = analyse_lap(reference_samples)
+    #reference_matched_corners = analyse_lap(reference_samples)
 
-    matched_corners = match_zones(fast_matched_corners, reference_matched_corners) 
-    brake_marker_coaching(matched_corners, lap_dist)
+    #matched_corners = match_zones(fast_matched_corners, reference_matched_corners) 
+    #brake_marker_coaching(matched_corners, lap_dist)
 
-    return jsonify({"matched_zones": matched_corners})
+    return jsonify({"matched_zones": fast_matched_corners})
                     
