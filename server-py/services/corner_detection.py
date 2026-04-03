@@ -27,7 +27,6 @@ class CornerDetector:
         self.rotating_pct = None
         self.previous_corner = None
         self.merged_corners = []
-        self.clean_corners = []
 
     def open_corner(self, pct, t, yaw_rate):
         if not self.car_rotating:
@@ -91,11 +90,12 @@ class CornerDetector:
             self.min_speed_kph = None
 
     def filter_corners(self, corners):
+        clean_corners = []
         for corner in corners:
             corner_duration_pct = corner.rotation_ended_pct - corner.rotating_pct
             if corner_duration_pct > 0.04:  
-                self.clean_corners.append(corner)
-        return self.clean_corners
+                clean_corners.append(corner)
+        return clean_corners
 
     def merge_corner(self, corners):
         for current_corner in corners:

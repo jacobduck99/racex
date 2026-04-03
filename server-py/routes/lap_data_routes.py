@@ -38,5 +38,5 @@ def analyse_lap_upload():
     #matched_corners = match_zones(fast_matched_corners, reference_matched_corners) 
     #brake_marker_coaching(matched_corners, lap_dist)
 
-    return jsonify({"matched_zones": fast_matched_corners})
+    return jsonify({"matched_zones": fast_matched_corners })
                     
