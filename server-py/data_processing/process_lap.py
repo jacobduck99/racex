@@ -83,7 +83,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
             corner.throttle_off(pct, t, throttle)
 
     for r in corner.corners:
-        print("here's corners before merging", "rotation pct", r.rotating_pct, "rotation ended pct", r.rotation_ended_pct, r)
+        print("here's corners before merging", "rotation pct", r.rotating_pct, "rotation ended pct", r.rotation_ended_pct)
     
     merged = corner.merge_corner(corner.corners)
     
