@@ -42,9 +42,6 @@ def match_zones(fast_lap, ref_lap):
                 break
     for i, c in enumerate(matched_zones, start=1):
         c.corner_num = i
-        print(i, "fast start", "start", c.fast.rotating_pct, "end", c.fast.rotation_ended_pct)
-
-        print(i, "ref start", "start", c.ref.rotating_pct, "end", c.ref.rotation_ended_pct)
     return matched_zones
 
 def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
@@ -81,6 +78,4 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
     clean = corner.filter_corners(merged) 
     braking_matched = match_braking_to_corners(clean, corner.brake_zones)
     throttle_matched = match_throttle_to_corners(clean, corner.throttle)
-    for c in throttle_matched:
-        print("brake zones", "start", c.rotating_pct, "end", c.rotation_ended_pct, c.brake_zone)
     return throttle_matched
