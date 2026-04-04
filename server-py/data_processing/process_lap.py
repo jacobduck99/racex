@@ -26,35 +26,24 @@ def match_throttle_to_corners(corners, throttle):
         matched_corners.append(corner)
     return matched_corners
 
-def match_zones(fast_lap, reference_lap):
+def match_zones(fast_lap, ref_lap):
     seen_ref_corners = []
     matched_zones = []
     for fast_zones in fast_lap:
-        print("fast corners to be matched", "start", fast_zones.rotating_pct, "end", fast_zones.rotation_ended_pct)
-        for reference_zones in reference_lap:
-            if reference_zones in seen_ref_corners:
+        for ref_zones in ref_lap:
+            if ref_zones in seen_ref_corners:
                 continue
-            if fast_zones.brake_zone is None and reference_zones.brake_zone is None:
-                if abs(fast_zones.rotating_pct - reference_zones.rotating_pct) <= 0.05:
-                    seen_ref_corners.append(reference_zones)
-                    matched_zones.append(
-                        Matched(fast=fast_zones,
-                                ref=reference_zones)
-                    )
-                    break 
-
-            elif fast_zones.brake_zone is not None and reference_zones.brake_zone is not None and abs(fast_zones.brake_zone.brake_on_pct - reference_zones.brake_zone.brake_on_pct) <= 0.05:
-                    seen_ref_corners.append(reference_zones)
-                    matched_zones.append(
-                        Matched(fast=fast_zones,
-                                ref=reference_zones, corner_num=None)
-                    )
-                    break
+            if abs(fast_zones.rotating_pct - ref_zones.rotating_pct) <= 0.05:
+                seen_ref_corners.append(ref_zones)
+                matched_zones.append(
+                    Matched(fast=fast_zones,
+                            ref=ref_zones, corner_num=None)
+                )
+                break
     for i, c in enumerate(matched_zones, start=1):
         c.corner_num = i
     for m in matched_zones:
-        print("matched", "fast", "start", m.fast.rotating_pct, "end", m.fast.rotation_ended_pct)
-        print("matched", "ref", "start", m.ref.rotating_pct, "end", m.ref.rotation_ended_pct)
+        print("fast start", "start", m.rotating_pct, "end", m.rotation_ended_ppct)
     return matched_zones
 
 def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
