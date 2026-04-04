@@ -59,8 +59,6 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
         throttle_val = sample["throttle"]
         spd = sample["speed"]
         gear = sample["gear"]
-        if gear != 0:
-            throttle.last_gear = gear
 
         corner.min_speed(spd, pct)
 
@@ -76,8 +74,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
             brake.brake_off(pct, t, b)
 
         if throttle_val > throttle_on_threshold:
-            throttle.throttle_on(pct, t, throttle_val)
-            print("pct", pct, "throttle", throttle_val)
+            throttle.throttle_on(pct, t, throttle_val, gear)
         elif throttle_val < throttle_off_threshold:
             throttle.throttle_off(pct, t, throttle_val)
 

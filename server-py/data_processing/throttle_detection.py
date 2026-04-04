@@ -18,11 +18,13 @@ class ThrottleDetector:
             self.throttle_off_t = t
             self.throttle_off_pct = pct
 
-    def throttle_on(self, pct, t, throttle):
+    def throttle_on(self, pct, t, throttle, gear):
         if self.throttle_off_pct is not None:
             if throttle >= self.throttle_on_threshold:
                 self.throttle_on_pct = pct
                 self.throttle_on_t = t
+                if gear != 0:
+                    self.last_gear = gear
                 apex = Throttle(self.throttle_off_pct, self.throttle_off_t,self.throttle_on_pct, self.throttle_on_t, self.last_gear) 
                 self.throttle_inputs.append(apex)
                 self.throttle_off_pct = None
