@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+from typing import Optional
+
 from data_processing.brake_detection import Brake
 from data_processing.throttle_detection import Throttle 
 
