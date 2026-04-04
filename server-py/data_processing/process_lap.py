@@ -1,5 +1,6 @@
 from data_processing.corner_detection import CornerDetector, Corner, Brake, Matched
 from data_processing.brake_detection import BrakeDetector, Brake
+from data_processing.throttle_detection import ThrottleDetector, Throttle
 import json
 
 def match_braking_to_corners(corners, braking):
@@ -48,13 +49,14 @@ def match_zones(fast_lap, ref_lap):
 def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
     corner = CornerDetector()
     brake = BrakeDetector()
+    throttle = ThrottleDetector()
 
     for sample in lap:
         yaw_rate = sample["yawRate"]
         pct = sample["pct"]
         t = sample["t"]
         b = sample["brake"]
-        throttle = sample["throttle"]
+        throttle_val = sample["throttle"]
         spd = sample["speed"]
         gear = sample["gear"]
 
@@ -71,13 +73,13 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
         elif b <= brake_off_threshold:
             brake.brake_off(pct, t, b)
 
-        if throttle > throttle_on_threshold:
-            corner.throttle_on(pct, t, throttle, gear)
-        elif throttle < throttle_off_threshold:
-            corner.throttle_off(pct, t, throttle)
+        if throttle_val > throttle_on_threshold:
+            throttle.throttle_on(pct, t, throttle, gear)
+        elif throttle_val < throttle_off_threshold:
+            throttle.throttle_off(pct, t, throttle)
 
     merged = corner.merge_corner(corner.corners)
     clean = corner.filter_corners(merged) 
     braking_matched = match_braking_to_corners(clean, brake.brake_zones)
-    throttle_matched = match_throttle_to_corners(clean, corner.throttle)
+    throttle_matched = match_throttle_to_corners(clean, throttle.throttle)
     return throttle_matched
