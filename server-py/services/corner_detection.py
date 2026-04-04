@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from typing import Optional
 from services.utils import convert_to_kph
-from data_processing.brake_detection import Brake
-from data_processing.throttle_detection import Throttle 
-class CornerDetector:
+from data_processing.corner import Corner
+
+class CornerDetection:
     def __init__(self):
         self.car_rotating = False
         self.corners = []
@@ -68,17 +68,6 @@ class CornerDetector:
                     self.previous_corner = current_corner
         self.merged_corners.append(self.previous_corner)
         return self.merged_corners
-
-@dataclass
-class Corner:
-    rotating_pct: float
-    rotating_t: float 
-    rotation_ended_pct: float 
-    rotation_ended_t: float
-    brake_zone: Optional[Brake] = None
-    min_speed: Optional[float] = None
-    throttle: Optional[Throttle] = None
-    yaw_rate: Optional[float] = None
 
 @dataclass
 class Matched:

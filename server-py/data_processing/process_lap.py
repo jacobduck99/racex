@@ -1,4 +1,4 @@
-from data_processing.corner_detection import CornerDetector, Corner, Brake, Matched
+from data_processing.corner_detection import CornerDetection, Matched
 from data_processing.brake_detection import BrakeDetector, Brake
 from data_processing.throttle_detection import ThrottleDetection, Throttle
 import json
@@ -47,7 +47,7 @@ def match_zones(fast_lap, ref_lap):
     return matched_zones
 
 def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
-    corner = CornerDetector()
+    corner = CornerDetection()
     brake = BrakeDetector()
     throttle = ThrottleDetection()
 
