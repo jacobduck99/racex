@@ -36,6 +36,9 @@ def analyse_lap_upload():
     reference_matched_corners = analyse_lap(reference_samples)
 
     matched_corners = match_zones(fast_matched_corners, reference_matched_corners) 
+    for m in matched_corners:
+        print("matched corners", "fast rotating pct", m.fast.rotating_pct, "fast rotation ended pct", m.fast.rotation_ended_pct,)
+        print("matched corners", "ref rotating pct",m.ref.rotating_pct, "ref rotation ended pct", m.ref.rotation_ended_pct)
     brake_marker_coaching(matched_corners, lap_dist)
 
     return jsonify({"matched_zones": matched_corners })
