@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 from services.utils import convert_to_kph
+from data_processing.brake_detection import Brake
 
 class CornerDetector:
     def __init__(self, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
@@ -40,25 +41,10 @@ class CornerDetector:
             self.throttle_off_t = t
             self.throttle_off_pct = pct
             
-    def brake_on(self, pct, t, b):
-        if not self.braking and b >= self.brake_on_threshold:
-            self.braking = True
-            self.brake_on_pct = pct
-            self.brake_on_t = t
-            self.brake_pressure = b
-
     def max_brake(self, b):
         if self.braking:
             if b > self.max_brake_pressure:
                 self.max_brake_pressure = b
-
-    def brake_off(self, pct, t, b):
-        if self.braking and b <= self.brake_off_threshold:
-            self.braking = False
-            self.brake_off_pct = pct
-            self.brake_off_t = t
-            completed_braking_zones = Brake(self.brake_on_pct, self.brake_on_t,self.brake_off_pct, self.brake_off_t, self.max_brake_pressure)
-            self.brake_zones.append(completed_braking_zones)
 
     def min_speed(self, spd, pct):
         if self.car_rotating and self.rotating_pct is not None:
@@ -117,14 +103,6 @@ class CornerDetector:
                     self.previous_corner = current_corner
         self.merged_corners.append(self.previous_corner)
         return self.merged_corners
-
-@dataclass
-class Brake:
-    brake_on_pct: float  
-    brake_on_t: float 
-    brake_off_pct: float 
-    brake_off_t: float
-    max_brake_pressure: float
 
 @dataclass
 class Throttle:
