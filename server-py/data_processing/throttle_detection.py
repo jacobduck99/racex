@@ -19,7 +19,7 @@ class ThrottleDetector:
             self.throttle_off_pct = pct
 
     def throttle_on(self, pct, t, throttle, gear):
-        if not self.braking and self.throttle_off_pct is not None:
+        if self.throttle_off_pct is not None:
             if throttle >= self.throttle_on_threshold:
                 self.throttle_on_pct = pct
                 self.throttle_on_t = t
