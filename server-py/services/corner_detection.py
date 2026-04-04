@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 from services.utils import convert_to_kph
-from data_processing.brake_detection import Brake
-from data_processing.throttle_detection import Throttle 
+
 class CornerDetector:
     def __init__(self):
         self.car_rotating = False
@@ -75,9 +74,7 @@ class Corner:
     rotating_t: float 
     rotation_ended_pct: float 
     rotation_ended_t: float
-    brake_zone: Optional[Brake] = None
     min_speed: Optional[float] = None
-    throttle: Optional[Throttle] = None
     yaw_rate: Optional[float] = None
 
 @dataclass
