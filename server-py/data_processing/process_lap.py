@@ -1,6 +1,7 @@
-from data_processing.corner_detection import CornerDetection, Matched
+from data_processing.corner_detection import CornerDetection
 from data_processing.brake_detection import BrakeDetection, Brake
 from data_processing.throttle_detection import ThrottleDetection, Throttle
+from data_processing.corner import Matched
 import json
 
 def match_braking_to_corners(corners, braking):

@@ -14,3 +14,9 @@ class Corner:
     min_speed: Optional[float] = None
     throttle: Optional[Throttle] = None
     yaw_rate: Optional[float] = None
+
+@dataclass
+class Matched:
+    fast: list
+    ref: list
+    corner_num: int = None
