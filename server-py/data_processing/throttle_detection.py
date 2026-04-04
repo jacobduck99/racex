@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
-class ThrottleDetector:
+class ThrottleDetection:
     def __init__(self, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
         self.throttle_on_threshold = throttle_on_threshold
         self.throttle_off_threshold = throttle_off_threshold
