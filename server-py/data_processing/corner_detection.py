@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 from services.utils import convert_to_kph
-from data_processing.brake_detection import Brake
+from data_processing.corner import Corner
 
 class CornerDetection:
     def __init__(self): 

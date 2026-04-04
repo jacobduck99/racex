@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
-class BrakeDetector:
+class BrakeDetection:
     def __init__(self, brake_on_threshold=0.05, brake_off_threshold=0.05):
         self.braking = False
         self.brake_zones = []
