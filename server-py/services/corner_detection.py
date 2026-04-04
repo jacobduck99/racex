@@ -35,11 +35,6 @@ class CornerDetector:
             self.throttle_off_t = t
             self.throttle_off_pct = pct
             
-    def max_brake(self, b):
-        if self.braking:
-            if b > self.max_brake_pressure:
-                self.max_brake_pressure = b
-
     def min_speed(self, spd, pct):
         if self.car_rotating and self.rotating_pct is not None:
             if spd < self.current_min_speed:
