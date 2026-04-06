@@ -1,10 +1,9 @@
 from data_processing.corner_detection import CornerDetection
 from data_processing.brake_detection import BrakeDetection, Brake
 from data_processing.throttle_detection import ThrottleDetection, Throttle
-from data_processing.corner import Matched
+
 import json
 from data_processing.matching import populate_corners
-from services.utils import convert_to_kph
 
 def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, brake_off_threshold=0.05, throttle_on_threshold=0.1, throttle_off_threshold=0.2):
     corner = CornerDetection()
@@ -43,4 +42,5 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
     merged = corner.merge_corner(corner.corners)
     clean = corner.filter_corners(merged) 
     enrich_corners = populate_corners(clean, throttle.throttle_inputs,brake.brake_zones, speed_samples)
-    return enrich_corners
+    return clean
+
