@@ -39,6 +39,7 @@ def min_speed_at_apex(spd, corners):
                 if speed["current_speed"] < min_speed:
                     min_speed = speed["current_speed"]
         corner.min_speed = convert_to_kph(min_speed)
+        print("here's whats set", corner.min_speed)
         min_speed = float('inf')
 
 def match_zones(fast_lap, ref_lap):
@@ -98,7 +99,5 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
     clean = corner.filter_corners(merged) 
     braking_matched = match_braking_to_corners(clean, brake.brake_zones)
     throttle_matched = match_throttle_to_corners(clean, throttle.throttle_inputs)
-    print("here's object before min speed", throttle_matched)
     get_min_speed = min_speed_at_apex(speed_samples, throttle_matched)
-    print("here's object with min speed", throttle_matched)
     return throttle_matched
