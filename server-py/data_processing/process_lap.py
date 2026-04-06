@@ -64,7 +64,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
         if abs(yaw_rate) >= rotation:
             corner.open_corner(pct, t, yaw_rate)
         elif abs(yaw_rate) <= not_rotating:
-            corner.close_corner(pct, t, corner.min_speed_kph, yaw_rate)
+            corner.close_corner(pct, t, yaw_rate)
         
         if b >= brake_on_threshold:
             brake.brake_on(pct, t, b)
