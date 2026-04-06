@@ -2,16 +2,12 @@ from services.utils import convert_to_kph
 from data_processing.corner import Matched
 
 def populate_brake_zones(corners, braking):
-    matched_corners = []
-
     for corner in corners:
         for brake_zone in braking:
             if brake_zone.brake_on_pct >= corner.rotating_pct - 0.05 and brake_zone.brake_off_pct <= corner.rotation_ended_pct: 
                 corner.brake_zone = brake_zone
                 braking.remove(brake_zone)
                 break
-        matched_corners.append(corner)
-    return matched_corners
 
 def populate_throttle_zones(corners, throttle):
     copy_brake_list = corners.copy()
