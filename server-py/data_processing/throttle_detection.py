@@ -37,6 +37,7 @@ class ThrottleDetection:
                     self.last_gear = gear
                 apex = Throttle(self.throttle_off_pct, self.throttle_off_t,self.throttle_on_pct, self.throttle_on_t, self.last_gear) 
                 self.throttle_inputs.append(apex)
+                print("here's throttle inputs", self.throttle_inputs)
                 self.throttle_off_pct = None
 
 @dataclass

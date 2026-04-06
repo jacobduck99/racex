@@ -29,6 +29,19 @@ def match_throttle_to_corners(corners, throttle):
         matched_corners.append(corner)
     return matched_corners
 
+def min_speed_at_apex(spd, corners):
+    min_speed = float('inf')
+    for corner in corners:
+        for speed in spd:
+            if speed >= corner.rotating_pct and speed <=corner.rotation_ended_pct:
+                if min_speed is None:
+                    min_speed = spd
+                    print("min speed set when none" min_speed)
+                if spd < min_speed:
+                    min_speed = spd
+                    print("min speed when found", min_speed)
+    print("min speed after loop", min_speed)
+
 def match_zones(fast_lap, ref_lap):
     seen_ref_corners = []
     matched_zones = []
@@ -52,6 +65,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
     brake = BrakeDetection()
     throttle = ThrottleDetection()
 
+
     for sample in lap:
         yaw_rate = sample["yawRate"]
         pct = sample["pct"]
@@ -59,6 +73,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
         b = sample["brake"]
         throttle_val = sample["throttle"]
         spd = sample["speed"]
+        spd_pct = pct
         gear = sample["gear"]
 
         if abs(yaw_rate) >= rotation:
@@ -82,4 +97,6 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
     clean = corner.filter_corners(merged) 
     braking_matched = match_braking_to_corners(clean, brake.brake_zones)
     throttle_matched = match_throttle_to_corners(clean, throttle.throttle_inputs)
+    get_min_speed = min_speed_at_apex(spd, )
+    print("clean corners", throttle_matched)
     return throttle_matched
