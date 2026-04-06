@@ -74,10 +74,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
         spd = sample["speed"]
         gear = sample["gear"]
 
-        speed_samples.append({"current_speed": spd})
-        speed_samples.append({"speed_pct": pct})
-
-        print("here's your speed dict", speed_samples)
+        speed_samples.append({"current_speed": spd, "speed_pct": pct})
 
         if abs(yaw_rate) >= rotation:
             corner.open_corner(pct, t, yaw_rate)
