@@ -39,7 +39,6 @@ def min_speed_at_apex(spd, corners):
                 if speed["current_speed"] < min_speed:
                     min_speed = speed["current_speed"]
         corner.min_speed = convert_to_kph(min_speed)
-        print("here's whats set", corner.min_speed)
         min_speed = float('inf')
 
 def match_zones(fast_lap, ref_lap):
@@ -91,7 +90,6 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
 
         if throttle_val > throttle_on_threshold:
             throttle.throttle_on(pct, t, throttle_val, gear)
-            throttle.min_speed(spd, pct)
         elif throttle_val < throttle_off_threshold:
             throttle.throttle_off(pct, t, throttle_val)
 
