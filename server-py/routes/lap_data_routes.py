@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
 import json
 
-from data_processing.process_lap import analyse_lap, match_zones
+from data_processing.process_lap import analyse_lap
+from data_processing.matching import match_zones
 
 from services.coaching import brake_marker_coaching
 
