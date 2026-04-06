@@ -14,7 +14,6 @@ def populate_brake_zones(corners, braking):
     return matched_corners
 
 def populate_throttle_zones(corners, throttle):
-    matched_corners = []
     copy_brake_list = corners.copy()
 
     for corner in copy_brake_list:
@@ -23,9 +22,6 @@ def populate_throttle_zones(corners, throttle):
                 corner.throttle = detected_throttle  
                 throttle.remove(detected_throttle)
                 break
-        matched_corners.append(corner)
-    return matched_corners
-
 
 def populate_min_speed(spd, corners):
     min_speed = float('inf')
@@ -41,8 +37,7 @@ def populate_corners(corners, throttle, braking, spd):
     populate_brake_zones(corners, braking)
     populate_throttle_zones(corners, throttle)
     populate_min_speed(spd, corners)
-
-
+    
 def match_zones(fast_lap, ref_lap):
     seen_ref_corners = []
     matched_zones = []
