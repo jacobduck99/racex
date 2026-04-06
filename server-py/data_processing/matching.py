@@ -1,7 +1,7 @@
 from services.utils import convert_to_kph
 from data_processing.corner import Matched
 
-def match_braking_to_corners(corners, braking):
+def populate_brake_zones(corners, braking):
     matched_corners = []
 
     for corner in corners:
@@ -13,7 +13,7 @@ def match_braking_to_corners(corners, braking):
         matched_corners.append(corner)
     return matched_corners
 
-def match_throttle_to_corners(corners, throttle):
+def populate_throttle_zones(corners, throttle):
     matched_corners = []
     copy_brake_list = corners.copy()
 
@@ -27,7 +27,7 @@ def match_throttle_to_corners(corners, throttle):
     return matched_corners
 
 
-def min_speed_at_apex(spd, corners):
+def populate_min_speed(spd, corners):
     min_speed = float('inf')
     for corner in corners:
         for speed in spd:
@@ -38,9 +38,9 @@ def min_speed_at_apex(spd, corners):
         min_speed = float('inf')
 
 def populate_corners(corners, throttle, braking, spd):
-    match_braking_to_corners(corners, braking)
-    match_throttle_to_corners(corners, throttle)
-    min_speed_at_apex(spd, corners)
+    populate_brake_zones(corners, braking)
+    populate_throttle_zones(corners, throttle)
+    populate_min_speed(spd, corners)
 
 
 def match_zones(fast_lap, ref_lap):
