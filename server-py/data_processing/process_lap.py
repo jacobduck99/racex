@@ -29,16 +29,14 @@ def match_throttle_to_corners(corners, throttle):
         matched_corners.append(corner)
     return matched_corners
 
-def min_speed_at_apex(spd, spd_pct, corners):
-    min_speed = float('inf')
+def min_speed_at_apex(spd, corners):
+    print("spd", spd, "corners", corners)
+    min_speed = [float('inf')]
     for corner in corners:
-        for speed_pct in spd_pct:
-            if speed_pct >= corner.rotating_pct and speed_pct <=corner.rotation_ended_pct:
-                if min_speed is None:
-                    min_speed = spd
-                    print("min speed set when none", min_speed)
-                if spd < min_speed:
-                    min_speed = spd
+        for speed in spd:
+            if speed["speed_pct"] >= corner.rotating_pct and speed["speed_pct"] <=corner.rotation_ended_pct:
+                if speed["current_speed"] < min_speed:
+                    min_speed = speed["current_speed"]
                     print("min speed when found", min_speed)
     print("min speed after loop", min_speed)
 
@@ -65,6 +63,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
     brake = BrakeDetection()
     throttle = ThrottleDetection()
 
+    speed_samples = {}
 
     for sample in lap:
         yaw_rate = sample["yawRate"]
@@ -73,8 +72,13 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
         b = sample["brake"]
         throttle_val = sample["throttle"]
         spd = sample["speed"]
-        spd_pct = pct
         gear = sample["gear"]
+
+        speed_samples["current_speed"] = spd
+        speed_samples["speed_pct"] = pct
+
+
+        print("here's your speed dict", speed_samples)
 
         if abs(yaw_rate) >= rotation:
             corner.open_corner(pct, t, yaw_rate)
@@ -97,5 +101,5 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
     clean = corner.filter_corners(merged) 
     braking_matched = match_braking_to_corners(clean, brake.brake_zones)
     throttle_matched = match_throttle_to_corners(clean, throttle.throttle_inputs)
-    get_min_speed = min_speed_at_apex(spd, spd_pct, throttle_matched)
+    #get_min_speed = min_speed_at_apex(speed_samples, throttle_matched)
     return throttle_matched
