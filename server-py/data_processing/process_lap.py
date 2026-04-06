@@ -35,7 +35,7 @@ def min_speed_at_apex(spd, corners):
     min_speed = float('inf')
     for corner in corners:
         for speed in spd:
-            if speed["speed_pct"] >= corner.rotating_pct and speed["speed_pct"] <=corner.rotation_ended_pct:
+            if speed["speed_pct"] >= corner.rotating_pct and speed["speed_pct"] <= corner.rotation_ended_pct:
                 if speed["current_speed"] < min_speed:
                     min_speed = speed["current_speed"]
         corner.min_speed = convert_to_kph(min_speed)
