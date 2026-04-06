@@ -3,7 +3,8 @@ from data_processing.brake_detection import BrakeDetection, Brake
 from data_processing.throttle_detection import ThrottleDetection, Throttle
 from data_processing.corner import Matched
 import json
-from data_processing.corner import Corner 
+
+from services.utils import convert_to_kph
 
 def match_braking_to_corners(corners, braking):
     matched_corners = []
@@ -37,9 +38,8 @@ def min_speed_at_apex(spd, corners):
             if speed["speed_pct"] >= corner.rotating_pct and speed["speed_pct"] <=corner.rotation_ended_pct:
                 if speed["current_speed"] < min_speed:
                     min_speed = speed["current_speed"]
-        corner.min_speed = min_speed
+        corner.min_speed = convert_to_kph(min_speed)
         min_speed = float('inf')
-    print("here's your corners with min speed", corner)
 
 def match_zones(fast_lap, ref_lap):
     seen_ref_corners = []
@@ -98,5 +98,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
     clean = corner.filter_corners(merged) 
     braking_matched = match_braking_to_corners(clean, brake.brake_zones)
     throttle_matched = match_throttle_to_corners(clean, throttle.throttle_inputs)
+    print("here's object before min speed", throttle_matched)
     get_min_speed = min_speed_at_apex(speed_samples, throttle_matched)
+    print("here's object with min speed", throttle_matched)
     return throttle_matched
