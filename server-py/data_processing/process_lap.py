@@ -32,18 +32,14 @@ def match_throttle_to_corners(corners, throttle):
 
 def min_speed_at_apex(spd, corners):
     min_speed = float('inf')
-    print("here's min speed", min_speed)
     for corner in corners:
-        print("here's corner min speed loop", corner.min_speed)
         for speed in spd:
             if speed["speed_pct"] >= corner.rotating_pct and speed["speed_pct"] <=corner.rotation_ended_pct:
                 if speed["current_speed"] < min_speed:
                     min_speed = speed["current_speed"]
-                    print("min speed when found", min_speed)
-            corner.min_speed = min_speed
-            print("here's corner min speed", corner.min_speed)
-            min_speed = float('inf')
-
+        corner.min_speed = min_speed
+        min_speed = float('inf')
+    print("here's your corners with min speed", corner)
 
 def match_zones(fast_lap, ref_lap):
     seen_ref_corners = []
