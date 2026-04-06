@@ -63,7 +63,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
     brake = BrakeDetection()
     throttle = ThrottleDetection()
 
-    speed_samples = {}
+    speed_samples = []
 
     for sample in lap:
         yaw_rate = sample["yawRate"]
@@ -74,9 +74,8 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
         spd = sample["speed"]
         gear = sample["gear"]
 
-        speed_samples["current_speed"] = spd
-        speed_samples["speed_pct"] = pct
-
+        speed_samples.append({"current_speed": spd})
+        speed_samples.append({"speed_pct": pct})
 
         print("here's your speed dict", speed_samples)
 
@@ -101,5 +100,5 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
     clean = corner.filter_corners(merged) 
     braking_matched = match_braking_to_corners(clean, brake.brake_zones)
     throttle_matched = match_throttle_to_corners(clean, throttle.throttle_inputs)
-    #get_min_speed = min_speed_at_apex(speed_samples, throttle_matched)
+    get_min_speed = min_speed_at_apex(speed_samples, throttle_matched)
     return throttle_matched
