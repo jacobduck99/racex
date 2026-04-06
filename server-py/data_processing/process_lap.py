@@ -3,6 +3,7 @@ from data_processing.brake_detection import BrakeDetection, Brake
 from data_processing.throttle_detection import ThrottleDetection, Throttle
 from data_processing.corner import Matched
 import json
+from data_processing.corner import Corner 
 
 def match_braking_to_corners(corners, braking):
     matched_corners = []
@@ -30,15 +31,19 @@ def match_throttle_to_corners(corners, throttle):
     return matched_corners
 
 def min_speed_at_apex(spd, corners):
-    print("spd", spd, "corners", corners)
-    min_speed = [float('inf')]
+    min_speed = float('inf')
+    print("here's min speed", min_speed)
     for corner in corners:
+        print("here's corner min speed loop", corner.min_speed)
         for speed in spd:
             if speed["speed_pct"] >= corner.rotating_pct and speed["speed_pct"] <=corner.rotation_ended_pct:
                 if speed["current_speed"] < min_speed:
                     min_speed = speed["current_speed"]
                     print("min speed when found", min_speed)
-    print("min speed after loop", min_speed)
+            corner.min_speed = min_speed
+            print("here's corner min speed", corner.min_speed)
+            min_speed = float('inf')
+
 
 def match_zones(fast_lap, ref_lap):
     seen_ref_corners = []
