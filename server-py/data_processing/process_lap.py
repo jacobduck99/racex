@@ -61,8 +61,6 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
         spd = sample["speed"]
         gear = sample["gear"]
 
-        corner.min_speed(spd, pct)
-
         if abs(yaw_rate) >= rotation:
             corner.open_corner(pct, t, yaw_rate)
         elif abs(yaw_rate) <= not_rotating:
@@ -76,6 +74,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
 
         if throttle_val > throttle_on_threshold:
             throttle.throttle_on(pct, t, throttle_val, gear)
+            throttle.min_speed(spd, pct)
         elif throttle_val < throttle_off_threshold:
             throttle.throttle_off(pct, t, throttle_val)
 

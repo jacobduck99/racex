@@ -7,10 +7,6 @@ class CornerDetection:
     def __init__(self): 
         self.car_rotating = False
         self.corners = []
-        self.current_min_speed = float('inf')
-        self.min_speed_pct = None
-        self.min_speed_kph = None
-        self.rotating_pct = None
         self.previous_corner = None
         self.merged_corners = []
 
@@ -21,24 +17,15 @@ class CornerDetection:
             self.rotating_t = t
             self.yaw_rate = yaw_rate
 
-    def min_speed(self, spd, pct):
-        if self.car_rotating and self.rotating_pct is not None:
-            if spd < self.current_min_speed:
-                self.current_min_speed = spd 
-                self.min_speed_pct = pct
-                self.min_speed_kph = convert_to_kph(self.current_min_speed)
-
-    def close_corner(self, pct, t, min_speed, yaw_rate):
+    def close_corner(self, pct, t, yaw_rate):
         if self.car_rotating:
             self.car_rotating = False
             self.rotation_ended_pct = pct
             self.rotation_ended_t = t
             self.yaw_rate = yaw_rate
-            completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, min_speed=self.min_speed_kph, yaw_rate=self.yaw_rate)
+            completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, yaw_rate=self.yaw_rate)
             self.corners.append(completed_corner) 
-            self.current_min_speed = float('inf')
             self.yaw_rate = None
-            self.min_speed_kph = None
 
     def filter_corners(self, corners):
         clean_corners = []
