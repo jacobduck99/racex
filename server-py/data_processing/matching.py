@@ -56,11 +56,13 @@ def match_zones(fast_lap, ref_lap):
         for ref_zones in ref_lap:
             if ref_zones in seen_ref_corners:
                 continue
+            fast_corner_time = fast_zones.rotation_ended_t - fast_zones.rotating_t
+            ref_corner_time = ref_zones.rotation_ended_t - ref_zones.rotating_t
             if abs(fast_zones.rotating_pct - ref_zones.rotating_pct) <= 0.05:
                 seen_ref_corners.append(ref_zones)
                 matched_zones.append(
                     Matched(fast=fast_zones,
-                            ref=ref_zones, corner_num=None)
+                            ref=ref_zones, fast_corner_time=fast_corner_time, ref_corner_time=ref_corner_time, corner_num=None)
                 )
                 break
     for i, c in enumerate(matched_zones, start=1):
