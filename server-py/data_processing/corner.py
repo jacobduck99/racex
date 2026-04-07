@@ -22,4 +22,5 @@ class Matched:
     ref: list
     fast_corner_time: list
     ref_corner_time: list
+    delta: float
     corner_num: int = None
