@@ -36,4 +36,4 @@ class Throttle:
     throttle_off_t: float
     throttle_on_pct: float
     throttle_on_t: float
-    gear: int
+    gear: int = None
