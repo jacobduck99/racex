@@ -8,6 +8,7 @@ class CornerDetection:
         self.car_rotating = False
         self.corners = []
         self.max_yaw_rate = float('-inf')
+        self.apex_gear = float('inf')
         self.previous_corner = None
         self.merged_corners = []
 
@@ -28,10 +29,11 @@ class CornerDetection:
             self.corners.append(completed_corner) 
             self.yaw_rate = None
 
-    def max_yaw_rate(self, yaw_rate):
+    def max_yaw_rate(self, yaw_rate, gear):
         if self.car_rotating:
-            if yaw_rate > self.max_yaw_rate:
-                self.max_yaw_rate = yaw_rate
+            if abs(yaw_rate) > self.max_yaw_rate:
+                self.max_yaw_rate = abs(yaw_rate)
+                self.apex_gear = gear
 
     def filter_corners(self, corners):
         clean_corners = []
