@@ -23,7 +23,7 @@ class CornerDetection:
             self.rotation_ended_pct = pct
             self.rotation_ended_t = t
             self.yaw_rate = yaw_rate
-            completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, yaw_rate=self.yaw_rate, gear=self.apex_gear)
+            completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, yaw_rate=self.yaw_rate)
             self.corners.append(completed_corner) 
             self.yaw_rate = None
             self.max_yaw_rate = float('-inf')
