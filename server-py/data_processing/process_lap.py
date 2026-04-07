@@ -9,6 +9,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
     throttle = ThrottleDetection()
 
     speed_samples = []
+    gear_samples = []
 
     for sample in lap:
         yaw_rate = sample["yawRate"]
@@ -20,6 +21,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
         gear = sample["gear"]
 
         speed_samples.append({"current_speed": spd, "speed_pct": pct})
+        gear_samples.append({"current_gear": gear, "gear_pct": pct})
 
         if abs(yaw_rate) >= rotation:
             corner.open_corner(pct, t, yaw_rate)
@@ -40,5 +42,6 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
     merged = corner.merge_corner(corner.corners)
     clean = corner.filter_corners(merged) 
     populate_corners(clean, throttle.throttle_inputs,brake.brake_zones, speed_samples)
+    print("here's clean object", clean)
     return clean
 
