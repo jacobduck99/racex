@@ -26,8 +26,6 @@ class CornerDetection:
             completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, yaw_rate=self.yaw_rate)
             self.corners.append(completed_corner) 
             self.yaw_rate = None
-            self.max_yaw_rate = float('-inf')
-            self.apex_gear = None
 
     def filter_corners(self, corners):
         clean_corners = []
@@ -57,7 +55,3 @@ class CornerDetection:
                     self.previous_corner = current_corner
         self.merged_corners.append(self.previous_corner)
         return self.merged_corners
-
-
-
-

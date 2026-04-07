@@ -42,6 +42,5 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
     merged = corner.merge_corner(corner.corners)
     clean = corner.filter_corners(merged) 
     populate_corners(clean, throttle.throttle_inputs,brake.brake_zones, speed_samples, gear_samples)
-    print("here's clean object", clean)
     return clean
 

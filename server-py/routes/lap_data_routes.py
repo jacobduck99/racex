@@ -29,7 +29,6 @@ def analyse_lap_upload():
     reference_lap = sorted_laps[1]
 
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
-    #print("here's fastest samples", fastest_samples)
     lap_dist = get_lap_dist(fastest_samples)
     reference_samples = reference_lap.get("samples", []) if reference_lap else []
 
