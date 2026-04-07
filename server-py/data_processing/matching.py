@@ -35,7 +35,6 @@ def populate_gear_at_apex(gear, corners):
         for g in gear:
             if corner.yaw_rate > max_yaw_rate:
                 max_yaw_rate = corner.yaw_rate
-        max_yaw_rate = float('-inf')
         print("here's max yaw rate", max_yaw_rate)
 
 def populate_corners(corners, throttle, braking, spd, gear):
