@@ -34,7 +34,8 @@ class CornerDetection:
             if corner_duration_pct > 0.004:  
                 clean_corners.append(corner)
         return clean_corners
-
+   
+    #joins small corners into big ones doesn't do straights yet tho
     def merge_corner(self, corners):
         for current_corner in corners:
             if self.previous_corner is None:

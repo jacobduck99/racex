@@ -20,4 +20,6 @@ class Corner:
 class Matched:
     fast: list
     ref: list
+    fast_corner_time: list
+    ref_corner_time: list
     corner_num: int = None
