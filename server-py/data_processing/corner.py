@@ -14,6 +14,7 @@ class Corner:
     min_speed: Optional[float] = None
     throttle: Optional[Throttle] = None
     yaw_rate: Optional[float] = None
+    gear: Optional[int] = None
 
 @dataclass
 class Matched:

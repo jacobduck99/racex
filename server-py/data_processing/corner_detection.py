@@ -19,13 +19,13 @@ class CornerDetection:
             self.rotating_t = t
             self.yaw_rate = yaw_rate
 
-    def close_corner(self, pct, t, yaw_rate):
+    def close_corner(self, pct, t, yaw_rate, gear):
         if self.car_rotating:
             self.car_rotating = False
             self.rotation_ended_pct = pct
             self.rotation_ended_t = t
             self.yaw_rate = yaw_rate
-            completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, yaw_rate=self.yaw_rate)
+            completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, yaw_rate=self.max_yaw_rate, gear=self.apex_gear)
             self.corners.append(completed_corner) 
             self.yaw_rate = None
 
