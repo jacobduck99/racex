@@ -33,14 +33,15 @@ def populate_gear_in_corner(gears, corners):
     min_gear = None
     for corner in corners:
         for gear in gears:
+            if gear["current_gear"] == 0:
+                continue
             if min_gear is None:
                 min_gear = gear["current_gear"]
-        if gear["pct"] >= corner.rotating_pct and gear["pct"] <= corner.rotating_ended_pct:
-            if gear["current_gear"] < min_gear:
-                min_gear = gear["current_gear"]
-        corner.min_gear = min_gear
+            if gear["pct"] >= corner.rotating_pct and gear["pct"] <= corner.rotation_ended_pct:
+                if gear["current_gear"] < min_gear: 
+                    min_gear = gear["current_gear"]
+        corner.gear = min_gear
         min_gear = None
-
 
 def populate_corners(corners, throttle, braking, spd, gears):
     populate_brake_zones(corners, braking)
