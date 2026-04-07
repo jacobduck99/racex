@@ -29,19 +29,10 @@ def populate_min_speed(spd, corners):
         corner.min_speed = convert_to_kph(min_speed)
         min_speed = float('inf')
 
-def populate_gear_at_apex(gear, corners):
-    max_yaw_rate = float('-inf')
-    for corner in corners:
-        for g in gear:
-            if corner.yaw_rate > max_yaw_rate:
-                max_yaw_rate = corner.yaw_rate
-        print("here's max yaw rate", max_yaw_rate)
-
-def populate_corners(corners, throttle, braking, spd, gear):
+def populate_corners(corners, throttle, braking, spd):
     populate_brake_zones(corners, braking)
     populate_throttle_zones(corners, throttle)
     populate_min_speed(spd, corners)
-    populate_gear_at_apex(gear, corners)
     
 def match_zones(fast_lap, ref_lap):
     seen_ref_corners = []
