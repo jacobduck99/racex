@@ -4,15 +4,15 @@ class BrakeCoaching:
     def __init__(self, corners, lap_dist):
         self.corners = corners
         self.lap_dist = lap_dist
-        self.coaching = []
 
     def coaching_brake_tips(self):
+        tips = []
         for brake_zones in self.corners:
             fast_brake_zone = brake_zones.fast.brake_zone
             ref_brake_zone = brake_zones.ref.brake_zone
             if fast_brake_zone is None or ref_brake_zone is None:
                 continue
-     
+
             fast_brake_pressure = int(fast_brake_zone.max_brake_pressure * 100)
             ref_brake_pressure = int(ref_brake_zone.max_brake_pressure * 100)
             distance = abs(fast_brake_zone.brake_on_pct - ref_brake_zone.brake_on_pct)
@@ -21,23 +21,21 @@ class BrakeCoaching:
             sector = brake_zones.corner_num
 
             if meters == 0:
-                tip = f"Sector {sector}: Braking at {ref_brake_pressure}% — right on your reference. Clean."
+                tip = f"Braking at {ref_brake_pressure}% — right on your reference. Clean."
             elif fast_brake_zone.brake_on_pct < ref_brake_zone.brake_on_pct:
                 if meters <= 3:
-                    tip = f"Sector {sector}: Braking {meters} {check_meters} early at {ref_brake_pressure}% — consistent with your best. Hold this marker."
+                    tip = f"Braking {meters} {check_meters} early at {ref_brake_pressure}% — consistent with your best. Hold this marker."
                 else:
-                    tip = f"Sector {sector}: Braking {meters} {check_meters} early at {ref_brake_pressure}% — over-cautious. You can push the brake point deeper."
+                    tip = f"Braking {meters} {check_meters} early at {ref_brake_pressure}% — over-cautious. Push the brake point deeper."
+                    
             else:
                 if meters <= 3:
-                    tip = f"Sector {sector}: Braking {meters} {check_meters} late at {ref_brake_pressure}% — minor overshoot. Tighten up the marker."
+                    tip = f"Braking {meters} {check_meters} late at {ref_brake_pressure}% — minor overshoot. Tighten up the marker."
                 else:
-                    tip = f"Sector {sector}: Braking {meters} {check_meters} late at {ref_brake_pressure}% — overshooting your reference. Brake earlier to carry more speed through the corner."
+                    tip = f"Braking {meters} {check_meters} late at {ref_brake_pressure}% — overshooting your reference. Brake earlier to carry more speed through the corner."
 
             if fast_brake_pressure < ref_brake_pressure - 10:
                 tip += f" Only {fast_brake_pressure}% pressure vs {ref_brake_pressure}% in your best — commit harder."
 
-            self.coaching.append({"Sector": sector, "braking": tip})
-        print("James says", self.coaching)
-
-        return self.coaching
-
+            tips.append({"sector": sector, "braking": tip})
+        return tips
