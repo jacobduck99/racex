@@ -3,5 +3,7 @@ from services.brake_coaching import BrakeCoaching
 
 def coaching(corners, lap_dist):
     brake = BrakeCoaching(corners, lap_dist)
+    gear = GearCoaching(corners) 
     brake.coaching_brake_tips()
+    gear.coaching_gear_tips()
     

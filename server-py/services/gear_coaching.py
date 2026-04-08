@@ -1,16 +1,25 @@
 
 class GearCoaching:
-    def __init__(self, fast_gear, ref_gear):
-        self.fast_gear = fast_gear
-        self.ref_gear = ref_gear
+    def __init__(self, corners):
+        self.corners = corners
+        self.coaching = []
 
     def coaching_gear_tips(self):
-        if self.fast_gear == self.ref_gear:
-            return "Your gear is the same as your fastest lap"
-        elif self.fast_gear > self.ref_gear:
-            return  f"Your gear is {self.ref_gear} where fastest lap is {self.fast_gear} go up gears to match it"
-        else: 
-            return f"Your gear is {self.ref_gear} where fastest lap is {self.fast_gear} go down gears to match it"
+        for gear in self.corners:
+            fast_gear = gear.fast.gear
+            ref_gear = gear.ref.gear
+            sector = gear.corner_num
+            if fast_gear == ref_gear:
+                tip = f"Sector {sector}: Your gear is the same as your fastest lap"
+            elif fast_gear > ref_gear:
+                tip = f"Sector {sector}: Your gear is {ref_gear} where fastest lap is {fast_gear} go up gears to match it"
+            else: 
+                tip = f"Sector {sector} Your gear is {ref_gear} where fastest lap is {fast_gear} go down gears to match it"
+
+            self.coaching.append({"Sector": sector, "gear": tip})
+        print("James says", self.coaching)
+
+        return self.coaching
 
 
 
