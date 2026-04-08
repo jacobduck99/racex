@@ -1,3 +1,4 @@
+from services.utils import convert_to_kph, convert_to_meters
 
 class BrakeCoaching:
     def __init__(self, corners, lap_dist):
