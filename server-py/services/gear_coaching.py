@@ -10,7 +10,7 @@ class GearCoaching:
             ref_gear = gear.ref.gear
             sector = gear.corner_num
             if fast_gear == ref_gear:
-                tip = f"Sector {sector}: Your gear is the same as your fastes sector {sector}"
+                tip = f"Sector {sector}: Your gear is the same as your fastest sector {sector}"
             elif fast_gear > ref_gear:
                 tip = f"Sector {sector}: Your gear is {ref_gear} where fastest sector {sector} is {fast_gear} go up gears to match it"
             else: 
