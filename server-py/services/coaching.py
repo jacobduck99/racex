@@ -6,7 +6,7 @@ from services.throttle_coaching import ThrottleCoaching
 def coaching(corners, lap_dist):
     brake = BrakeCoaching(corners, lap_dist)
     gear = GearCoaching(corners) 
-    thorttle = ThrottleCoaching(corners, lap_dist)
+    throttle = ThrottleCoaching(corners, lap_dist)
     brake.coaching_brake_tips()
     gear.coaching_gear_tips()
     throttle.coaching_throttle_tips()
