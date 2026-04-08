@@ -10,8 +10,11 @@ class GearCoaching:
             ref_gear = corner.ref.gear
             sector = corner.corner_num
 
+            if fast_gear is None or ref_gear is None:
+                        continue
+
             if fast_gear == ref_gear:
-                tip = "Your gear matches your fastest lap."
+                tip = f"You're in gear {ref_gear} matches your fastest lap."
             elif ref_gear < fast_gear:
                 tip = f"In gear {ref_gear}, but your fastest was {fast_gear} — shift up."
             else:
