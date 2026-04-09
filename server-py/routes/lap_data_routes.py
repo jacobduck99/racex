@@ -36,7 +36,7 @@ def analyse_lap_upload():
     reference_matched_corners = analyse_lap(reference_samples)
 
     matched_corners = match_zones(fast_matched_corners, reference_matched_corners) 
-    coaching(matched_corners, lap_dist)
+    coach = coaching(matched_corners, lap_dist)
 
-    return jsonify({"matched_zones": matched_corners })
+    return jsonify({"coaching": coach })
                     

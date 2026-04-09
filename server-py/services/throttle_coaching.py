@@ -11,12 +11,18 @@ class ThrottleCoaching:
             fast_throttle = t.fast.throttle
             ref_throttle = t.ref.throttle
             sector = t.corner_num
+            delta = t.delta
             if fast_throttle is None or ref_throttle is None:
                 continue
 
             distance = abs(fast_throttle.throttle_on_pct - ref_throttle.throttle_on_pct)
             meters = int(convert_to_meters(self.lap_dist, distance))
             check_meters = "meter" if meters == 1 else "meters"
+
+            if delta < 0:
+                tip = "You are faster through this sector keep doing what you are doing"
+                tips.append({"sector": sector, "throttle": tip })
+                continue
 
             if meters == 0:
                 tip = "Throttle application matches your fastest lap. Consistent."
@@ -31,7 +37,7 @@ class ThrottleCoaching:
                 else:
                     tip = f"Getting on throttle {meters} {check_meters} late — leaving time on the table. Pick up the throttle earlier to maximise exit speed."
 
-            tips.append({"sector": sector, "throttle": tip})
+            tips.append({"sector": sector, "throttle": tip })
         return tips
 
 

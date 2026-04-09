@@ -61,10 +61,11 @@ def match_zones(fast_lap, ref_lap):
                 # - means fast quicker + means ref faster
                 fast_corner_time = fast_zones.rotation_ended_t - fast_zones.rotating_t
                 ref_corner_time = ref_zones.rotation_ended_t - ref_zones.rotating_t
-                delta = fast_corner_time - ref_corner_time
+                delta = ref_corner_time - fast_corner_time
+                rounded = round(delta, 3)
                 matched_zones.append(
                     Matched(fast=fast_zones,
-                            ref=ref_zones, fast_corner_time=fast_corner_time, ref_corner_time=ref_corner_time, delta=delta, corner_num=None)
+                            ref=ref_zones, fast_corner_time=fast_corner_time, ref_corner_time=ref_corner_time, delta=rounded, corner_num=None)
                 )
                 break
     for i, c in enumerate(matched_zones, start=1):

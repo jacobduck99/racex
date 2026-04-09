@@ -8,6 +8,7 @@ class BrakeCoaching:
     def coaching_brake_tips(self):
         tips = []
         for brake_zones in self.corners:
+            delta = brake_zones.delta
             fast_brake_zone = brake_zones.fast.brake_zone
             ref_brake_zone = brake_zones.ref.brake_zone
             if fast_brake_zone is None or ref_brake_zone is None:
@@ -20,6 +21,15 @@ class BrakeCoaching:
             check_meters = "meter" if meters == 1 else "meters"
             sector = brake_zones.corner_num
 
+            if abs(delta) < 0.1:
+                tip = "Your approach is working — you are matching your best."
+                tips.append({"sector": sector, "braking": tip})
+                continue
+            if delta < 0:
+                tip = "Faster than your best — your braking is working, keep this approach."
+                tips.append({"sector": sector, "braking": tip})
+                continue
+                
             if meters == 0:
                 tip = f"Braking at {ref_brake_pressure}% — right on your reference. Clean."
             elif fast_brake_zone.brake_on_pct < ref_brake_zone.brake_on_pct:
