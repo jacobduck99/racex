@@ -11,6 +11,7 @@ class ThrottleCoaching:
             fast_throttle = t.fast.throttle
             ref_throttle = t.ref.throttle
             sector = t.corner_num
+            delta = t.delta
             if fast_throttle is None or ref_throttle is None:
                 continue
 
@@ -31,7 +32,7 @@ class ThrottleCoaching:
                 else:
                     tip = f"Getting on throttle {meters} {check_meters} late — leaving time on the table. Pick up the throttle earlier to maximise exit speed."
 
-            tips.append({"sector": sector, "throttle": tip})
+            tips.append({"sector": sector, "throttle": tip, "delta": delta})
         return tips
 
 
