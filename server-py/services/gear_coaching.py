@@ -14,7 +14,7 @@ class GearCoaching:
                         continue
 
             if fast_gear == ref_gear:
-                tip = f"You're in gear {ref_gear} matches your fastest lap."
+                tip = f"Gear {ref_gear} matches your fastest lap."
             elif ref_gear < fast_gear:
                 tip = f"In gear {ref_gear}, but your fastest was {fast_gear} — shift up."
             else:
