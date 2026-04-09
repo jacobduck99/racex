@@ -21,8 +21,12 @@ class BrakeCoaching:
             check_meters = "meter" if meters == 1 else "meters"
             sector = brake_zones.corner_num
 
+            if abs(delta) < 0.1:
+                tip = "Your approach is working — you are matching your best."
+                tips.append({"sector": sector, "braking": tip})
+                continue
             if delta < 0:
-                tip = "Faster than your best - your braking is working keep this approach"
+                tip = "Faster than your best — your braking is working, keep this approach."
                 tips.append({"sector": sector, "braking": tip})
                 continue
                 
