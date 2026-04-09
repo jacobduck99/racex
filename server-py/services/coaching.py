@@ -7,13 +7,17 @@ def coaching(corners, lap_dist):
     brake = BrakeCoaching(corners, lap_dist)
     gear = GearCoaching(corners)
     throttle = ThrottleCoaching(corners, lap_dist)
-
+    
     brake_tips = {b["sector"]: b["braking"] for b in brake.coaching_brake_tips()}
     gear_tips = {g["sector"]: g["gear"] for g in gear.coaching_gear_tips()}
     throttle_tips = {t["sector"]: {"throttle": t["throttle"]} for t in throttle.coaching_throttle_tips()}
     print("throttle_tips", throttle_tips)
-
+ 
     all_sectors = sorted(set(brake_tips) | set(gear_tips) | set(throttle_tips))
+    
+    deltas = []
+    for d in corners:
+        deltas.append(d.delta)
 
     coaching_by_corners = []
     for sector in all_sectors:
@@ -26,12 +30,11 @@ def coaching(corners, lap_dist):
             entry["throttle"] = throttle_tips[sector]
         coaching_by_corners.append(entry)
 
+    for i, v in enumerate(deltas, start=1):
+        print("i", i,"v", v)
+
+
+
+
     print("tips", coaching_by_corners)
-    return coaching_by_corners
-
-
-
-
-
-
-    
+    return coaching_by_corners    
