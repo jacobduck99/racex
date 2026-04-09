@@ -19,6 +19,11 @@ class ThrottleCoaching:
             meters = int(convert_to_meters(self.lap_dist, distance))
             check_meters = "meter" if meters == 1 else "meters"
 
+            if delta < 0:
+                tip = "You are faster through this sector keep doing what you are doing"
+                tips.append({"sector": sector, "throttle": tip })
+                continue
+
             if meters == 0:
                 tip = "Throttle application matches your fastest lap. Consistent."
             elif ref_throttle.throttle_on_pct < fast_throttle.throttle_on_pct:
