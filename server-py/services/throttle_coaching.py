@@ -32,7 +32,7 @@ class ThrottleCoaching:
                 else:
                     tip = f"Getting on throttle {meters} {check_meters} late — leaving time on the table. Pick up the throttle earlier to maximise exit speed."
 
-            tips.append({"sector": sector, "throttle": tip, "delta": delta})
+            tips.append({"sector": sector, "throttle": tip })
         return tips
 
 
