@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { analyseRaceData } from "../lib/api/dataPageApi.js";
+import { StepBack } from 'lucide-react';
 
 export default function DataPage() {
     const [raceSession, setRaceSession] = useState(null);
@@ -105,6 +106,9 @@ if (lapsAnalysis !== null) {
           </div>
         </div>
       </div>
+    <div>
+    <button onClick={() => setLapsAnalysis(null)}className="mt-5 ml-233 w-30 h-10 bg-red-400 rounded-xl">Back</button>
+    </div>
     </div>
   );
 }
