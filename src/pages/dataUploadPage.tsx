@@ -7,6 +7,7 @@ export default function DataPage() {
     console.log("here's whats in laps", lapsAnalysis);
     const [err, setErr] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [activeCorner, setActiveCorner] = useState(0);
 
     const sessionRef = useRef(null);
 
@@ -37,27 +38,76 @@ export default function DataPage() {
         if (sessionRef.current) sessionRef.current.value = "";
     }
 
-    if (lapsAnalysis !== null) {
+if (lapsAnalysis !== null) { 
+  const c = lapsAnalysis[activeCorner];
 
-        const listCorners = lapsAnalysis.map(c => 
-        <li>
-            <div className="p-4">
-            <p>{c.braking}</p>
-            <p>{c.throttle}</p>
-            <p>{c.gear}</p>
-            <p>Delta: {c.delta}</p>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-4 py-12">
+      <div className="max-w-2xl mx-auto">
+        <div className="mb-8">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-4 py-1.5">
+            <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
+            <span className="text-xs font-medium text-indigo-300">Analysis complete</span>
+          </div>
+          <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+            Corner Analysis
+          </h1>
+          <p className="mt-3 text-slate-400">
+            Corner-by-corner breakdown of your session.
+          </p>
+        </div>
+
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+          {lapsAnalysis.map((corner, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveCorner(i)}
+              className={`shrink-0 px-4 py-2 rounded-xl text-xs font-medium transition-all ${
+                activeCorner === i
+                  ? "bg-indigo-500/20 border border-indigo-500/30 text-indigo-300"
+                  : "border border-white/10 bg-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200"
+              }`}
+            >
+              T{i + 1}
+            </button>
+          ))}
+        </div>
+
+        <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 backdrop-blur-xl shadow-2xl">
+          <div className="flex items-center justify-between mb-6">
+            <span className="text-sm font-medium text-indigo-300 tracking-wider uppercase">
+              Corner {activeCorner + 1}
+            </span>
+            <span
+              className={`text-xs font-mono font-semibold px-3 py-1 rounded-full border ${
+                parseFloat(c.delta) <= 0
+                  ? "border-green-500/20 bg-green-500/10 text-green-400"
+                  : "border-red-500/20 bg-red-500/10 text-red-400"
+              }`}
+            >
+              {parseFloat(c.delta) <= 0 ? "" : "+"}{c.delta}s
+            </span>
+          </div>
+
+          <div className="space-y-4">
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <p className="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Braking</p>
+              <p className="text-sm text-slate-200 leading-relaxed">{c.braking}</p>
             </div>
-        </li>);
-
-        return (
-        <div className="mt-50">
-        <div className="flex justify-center">
-        <ul>{listCorners}</ul>
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <p className="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Throttle</p>
+              <p className="text-sm text-slate-200 leading-relaxed">{c.throttle}</p>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <p className="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Gear</p>
+              <p className="text-sm text-slate-200 leading-relaxed">{c.gear}</p>
+            </div>
+          </div>
         </div>
-        </div>
-        )
-    }
-
+      </div>
+    </div>
+  );
+}
 return (
   <>
   <style>{`
