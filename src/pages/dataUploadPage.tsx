@@ -106,9 +106,15 @@ if (lapsAnalysis !== null) {
           </div>
         </div>
       </div>
-    <div>
-    <button onClick={() => setLapsAnalysis(null)}className="mt-5 ml-233 w-30 h-10 bg-red-400 rounded-xl"><StepBack /></button>
-    </div>
+<div className="flex ml-232 mt-4">
+  <button
+    onClick={() => setLapsAnalysis(null)}
+    className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-slate-300 transition-all hover:bg-white/10 hover:text-slate-100"
+  >
+    <StepBack className="h-4 w-4" />
+    Back
+  </button>
+</div>
     </div>
   );
 }
