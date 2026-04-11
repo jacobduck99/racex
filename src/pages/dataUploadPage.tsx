@@ -37,6 +37,16 @@ export default function DataPage() {
         if (sessionRef.current) sessionRef.current.value = "";
     }
 
+    const cornersArray = [lapsAnalysis];
+
+    const listCorners = cornersArray.map(c => <li>{c}</li>);
+
+    if (lapsAnalysis !== null) {
+        return (
+        <ul>{listCorners}</ul>
+        )
+    }
+
 return (
   <>
   <style>{`
