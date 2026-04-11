@@ -45,7 +45,7 @@ export default function DataPage() {
             <p>{c.braking}</p>
             <p>{c.throttle}</p>
             <p>{c.gear}</p>
-            <p>delta: {c.delta}</p>
+            <p>Delta: {c.delta}</p>
             </div>
         </li>);
 
