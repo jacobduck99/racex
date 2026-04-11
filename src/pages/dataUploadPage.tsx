@@ -39,12 +39,14 @@ export default function DataPage() {
 
     if (lapsAnalysis !== null) {
 
-        const listCorners = lapsAnalysis.map(c => <li>
+        const listCorners = lapsAnalysis.map(c => 
+        <li>
+            <div className="p-4">
             <p>{c.braking}</p>
-            <p>{c.delta}</p>
             <p>{c.throttle}</p>
             <p>{c.gear}</p>
-            <h3>{c.sector}</h3>
+            <p>delta: {c.delta}</p>
+            </div>
         </li>);
 
         return (
@@ -55,7 +57,6 @@ export default function DataPage() {
         </div>
         )
     }
-
 
 return (
   <>
