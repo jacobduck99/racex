@@ -68,7 +68,7 @@ if (lapsAnalysis !== null) {
                   : "border border-white/10 bg-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200"
               }`}
             >
-              T{i + 1}
+              S{i + 1}
             </button>
           ))}
         </div>
@@ -108,6 +108,7 @@ if (lapsAnalysis !== null) {
     </div>
   );
 }
+
 return (
   <>
   <style>{`
