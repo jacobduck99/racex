@@ -96,7 +96,7 @@ if (lapsAnalysis !== null) {
             </div>
             <div className="rounded-xl border border-white/10 bg-white/5 p-4">
               <p className="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Throttle</p>
-              <p className="text-sm text-slate-200 leading-relaxed">{c.throttle}</p>
+              <p className="text-sm text-slate-200 leading-relaxed">{c.throttle ? c.throttle : "You were full throttle no lift detected"}</p>
             </div>
             <div className="rounded-xl border border-white/10 bg-white/5 p-4">
               <p className="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Gear</p>
