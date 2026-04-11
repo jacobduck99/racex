@@ -37,15 +37,25 @@ export default function DataPage() {
         if (sessionRef.current) sessionRef.current.value = "";
     }
 
-    const cornersArray = [lapsAnalysis];
-
-    const listCorners = cornersArray.map(c => <li>{c}</li>);
-
     if (lapsAnalysis !== null) {
+
+        const listCorners = lapsAnalysis.map(c => <li>
+            <p>{c.braking}</p>
+            <p>{c.delta}</p>
+            <p>{c.throttle}</p>
+            <p>{c.gear}</p>
+            <h3>{c.sector}</h3>
+        </li>);
+
         return (
+        <div className="mt-50">
+        <div className="flex justify-center">
         <ul>{listCorners}</ul>
+        </div>
+        </div>
         )
     }
+
 
 return (
   <>
