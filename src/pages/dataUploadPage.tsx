@@ -107,7 +107,7 @@ if (lapsAnalysis !== null) {
         </div>
       </div>
     <div>
-    <button onClick={() => setLapsAnalysis(null)}className="mt-5 ml-233 w-30 h-10 bg-red-400 rounded-xl">Back</button>
+    <button onClick={() => setLapsAnalysis(null)}className="mt-5 ml-233 w-30 h-10 bg-red-400 rounded-xl"><StepBack /></button>
     </div>
     </div>
   );
