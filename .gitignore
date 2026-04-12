@@ -24,8 +24,10 @@ dist-ssr
 *.sw?
 
 .env
+.env.production
 
 __pycache__/
 *.pyc
 
 server-js/tmp
+
