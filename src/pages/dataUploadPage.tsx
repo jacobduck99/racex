@@ -4,6 +4,7 @@ import { StepBack } from 'lucide-react';
 
 export default function DataPage() {
     const [raceSession, setRaceSession] = useState(null);
+    console.log("file", raceSession);
     const [lapsAnalysis, setLapsAnalysis] = useState(null);
     console.log("here's whats in laps", lapsAnalysis);
     const [err, setErr] = useState(null);
@@ -141,7 +142,7 @@ return (
                 raceSession === null ? "bg-indigo-400" : "bg-green-400"
               }`}
             />
-            <span className="text-xs font-medium text-indigo-300">Ready to be analysed</span>
+            <span className="text-xs font-medium text-indigo-300">{raceSession !== null ? "Ready to be analysed" : "Upload race file"}</span>
           </div>
           <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
             Upload Race Data
