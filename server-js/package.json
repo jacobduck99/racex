@@ -11,6 +11,7 @@
     "@fastify/multipart": "^9.4.0",
     "dotenv": "^17.2.3",
     "fastify": "^5.7.4",
-    "ibt-telemetry": "^1.1.1"
+    "ibt-telemetry": "^1.1.1",
+    "regenerator-runtime": "^0.14.1"
   }
 }
