@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 const fastify = Fastify({ logger: true });
 
 await fastify.register(cors, {
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173", "https://racex-2l6d.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 });
 
