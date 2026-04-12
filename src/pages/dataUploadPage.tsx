@@ -68,7 +68,7 @@ if (lapsAnalysis !== null) {
         </div>
 
         <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-          {lapsAnalysis.map((corner, i) => (
+          {lapsAnalysis.map((_corner, i) => (
             <button
               key={i}
               onClick={() => setActiveCorner(i)}
