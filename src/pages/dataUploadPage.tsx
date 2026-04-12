@@ -4,7 +4,6 @@ import { StepBack } from 'lucide-react';
 
 export default function DataPage() {
     const [raceSession, setRaceSession] = useState(null);
-    console.log("file", raceSession);
     const [lapsAnalysis, setLapsAnalysis] = useState(null);
     console.log("here's whats in laps", lapsAnalysis);
     const [err, setErr] = useState(null);
