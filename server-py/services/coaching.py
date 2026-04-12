@@ -31,6 +31,5 @@ def coaching(corners, lap_dist):
 
     for i, v in enumerate(coaching_by_corners):
         v["delta"] = deltas[i]
-    print("coaching", coaching_by_corners)
 
     return coaching_by_corners    
