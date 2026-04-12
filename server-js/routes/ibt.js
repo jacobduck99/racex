@@ -5,7 +5,7 @@ import fs from "node:fs/promises";
 import { Telemetry } from "ibt-telemetry";
 import { sendParsedIbt } from "../api/parsedTelemtryApi.js";
 
-const TEMP_IBT_DIR = path.resolve("server-js/tmp/ibt");
+const TEMP_IBT_DIR = path.resolve("tmp/ibt");
 
 export default async function ibtRoutes(fastify, opts) {
     fastify.post("/parseIbt", async (request, reply) => {
