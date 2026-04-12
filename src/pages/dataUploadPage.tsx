@@ -2,17 +2,24 @@ import { useState, useRef } from "react";
 import { analyseRaceData } from "../lib/api/dataPageApi.js";
 import { StepBack } from 'lucide-react';
 
+interface CornerAnalysis {
+  delta: string;
+  braking: string | null;
+  throttle: string | null;
+  gear: string;
+}
+
 export default function DataPage() {
-    const [raceSession, setRaceSession] = useState(null);
-    const [lapsAnalysis, setLapsAnalysis] = useState(null);
+    const [raceSession, setRaceSession] = useState<File | null>(null);
+    const [lapsAnalysis, setLapsAnalysis] = useState<CornerAnalysis[] | null>(null);
     console.log("here's whats in laps", lapsAnalysis);
-    const [err, setErr] = useState(null);
+    const [err, setErr] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [activeCorner, setActiveCorner] = useState(0);
 
-    const sessionRef = useRef(null);
+    const sessionRef = useRef<HTMLInputElement>(null);
 
-    async function handleSubmit(e) {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
         if (!raceSession) {
@@ -28,7 +35,9 @@ export default function DataPage() {
             const result = await analyseRaceData(fd);
             setLapsAnalysis(result.analysis);
         } catch (e) {
-            setErr(e.message);
+            if (e instanceof Error) {
+                setErr(e.message);
+            }
         } finally {
             setLoading(false);
         }
