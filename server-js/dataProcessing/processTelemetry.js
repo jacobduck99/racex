@@ -1,3 +1,4 @@
+import getMedian from "../utils.js";
 
 export default function buildLaps(telemetry) {
     const lapTimes = [];

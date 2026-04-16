@@ -1,5 +1,5 @@
 
-export default function get_median(arr) {
+export default function getMedian(arr) {
     const sorted = arr.slice().sort((a, b) => a - b);
     const mid = Math.floor(sorted.length / 2);
     if (sorted.length % 2 === 0) {
