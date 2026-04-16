@@ -80,7 +80,7 @@ export default async function ibtRoutes(fastify, opts) {
     for (let l of lapTimes) {
         console.log("l", l);
         if (l <= median)
-            cleaned_laps.push({ l, samples: currentLapSample });
+            cleaned_laps.push({ lapTime: l, samples: currentLapSample });
             };
 
     console.log("here's cleaned_laps", cleaned_laps);
