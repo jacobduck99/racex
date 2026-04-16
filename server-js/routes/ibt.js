@@ -55,7 +55,7 @@ export default async function ibtRoutes(fastify, opts) {
           if (lapStart !== null) {
             const lapTime = t - lapStart;
             lapTimes.push(lapTime);
-            console.log("lapTime", lapTime);
+            console.log("lapTime", lapTimes);
 
             const payload = { lapTime, samples: currentLapSample };
             laps.push(payload);
@@ -80,14 +80,14 @@ export default async function ibtRoutes(fastify, opts) {
     for (let l of lapTimes) {
         console.log("l", l);
         if (l <= median)
-            cleaned_laps.push(l);
+            cleaned_laps.push({ l, samples: currentLapSample });
             };
 
     console.log("here's cleaned_laps", cleaned_laps);
 
-    console.log("here's the payload being sent", laps);
+    console.log("here's the payload being sent", cleaned_laps);
 
-      const pyRes = await sendParsedIbt({ laps });
+      const pyRes = await sendParsedIbt({ cleaned_laps });
       console.log("Here's what was returned from api", pyRes);  
 
       return {

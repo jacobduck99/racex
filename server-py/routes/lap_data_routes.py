@@ -16,7 +16,7 @@ def analyse_lap_upload():
     if not isinstance(data, dict):
         return jsonify({"error": "Expected JSON object"}), 400
 
-    laps = data.get("laps")
+    laps = data.get("cleaned_laps")
     print("laps", laps)
 
     if not isinstance(laps, list):
