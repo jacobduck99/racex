@@ -5,6 +5,7 @@ import fs from "node:fs/promises";
 import { Telemetry } from "ibt-telemetry";
 import { sendParsedIbt } from "../api/parsedTelemtryApi.js";
 import { TEMP_IBT_DIR } from "../server.js";
+import get_median from "../utils.js";
 
 export default async function ibtRoutes(fastify, opts) {
     fastify.post("/parseIbt", async (request, reply) => {
@@ -54,6 +55,7 @@ export default async function ibtRoutes(fastify, opts) {
           if (lapStart !== null) {
             const lapTime = t - lapStart;
             lapTimes.push(lapTime);
+            console.log("lapTime", lapTime);
 
             const payload = { lapTime, samples: currentLapSample };
             laps.push(payload);
@@ -69,6 +71,9 @@ export default async function ibtRoutes(fastify, opts) {
       if (lapTimes.length === 0) {
         return reply.code(400).send({ error: "No laps detected" });
       }
+
+
+    get_median(lapTimes);
 
     console.log("here's the payload being sent", laps);
 
