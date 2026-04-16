@@ -37,7 +37,7 @@ export default async function ibtRoutes(fastify, opts) {
         ok: true,
         filename: file.filename,
         bytes: stat.size,
-        lapsDetected: lapTimes.length,
+        lapsDetected: cleaned.length,
         analysis: pyRes.coaching,
       };
     } finally {
