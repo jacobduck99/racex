@@ -72,9 +72,18 @@ export default async function ibtRoutes(fastify, opts) {
         return reply.code(400).send({ error: "No laps detected" });
       }
 
+    const cleaned_laps = [];
 
     const median = get_median(lapTimes);
     console.log("here's median", median);
+
+    for (let l of lapTimes) {
+        console.log("l", l);
+        if (l <= median)
+            cleaned_laps.push(l);
+            };
+
+    console.log("here's cleaned_laps", cleaned_laps);
 
     console.log("here's the payload being sent", laps);
 
