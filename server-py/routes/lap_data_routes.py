@@ -17,6 +17,7 @@ def analyse_lap_upload():
         return jsonify({"error": "Expected JSON object"}), 400
 
     laps = data.get("laps")
+    print("laps", laps)
 
     if not isinstance(laps, list):
         return jsonify({"error": "Expected 'laps' to be a list"}), 400
