@@ -30,7 +30,6 @@ export default function buildLaps(telemetry) {
           if (lapStart !== null) {
             const lapTime = t - lapStart;
             lapTimes.push(lapTime);
-            console.log("lapTime", lapTimes);
 
             const payload = { lapTime, samples: currentLapSample };
             laps.push(payload);
@@ -46,16 +45,17 @@ export default function buildLaps(telemetry) {
       if (lapTimes.length === 0) {
         return reply.code(400).send({ error: "No laps detected" });
       }
-
     return laps
     };
 
 export function cleanLaps(laps) {
     const cleanedLaps = []; 
-    const median = getMedian(laps);
+    console.log("laps", laps);
+    const median = getMedian(laps.lapTime);
     for (let l of laps) {
        if (l <= median) {
-            cleanedLaps.push({ lapTime: l, samples: samples});
+            cleanedLaps.push(l);
         } 
     }
+    console.log("here's your cleaned laps", cleanedLaps);
 }

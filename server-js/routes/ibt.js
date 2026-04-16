@@ -5,8 +5,7 @@ import fs from "node:fs/promises";
 import { Telemetry } from "ibt-telemetry";
 import { sendParsedIbt } from "../api/parsedTelemtryApi.js";
 import { TEMP_IBT_DIR } from "../server.js";
-import get_median from "../utils.js";
-import buildLaps from "../dataProcessing/processTelemetry.js";
+import buildLaps, { cleanLaps } from "../dataProcessing/processTelemetry.js";
 
 export default async function ibtRoutes(fastify, opts) {
     fastify.post("/parseIbt", async (request, reply) => {
@@ -28,22 +27,10 @@ export default async function ibtRoutes(fastify, opts) {
 
       const createLaps = buildLaps(telemetry);
 
-    //const cleaned_laps = [];
+      const cleaned = cleanLaps(createLaps);
+      console.log("here's the payload being sent", cleaned);
 
-    //const median = get_median(createLaps);
-    //console.log("here's median", median);
-
-    //for (let l of createLaps) {
-     //   console.log("l", l);
-      //  if (l <= median)
-       //     cleaned_laps.push({ lapTime: l});
-        //    };
-
-    //console.log("here's cleaned_laps", cleaned_laps);
-
-    console.log("here's the payload being sent", createLaps);
-
-      const pyRes = await sendParsedIbt({ createLaps });
+      const pyRes = await sendParsedIbt({ cleaned });
       console.log("Here's what was returned from api", pyRes);  
 
       return {
