@@ -50,12 +50,9 @@ export default function buildLaps(telemetry) {
 
 export function cleanLaps(laps) {
     const cleanedLaps = []; 
-    console.log("laps", laps);
-    const median = getMedian(laps.lapTime);
-    for (let l of laps) {
-       if (l <= median) {
-            cleanedLaps.push(l);
-        } 
-    }
-    console.log("here's your cleaned laps", cleanedLaps);
+    const times = laps.map((l) => l["lapTime"]);
+
+    const median = getMedian(times);
+    console.log("median", median);
+
 }
