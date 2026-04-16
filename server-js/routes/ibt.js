@@ -73,7 +73,8 @@ export default async function ibtRoutes(fastify, opts) {
       }
 
 
-    get_median(lapTimes);
+    const median = get_median(lapTimes);
+    console.log("here's median", median);
 
     console.log("here's the payload being sent", laps);
 
