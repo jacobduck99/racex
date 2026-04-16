@@ -6,6 +6,7 @@ import { Telemetry } from "ibt-telemetry";
 import { sendParsedIbt } from "../api/parsedTelemtryApi.js";
 import { TEMP_IBT_DIR } from "../server.js";
 import get_median from "../utils.js";
+import buildLaps from "../dataProcessing/processTelemetry.js";
 
 export default async function ibtRoutes(fastify, opts) {
     fastify.post("/parseIbt", async (request, reply) => {
@@ -25,69 +26,24 @@ export default async function ibtRoutes(fastify, opts) {
 
       const telemetry = await Telemetry.fromFile(outPath);
 
-      const lapTimes = [];
-      let currentLapSample = [];
+      const createLaps = buildLaps(telemetry);
 
-      const laps = [];
-      let prevPct = null;
-      let lapStart = null;
+    //const cleaned_laps = [];
 
-    for (const sample of telemetry.samples()) {
-        const t = sample.getParam("SessionTime")?.value;
-        const pct = sample.getParam("LapDistPct")?.value;
-        const speed = sample.getParam("Speed")?.value;
-        const brake = sample.getParam("Brake")?.value;
-        const throttle = sample.getParam("Throttle")?.value;
-        const steering = sample.getParam("SteeringWheelAngle")?.value;
-        const yawRate = sample.getParam("YawRate")?.value;
-        const gear = sample.getParam("Gear")?.value;
-        const lapDist = sample.getParam("LapDist")?.value;
-        // uncomment these to see the samples you can use
-        //const sampleJson = sample.toJSON()
-        //console.log("here's sample", sampleJson)      
-        
-      if (typeof t !== "number" || typeof pct !== "number" ||  typeof speed !== "number" || 
-        typeof brake !== "number" || typeof throttle !== "number" || typeof steering !== "number" || typeof yawRate !== "number" || typeof gear !== "number" || typeof lapDist !== "number") continue;
+    //const median = get_median(createLaps);
+    //console.log("here's median", median);
 
-      currentLapSample.push({ t, pct, speed, brake, throttle, steering, yawRate, gear, lapDist});
+    //for (let l of createLaps) {
+     //   console.log("l", l);
+      //  if (l <= median)
+       //     cleaned_laps.push({ lapTime: l});
+        //    };
 
-      if (prevPct !== null && pct < 0.1 && prevPct > 0.9) {
-          if (lapStart !== null) {
-            const lapTime = t - lapStart;
-            lapTimes.push(lapTime);
-            console.log("lapTime", lapTimes);
+    //console.log("here's cleaned_laps", cleaned_laps);
 
-            const payload = { lapTime, samples: currentLapSample };
-            laps.push(payload);
-          }
+    console.log("here's the payload being sent", createLaps);
 
-          lapStart = t;
-          currentLapSample = [];
-        }
-
-      prevPct = pct;
-    }
-
-      if (lapTimes.length === 0) {
-        return reply.code(400).send({ error: "No laps detected" });
-      }
-
-    const cleaned_laps = [];
-
-    const median = get_median(lapTimes);
-    console.log("here's median", median);
-
-    for (let l of lapTimes) {
-        console.log("l", l);
-        if (l <= median)
-            cleaned_laps.push({ lapTime: l, samples: currentLapSample });
-            };
-
-    console.log("here's cleaned_laps", cleaned_laps);
-
-    console.log("here's the payload being sent", cleaned_laps);
-
-      const pyRes = await sendParsedIbt({ cleaned_laps });
+      const pyRes = await sendParsedIbt({ createLaps });
       console.log("Here's what was returned from api", pyRes);  
 
       return {
