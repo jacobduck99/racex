@@ -53,6 +53,13 @@ export function cleanLaps(laps) {
     const times = laps.map((l) => l["lapTime"]);
 
     const median = getMedian(times);
-    console.log("median", median);
+
+    for (let t of times) {
+        if (t <= median) {
+            cleanedLaps.push({ lapTime: t});
+        }
+    }
+
+    console.log("cleanedlaps", cleanedLaps);
 
 }
