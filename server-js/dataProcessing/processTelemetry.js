@@ -21,11 +21,13 @@ export default function buildLaps(telemetry) {
         const gear = sample.getParam("Gear")?.value;
         const lapDist = sample.getParam("LapDist")?.value;
         const lat = sample.getParam("Lat")?.value;
-        const long = sample.getParam("Long")?.value;
+        const lon = sample.getParam("Lon")?.value;
         // uncomment these to see the samples you can use
         //const sampleJson = sample.toJSON()
         //console.log("here's sample", sampleJson)      
-    const samples = { t, pct, speed, brake, throttle, steering, yawRate, gear, lapDist, lat, long};
+        console.log("long", lon);
+        console.log("lat", lat);
+    const samples = { t, pct, speed, brake, throttle, steering, yawRate, gear, lapDist, lat, lon};
  
     const checkValues = Object.values(samples).every(checkNum);
 
@@ -49,9 +51,6 @@ export default function buildLaps(telemetry) {
     prevPct = pct;
     }
 
-    if (lapTimes.length === 0) {
-    return reply.code(400).send({ error: "No laps detected" });
-    }
     return laps
     };
 
