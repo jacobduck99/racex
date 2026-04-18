@@ -15,13 +15,13 @@ export default async function ibtRoutes(fastify, opts) {
     async (request, reply) => {
       const file = await request.file();
       const { path, bytes } = await saveUpload(file, {
-        tempdir: temp_ibt_dir,
-        extensions: ".ibt",
+        tempDir: TEMP_IBT_DIR,
+        extension: ".ibt",
         min_bytes: MIN_IBT_BYTES,
       });
 
       try {
-        const telemetry = await Telemetry.fromFile(outpath);
+        const telemetry = await Telemetry.fromFile(path);
         const laps = buildLaps(telemetry);
         const cleaned = cleanLaps(laps);
 
@@ -32,7 +32,7 @@ export default async function ibtRoutes(fastify, opts) {
         return {
           ok: true,
           filename: file.filename,
-          bytes: stat.size,
+          bytes: bytes,
           lapsDetected: cleaned.length,
           analysis: pyres.coaching,
         };
@@ -40,7 +40,7 @@ export default async function ibtRoutes(fastify, opts) {
         request.log.error({ err }, "ibt parse failed");
         return reply.code(500).send({ ok: false, error: "parse_failed" });
       } finally {
-        await fs.unlink(outpath).catch(() => {});
+        await fs.unlink(path).catch(() => {});
       }
     }
   );
