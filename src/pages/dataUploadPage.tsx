@@ -53,7 +53,7 @@ if (lapsAnalysis !== null) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-4 py-12">
       <div className="max-w-2xl mx-auto">
-        <div className="mb-8 mt-40">
+        <div className="mb-8 mt-[10vh]">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-4 py-1.5">
             <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
             <span className="text-xs font-medium text-indigo-300">Analysis complete</span>
@@ -136,7 +136,7 @@ return (
     }
   `}</style>
   <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-4 py-12">
-    <div className="mx-auto w-full max-w-2xl mt-50">
+    <div className="mx-auto w-full max-w-2xl mt-[15vh]">
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-indigo-500/20 blur-3xl" />
       </div>
