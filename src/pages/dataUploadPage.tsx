@@ -12,7 +12,6 @@ interface CornerAnalysis {
 export default function DataPage() {
     const [raceSession, setRaceSession] = useState<File | null>(null);
     const [lapsAnalysis, setLapsAnalysis] = useState<CornerAnalysis[] | null>(null);
-    console.log("here's whats in laps", lapsAnalysis);
     const [err, setErr] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [activeCorner, setActiveCorner] = useState(0);
