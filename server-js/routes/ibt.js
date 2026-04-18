@@ -3,6 +3,7 @@ import { sendParsedIbt } from "../api/parsedTelemtryApi.js";
 import { TEMP_IBT_DIR } from "../server.js";
 import buildLaps, { cleanLaps } from "../dataProcessing/processTelemetry.js";
 import saveUpload from "../uploads/saveUpload.js";
+import fs from "node:fs/promises";
 
 const MAX_IBT_BYTES = 200 * 1024 * 1024;
 const MIN_IBT_BYTES = 100 * 1024;
@@ -43,5 +44,4 @@ export default async function ibtRoutes(fastify, opts) {
       }
     }
   );
-});
-}
+};
