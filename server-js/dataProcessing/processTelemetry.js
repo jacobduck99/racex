@@ -23,7 +23,7 @@ export default function buildLaps(telemetry) {
         // uncomment these to see the samples you can use
         //const sampleJson = sample.toJSON()
         //console.log("here's sample", sampleJson)      
-    const samples = { t, pct, speed, brake, throttle, steering, yawRate, gear, lapDist}
+    const samples = { t, pct, speed, brake, throttle, steering, yawRate, gear, lapDist};
 
     const checkNum = (currentValue) => typeof currentValue === "number";
     
@@ -31,7 +31,7 @@ export default function buildLaps(telemetry) {
 
     if (!checkValues) continue;
 
-    currentLapSample.push({ samples });
+    currentLapSample.push(samples);
 
     if (prevPct !== null && pct < 0.1 && prevPct > 0.9) {
       if (lapStart !== null) {
