@@ -10,11 +10,11 @@ const MIN_IBT_BYTES = 100 * 1024;
 
 export default async function ibtRoutes(fastify, opts) {
   fastify.post(
-    "/parseibt",
+    "/parseIbt",
     { bodyLimit: MAX_IBT_BYTES },
     async (request, reply) => {
       const file = await request.file();
-      const { outpath, stat } = await saveUpload(file, {
+      const { path, bytes } = await saveUpload(file, {
         tempdir: temp_ibt_dir,
         extensions: ".ibt",
         min_bytes: MIN_IBT_BYTES,
