@@ -18,12 +18,12 @@ export default function buildLaps(telemetry) {
         const yawRate = sample.getParam("YawRate")?.value;
         const gear = sample.getParam("Gear")?.value;
         const lapDist = sample.getParam("LapDist")?.value;
-        //const lat = sample.getParam("Lat")?.value;
-        //const long = sample.getParam("Long")?.value;
+        const lat = sample.getParam("Lat")?.value;
+        const long = sample.getParam("Long")?.value;
         // uncomment these to see the samples you can use
         //const sampleJson = sample.toJSON()
         //console.log("here's sample", sampleJson)      
-    const samples = { t, pct, speed, brake, throttle, steering, yawRate, gear, lapDist};
+    const samples = { t, pct, speed, brake, throttle, steering, yawRate, gear, lapDist, lat, long};
 
     const checkNum = (currentValue) => typeof currentValue === "number";
     
