@@ -18,8 +18,8 @@ export default function buildLaps(telemetry) {
         const yawRate = sample.getParam("YawRate")?.value;
         const gear = sample.getParam("Gear")?.value;
         const lapDist = sample.getParam("LapDist")?.value;
-        const lat = sample.getParam("Lat")?.value;
-        const long = sample.getParam("Long")?.value;
+        //const lat = sample.getParam("Lat")?.value;
+        //const long = sample.getParam("Long")?.value;
         // uncomment these to see the samples you can use
         //const sampleJson = sample.toJSON()
         //console.log("here's sample", sampleJson)      
@@ -29,30 +29,29 @@ export default function buildLaps(telemetry) {
     
     const checkValues = Object.values(samples).every(checkNum);
 
-    console.log("check values", checkValues);
+    if (!checkValues) continue;
 
+    currentLapSample.push({ samples });
 
-      currentLapSample.push({ samples });
+    if (prevPct !== null && pct < 0.1 && prevPct > 0.9) {
+      if (lapStart !== null) {
+        const lapTime = t - lapStart;
+        lapTimes.push(lapTime);
 
-      if (prevPct !== null && pct < 0.1 && prevPct > 0.9) {
-          if (lapStart !== null) {
-            const lapTime = t - lapStart;
-            lapTimes.push(lapTime);
+        const payload = { lapTime, samples: currentLapSample };
+        laps.push(payload);
+      }
 
-            const payload = { lapTime, samples: currentLapSample };
-            laps.push(payload);
-          }
-
-          lapStart = t;
-          currentLapSample = [];
-        }
-
-      prevPct = pct;
+      lapStart = t;
+      currentLapSample = [];
     }
 
-      if (lapTimes.length === 0) {
-        return reply.code(400).send({ error: "No laps detected" });
-      }
+    prevPct = pct;
+    }
+
+    if (lapTimes.length === 0) {
+    return reply.code(400).send({ error: "No laps detected" });
+    }
     return laps
     };
 
