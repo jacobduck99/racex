@@ -25,8 +25,6 @@ export default function buildLaps(telemetry) {
         // uncomment these to see the samples you can use
         //const sampleJson = sample.toJSON()
         //console.log("here's sample", sampleJson)      
-        console.log("long", lon);
-        console.log("lat", lat);
     const samples = { t, pct, speed, brake, throttle, steering, yawRate, gear, lapDist, lat, lon};
  
     const checkValues = Object.values(samples).every(checkNum);
