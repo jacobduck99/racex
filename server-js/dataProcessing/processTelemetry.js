@@ -1,5 +1,7 @@
 import getMedian from "../utils.js";
 
+const checkNum = (currentValue) => typeof currentValue === "number";
+
 export default function buildLaps(telemetry) {
     const lapTimes = [];
     let currentLapSample = [];
@@ -24,9 +26,7 @@ export default function buildLaps(telemetry) {
         //const sampleJson = sample.toJSON()
         //console.log("here's sample", sampleJson)      
     const samples = { t, pct, speed, brake, throttle, steering, yawRate, gear, lapDist, lat, long};
-
-    const checkNum = (currentValue) => typeof currentValue === "number";
-    
+ 
     const checkValues = Object.values(samples).every(checkNum);
 
     if (!checkValues) continue;
@@ -66,6 +66,5 @@ export function cleanLaps(laps) {
             cleanedLaps.push(t);
         }
     }
-    console.log("cleanedlaps", cleanedLaps)
     return cleanedLaps
 }
