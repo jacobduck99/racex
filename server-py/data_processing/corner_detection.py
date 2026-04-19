@@ -29,7 +29,6 @@ class CornerDetection:
             self.end_sector_lat = lat
             completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, self.start_sector_lon, self.start_sector_lat, self.end_sector_lon, self.end_sector_lat, yaw_rate=self.yaw_rate)
             self.corners.append(completed_corner) 
-            print("here's corners", self.corners)
             self.yaw_rate = None
 
     def filter_corners(self, corners):

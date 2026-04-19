@@ -6,7 +6,7 @@ from data_processing.matching import match_zones
 
 from services.coaching import coaching
 
-from services.utils import get_lap_dist, create_track_map
+from services.utils import get_lap_dist, create_track_map, add_sectors_track_map
 
 analyse_bp = Blueprint("analyse", __name__)
 
@@ -34,6 +34,8 @@ def analyse_lap_upload():
     reference_samples = reference_lap.get("samples", []) if reference_lap else []
 
     fast_matched_corners = analyse_lap(fastest_samples) 
+    sectors_to_track = add_sectors_track_map(fast_matched_corners, track_map)
+
     reference_matched_corners = analyse_lap(reference_samples)
 
     matched_corners = match_zones(fast_matched_corners, reference_matched_corners) 
