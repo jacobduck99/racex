@@ -10,6 +10,10 @@ class Corner:
     rotating_t: float 
     rotation_ended_pct: float 
     rotation_ended_t: float
+    start_sector_lon: float
+    start_sector_lat: float
+    end_sector_lon: float
+    end_sector_lat: float
     brake_zone: Optional[Brake] = None
     min_speed: Optional[float] = None
     throttle: Optional[Throttle] = None
