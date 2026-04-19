@@ -88,7 +88,7 @@ export default function BuildTrackMap({ coordinates, width = 800, height = 600 }
       {/* Shadow */}
       <polyline points={points} fill="none" stroke="#000" strokeWidth={36} strokeLinejoin="round" strokeLinecap="round" opacity={0.6} />
       {/* Colored border */}
-      <polyline points={points} fill="none" stroke="#38bdf8" strokeWidth={30} strokeLinejoin="round" strokeLinecap="round" />
+      <polyline points={points} fill="none" stroke="#00ff88" strokeWidth={30} strokeLinejoin="round" strokeLinecap="round" />
       {/* Dark road */}
       <polyline points={points} fill="none" stroke="#0f172a" strokeWidth={22} strokeLinejoin="round" strokeLinecap="round" />
       {/* Center line */}
@@ -96,37 +96,32 @@ export default function BuildTrackMap({ coordinates, width = 800, height = 600 }
 
       {sectorMarkers.map((m, i) => {
         const isStart = m.type === "start";
-        const color = isStart ? "#f8fafc" : "#f43f5e";
+        const color = isStart ? "#facc15" : "#f43f5e";
         const x1 = m.x - m.px * LINE_HALF;
         const y1 = m.y - m.py * LINE_HALF;
         const x2 = m.x + m.px * LINE_HALF;
         const y2 = m.y + m.py * LINE_HALF;
         const label = isStart ? `S${m.index + 1}` : "";
-        const labelX = x2 + m.px * 20 + 4;
-        const labelY = y2 + m.py * 20 + 4;
+        const side = m.index % 2 === 0 ? 1 : -1;
+        const labelX = m.x + m.px * side * 32;
+        const labelY = m.y + m.py * side * 32;
         return (
-          <g key={i} filter="url(#subtle-glow)">
-            {/* Thick marker line */}
-            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={color} strokeWidth={isStart ? 4 : 3} strokeLinecap="round" opacity={0.95} />
+          <g key={i}>
+            {/* Outer glow */}
+            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={color} strokeWidth={6} strokeLinecap="round" opacity={0.3} />
+            {/* Main line */}
+            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={color} strokeWidth={2.5} strokeLinecap="round" />
             {isStart && (
               <>
-                {/* Label background pill */}
-                <rect
-                  x={labelX - 2}
-                  y={labelY - 14}
-                  width={28}
-                  height={18}
-                  rx={4}
-                  fill="#0f172a"
-                  opacity={0.85}
-                />
+                <circle cx={labelX} cy={labelY} r={12} fill={color} opacity={0.15} />
+                <circle cx={labelX} cy={labelY} r={11} fill="none" stroke={color} strokeWidth={1.5} opacity={0.8} />
                 <text
-                  x={labelX + 12}
-                  y={labelY}
+                  x={labelX}
+                  y={labelY + 4}
                   fill={color}
-                  fontSize={13}
+                  fontSize={11}
                   fontFamily="ui-monospace, monospace"
-                  fontWeight="700"
+                  fontWeight="800"
                   textAnchor="middle"
                 >
                   {label}
