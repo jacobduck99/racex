@@ -55,6 +55,8 @@ class CornerDetection:
                 elif gap < 0.05:
                     self.previous_corner.rotation_ended_t = current_corner.rotation_ended_t
                     self.previous_corner.rotation_ended_pct = current_corner.rotation_ended_pct
+                    self.previous_corner.end_sector_lon = current_corner.end_sector_lon
+                    self.previous_corner.end_sector_lat = current_corner.end_sector_lat
                 else:
                     self.merged_corners.append(self.previous_corner)
                     self.previous_corner = current_corner

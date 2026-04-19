@@ -21,6 +21,7 @@ def create_track_map(samples):
 def add_sectors_track_map(sectors, trackmap):
     for t in trackmap:
         for s in sectors:
+            print("s", s)
             if math.isclose(s.start_sector_lon, t["lon"]) and math.isclose(s.start_sector_lat, t["lat"]):
                 t["sector_start_lon"] = s.start_sector_lon
                 t["sector_start_lat"] = s.start_sector_lat
