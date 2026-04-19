@@ -35,6 +35,7 @@ export default async function ibtRoutes(fastify, opts) {
           bytes: bytes,
           lapsDetected: cleaned.length,
           analysis: pyres.coaching,
+          trackMap: pyres.track_map,
         };
       } catch (err) {
         request.log.error({ err }, "ibt parse failed");
