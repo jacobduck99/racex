@@ -59,88 +59,86 @@ export default function DataPage() {
 
 if (lapsAnalysis !== null) { 
   const c = lapsAnalysis[activeCorner];
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-4 py-12">
-      <div className="max-w-2xl mx-auto">
-        <div className="mb-8 mt-[10vh]">
+    <div className="min-h-screen flex bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-2 py-10">
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-8 mt-[1vh]">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-4 py-1.5">
             <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
             <span className="text-xs font-medium text-indigo-300">Analysis complete</span>
           </div>
-          <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent text-center">
             Corner Analysis
           </h1>
-          <p className="mt-3 text-slate-400">
+          <p className="mt-3 text-slate-400 text-center">
             Corner-by-corner breakdown of your session.
           </p>
         </div>
-
-        <div>
-            <BuildTrackMap coordinates={trackMap} />
-        </div>
-
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-          {lapsAnalysis.map((_corner, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveCorner(i)}
-              className={`shrink-0 px-4 py-2 rounded-xl text-xs font-medium transition-all ${
-                activeCorner === i
-                  ? "bg-indigo-500/20 border border-indigo-500/30 text-indigo-300"
-                  : "border border-white/10 bg-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200"
-              }`}
-            >
-              S{i + 1}
-            </button>
-          ))}
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 backdrop-blur-xl shadow-2xl">
-          <div className="flex items-center justify-between mb-6">
-            <span className="text-sm font-medium text-indigo-300 tracking-wider uppercase">
-              Corner {activeCorner + 1}
-            </span>
-            <span
-              className={`text-xs font-mono font-semibold px-3 py-1 rounded-full border ${
-                parseFloat(c.delta) <= 0
-                  ? "border-green-500/20 bg-green-500/10 text-green-400"
-                  : "border-red-500/20 bg-red-500/10 text-red-400"
-              }`}
-            >
-              {parseFloat(c.delta) <= 0 ? "" : "+"}{c.delta}s
-            </span>
+        <div className="flex flex-row gap-8 mt-30">
+          <div>
+            <BuildTrackMap coordinates={trackMap} width={500} height={400} />
           </div>
-
-          <div className="space-y-4">
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <p className="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Braking</p>
-              <p className="text-sm text-slate-200 leading-relaxed">{c.braking ? c.braking : "No braking in this zone"} </p>
+          <div className="flex-1">
+            <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+              {lapsAnalysis.map((_corner, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveCorner(i)}
+                  className={`shrink-0 px-4 py-2 rounded-xl text-xs font-medium transition-all ${
+                    activeCorner === i
+                      ? "bg-indigo-500/20 border border-indigo-500/30 text-indigo-300"
+                      : "border border-white/10 bg-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200"
+                  }`}
+                >
+                  S{i + 1}
+                </button>
+              ))}
             </div>
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <p className="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Throttle</p>
-              <p className="text-sm text-slate-200 leading-relaxed">{c.throttle ? c.throttle : "You were full throttle no lift detected"}</p>
-            </div>
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <p className="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Gear</p>
-              <p className="text-sm text-slate-200 leading-relaxed">{c.gear}</p>
+            <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 backdrop-blur-xl shadow-2xl">
+              <div className="flex items-center justify-between mb-6">
+                <span className="text-sm font-medium text-indigo-300 tracking-wider uppercase">
+                  Corner {activeCorner + 1}
+                </span>
+                <span
+                  className={`text-xs font-mono font-semibold px-3 py-1 rounded-full border ${
+                    parseFloat(c.delta) <= 0
+                      ? "border-green-500/20 bg-green-500/10 text-green-400"
+                      : "border-red-500/20 bg-red-500/10 text-red-400"
+                  }`}
+                >
+                  {parseFloat(c.delta) <= 0 ? "" : "+"}{c.delta}s
+                </span>
+              </div>
+              <div className="space-y-4">
+                <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+                  <p className="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Braking</p>
+                  <p className="text-sm text-slate-200 leading-relaxed">{c.braking ? c.braking : "No braking in this zone"}</p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+                  <p className="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Throttle</p>
+                  <p className="text-sm text-slate-200 leading-relaxed">{c.throttle ? c.throttle : "You were full throttle no lift detected"}</p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+                  <p className="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Gear</p>
+                  <p className="text-sm text-slate-200 leading-relaxed">{c.gear}</p>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+        <div className="flex mt-4">
+          <button
+            onClick={() => setLapsAnalysis(null)}
+            className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-slate-300 transition-all hover:bg-white/10 hover:text-slate-100"
+          >
+            <StepBack className="h-4 w-4" />
+            Back
+          </button>
         </div>
       </div>
-<div className="flex ml-232 mt-4">
-  <button
-    onClick={() => setLapsAnalysis(null)}
-    className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-slate-300 transition-all hover:bg-white/10 hover:text-slate-100"
-  >
-    <StepBack className="h-4 w-4" />
-    Back
-  </button>
-</div>
     </div>
   );
 }
-
 return (
   <>
   <style>{`
