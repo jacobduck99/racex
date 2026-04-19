@@ -27,5 +27,5 @@ def add_sectors_track_map(sectors, trackmap):
             if math.isclose(s.end_sector_lon, t["lon"]) and math.isclose(s.end_sector_lat, t["lat"]):
                 t["sector_end_lon"] = s.end_sector_lon
                 t["sector_end_lat"] = s.end_sector_lat
-
+    return trackmap
     

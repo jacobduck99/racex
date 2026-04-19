@@ -30,11 +30,13 @@ def analyse_lap_upload():
 
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
     track_map = create_track_map(fastest_samples)
+    print("track_map", track_map)
     lap_dist = get_lap_dist(fastest_samples)
     reference_samples = reference_lap.get("samples", []) if reference_lap else []
 
     fast_matched_corners = analyse_lap(fastest_samples) 
     track_map_and_sectors = add_sectors_track_map(fast_matched_corners, track_map)
+    print("track map 2", track_map_and_sectors)
 
     reference_matched_corners = analyse_lap(reference_samples)
 
