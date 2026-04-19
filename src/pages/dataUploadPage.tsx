@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { analyseRaceData } from "../lib/api/dataPageApi.js";
 import { StepBack } from 'lucide-react';
+import { BuildTrackMap } from "../components/trackMap.tsx";
 
 interface CornerAnalysis {
   delta: string;
