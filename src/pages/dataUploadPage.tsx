@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { analyseRaceData } from "../lib/api/dataPageApi.js";
 import { StepBack } from 'lucide-react';
-import { BuildTrackMap } from "../components/trackMap.tsx";
+import BuildTrackMap from "../components/trackMap.tsx";
 
 interface CornerAnalysis {
   delta: string;
@@ -74,6 +74,10 @@ if (lapsAnalysis !== null) {
           <p className="mt-3 text-slate-400">
             Corner-by-corner breakdown of your session.
           </p>
+        </div>
+
+        <div>
+            <BuildTrackMap coordinates={trackMap} />
         </div>
 
         <div className="flex gap-2 mb-6 overflow-x-auto pb-2">

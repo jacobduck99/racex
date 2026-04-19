@@ -46,7 +46,7 @@ export default function BuildTrackMap({ coordinates, width = 800, height = 600 }
   }
 
   return (
-    <svg width={width} height={height} style={{ background: "#1a1a1a" }}>
+    <svg width={width} height={height} style={{ background: "transparent" }}>
       <polyline
         points={points}
         fill="none"
