@@ -9,9 +9,15 @@ interface CornerAnalysis {
   gear: string;
 }
 
+interface Coordinates {
+    lon: number;
+    lat: number;
+}
+
 export default function DataPage() {
     const [raceSession, setRaceSession] = useState<File | null>(null);
     const [lapsAnalysis, setLapsAnalysis] = useState<CornerAnalysis[] | null>(null);
+    const [trackMap, setTrackMap] = useState<Coordinates[] | null>(null);
     const [err, setErr] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [activeCorner, setActiveCorner] = useState(0);
@@ -33,6 +39,7 @@ export default function DataPage() {
         try { 
             const result = await analyseRaceData(fd);
             setLapsAnalysis(result.analysis);
+            setTrackMap(result.trackMap)
         } catch (e) {
             if (e instanceof Error) {
                 setErr(e.message);
@@ -41,6 +48,8 @@ export default function DataPage() {
             setLoading(false);
         }
     }
+
+    console.log("here's track map", trackMap);
 
     function handleCancel() {
         setRaceSession(null);
