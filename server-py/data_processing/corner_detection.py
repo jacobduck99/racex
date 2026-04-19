@@ -10,19 +10,23 @@ class CornerDetection:
         self.previous_corner = None
         self.merged_corners = []
 
-    def open_corner(self, pct, t, yaw_rate):
+    def open_corner(self, pct, t, yaw_rate, lon, lat):
         if not self.car_rotating:
             self.car_rotating = True
             self.rotating_pct = pct
             self.rotating_t = t
             self.yaw_rate = yaw_rate
+            self.start_sector_lon = lon
+            self.start_sector_lat = lat
 
-    def close_corner(self, pct, t, yaw_rate):
+    def close_corner(self, pct, t, yaw_rate, lon, lat):
         if self.car_rotating:
             self.car_rotating = False
             self.rotation_ended_pct = pct
             self.rotation_ended_t = t
             self.yaw_rate = yaw_rate
+            self.end_sector_lon = lon
+            self.end_sector_lat = lat
             completed_corner = Corner(self.rotating_pct, self.rotating_t, self.rotation_ended_pct, self.rotation_ended_t, yaw_rate=self.yaw_rate)
             self.corners.append(completed_corner) 
             self.yaw_rate = None
