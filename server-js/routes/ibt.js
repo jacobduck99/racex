@@ -27,7 +27,7 @@ export default async function ibtRoutes(fastify, opts) {
 
         request.log.debug({ lapCount: cleaned.length }, "parsed ibt");
 
-        const pyres = await sendParsedIbt({ cleaned });
+        const pyres = await sendParsedIbt(cleaned);
 
         return {
           ok: true,
