@@ -18,7 +18,6 @@ def create_track_map(samples):
     return coordinates
 
 def add_sectors_track_map(sectors, trackmap):
-    track_and_sectors = []
     for t in trackmap:
         for s in sectors:
 
@@ -27,11 +26,13 @@ def add_sectors_track_map(sectors, trackmap):
             end_sector_lon = s.end_sector_lon
             end_sector_lat = s.end_sector_lat
 
-            if start_sector_lon and start_sector_lat == t["lon"] and t["lat"]:
-                sector = { "start_sector_lon": start_sector_lon, start_sector_lat: start_sector_lat, "track_lon": t["lon"], "track_lat": t["lat"]}
-                track_and_sectors.append(sector)
-    print("here's sectors on track", track_and_sectors)
-
-
+            if start_sector_lon == t["lon"] and start_sector_lat == t["lat"]:
+                t["sector_start_lon"] = s.start_sector_lon
+                t["sector_start_lat"] = s.start_sector_lat
+            if end_sector_lon == t["lon"] and end_sector_lat == t["lat"]:
+                t["sector_end_lon"] = s.end_sector_lon
+                t["sector_end_lat"] = s.end_sector_lat
+    for l in trackmap:
+        print("ll", l)
 
     
