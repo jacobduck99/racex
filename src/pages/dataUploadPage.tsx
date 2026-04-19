@@ -74,9 +74,9 @@ if (lapsAnalysis !== null) {
             Corner-by-corner breakdown of your session.
           </p>
         </div>
-        <div className="flex flex-row gap-8 mt-40 items-start">
+        <div className="flex flex-row gap-20 mt-40 mr-20">
           <div className="flex-[5]">
-            {trackMap ? <BuildTrackMap coordinates={trackMap} width={880} height={500} /> : null}
+            {trackMap ? <BuildTrackMap coordinates={trackMap} width={750} height={600} /> : null}
           </div>
           <div>
             <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 backdrop-blur-xl shadow-2xl h-100 max-w-150 min-w-150">              <div className="flex items-center justify-between mb-6">
