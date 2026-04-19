@@ -79,22 +79,7 @@ if (lapsAnalysis !== null) {
             <BuildTrackMap coordinates={trackMap} width={500} height={400} />
           </div>
           <div>
-            <div className="flex gap-2 mb-6 min-w-full w-160 pb-2">
-              {lapsAnalysis.map((_corner, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveCorner(i)}
-                  className={`px-4 py-2 rounded-xl text-xs font-medium transition-all ${
-                    activeCorner === i
-                      ? "bg-indigo-500/20 border border-indigo-500/30 text-indigo-300"
-                      : "border border-white/10 bg-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200"
-                  }`}
-                >
-                  S{i + 1}
-                </button>
-              ))}
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 backdrop-blur-xl shadow-2xl">
+            <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 backdrop-blur-xl shadow-2xl max-h-100">
               <div className="flex items-center justify-between mb-6">
                 <span className="text-sm font-medium text-indigo-300 tracking-wider uppercase">
                   Corner {activeCorner + 1}
@@ -123,6 +108,22 @@ if (lapsAnalysis !== null) {
                   <p className="text-sm text-slate-200 leading-relaxed">{c.gear}</p>
                 </div>
               </div>
+            </div>
+
+    <div className="flex gap-2 mt-5 min-w-full w-160 ">
+              {lapsAnalysis.map((_corner, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveCorner(i)}
+                  className={`px-4 py-2 rounded-xl text-xs font-medium transition-all ${
+                    activeCorner === i
+                      ? "bg-indigo-500/20 border border-indigo-500/30 text-indigo-300"
+                      : "border border-white/10 bg-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200"
+                  }`}
+                >
+                  S{i + 1}
+                </button>
+              ))}
             </div>
           </div>
         </div>
