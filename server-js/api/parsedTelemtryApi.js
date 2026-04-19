@@ -5,12 +5,12 @@ const PY_BACKEND = process.env.PY_BACKEND_URL;
 
 export async function sendParsedIbt(telemetry) {
     const url = `${PY_BACKEND}/api/lap-data/analyse`;
-
+    let parsed = { "cleaned": telemetry };
     let res;
     try {
     res = await fetch(url, {
       method: "POST",
-      body: JSON.stringify(telemetry),
+      body: JSON.stringify(parsed),
       headers: { "Content-Type": "application/json" },
     });
     } catch (e) {
