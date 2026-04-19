@@ -79,7 +79,7 @@ if (lapsAnalysis !== null) {
             <BuildTrackMap coordinates={trackMap} width={500} height={400} />
           </div>
           <div>
-            <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+            <div className="flex gap-2 mb-6 min-w-full w-160 pb-2">
               {lapsAnalysis.map((_corner, i) => (
                 <button
                   key={i}
