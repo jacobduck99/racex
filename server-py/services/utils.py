@@ -1,3 +1,4 @@
+import math
 
 def convert_to_kph(speed):
     speed_in_kph = speed * 3.6
@@ -20,19 +21,12 @@ def create_track_map(samples):
 def add_sectors_track_map(sectors, trackmap):
     for t in trackmap:
         for s in sectors:
-
-            start_sector_lon = s.start_sector_lon
-            start_sector_lat = s.start_sector_lat
-            end_sector_lon = s.end_sector_lon
-            end_sector_lat = s.end_sector_lat
-
-            if start_sector_lon == t["lon"] and start_sector_lat == t["lat"]:
+            if math.isclose(s.start_sector_lon, t["lon"]) and math.isclose(s.start_sector_lat, t["lat"]):
                 t["sector_start_lon"] = s.start_sector_lon
                 t["sector_start_lat"] = s.start_sector_lat
-            if end_sector_lon == t["lon"] and end_sector_lat == t["lat"]:
+            if math.isclose(s.end_sector_lon, t["lon"]) and math.isclose(s.end_sector_lat, t["lat"]):
                 t["sector_end_lon"] = s.end_sector_lon
                 t["sector_end_lat"] = s.end_sector_lat
-    for l in trackmap:
-        print("ll", l)
+    print(trackmap)
 
     
