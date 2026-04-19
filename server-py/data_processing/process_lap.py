@@ -19,14 +19,16 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
         throttle_val = sample["throttle"]
         spd = sample["speed"]
         gear = sample["gear"]
+        lon = sample["lon"]
+        lat = sample["lat"]
 
         speed_samples.append({"current_speed": spd, "speed_pct": pct})
         gear_samples.append({"current_gear": gear, "pct": pct})
 
         if abs(yaw_rate) >= rotation:
-            corner.open_corner(pct, t, yaw_rate)
+            corner.open_corner(pct, t, yaw_rate, lon, lat)
         elif abs(yaw_rate) <= not_rotating:
-            corner.close_corner(pct, t, yaw_rate)
+            corner.close_corner(pct, t, yaw_rate, lon, lat)
         
         if b >= brake_on_threshold:
             brake.brake_on(pct, t, b)
