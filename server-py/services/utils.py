@@ -10,4 +10,11 @@ def convert_to_meters(lap_dist, distance):
     meters = lap_dist * distance
     return meters
 
+def create_track_map(samples):
+    coordinates = []
+    for k in samples:
+        matched = { "lon": k["lon"], "lat": k["lat"]}
+        coordinates.append(matched) 
+    print("c", coordinates)
+
     

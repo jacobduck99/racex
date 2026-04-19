@@ -6,7 +6,7 @@ from data_processing.matching import match_zones
 
 from services.coaching import coaching
 
-from services.utils import get_lap_dist
+from services.utils import get_lap_dist, create_track_map
 
 analyse_bp = Blueprint("analyse", __name__)
 
@@ -29,6 +29,9 @@ def analyse_lap_upload():
     reference_lap = sorted_laps[1]
 
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
+    #print("f samples", fastest_samples)
+    track_map = create_track_map(fastest_samples)
+    print("here's track map", track_map)
     lap_dist = get_lap_dist(fastest_samples)
     reference_samples = reference_lap.get("samples", []) if reference_lap else []
 
