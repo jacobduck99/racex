@@ -2,11 +2,9 @@ import dotenv from "dotenv";
 dotenv.config({ path: "./server-js/.env" });
 
 const PY_BACKEND = process.env.PY_BACKEND_URL;
-console.log(process.env.PY_BACKEND_URL);
 
 export async function sendParsedIbt(telemetry) {
     const url = `${PY_BACKEND}/api/lap-data/analyse`;
-    console.log("this is url", url);
 
     let res;
     try {
