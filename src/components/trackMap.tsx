@@ -26,16 +26,21 @@ export default function BuildTrackMap({ coordinates, width = 800, height = 600 }
     const lonRange = maxLon - minLon || 1;
     const latRange = maxLat - minLat || 1;
 
-    const padding = 40;
-    const drawWidth = width - padding * 2;
-    const drawHeight = height - padding * 2;
+    // Center of the track in lon/lat space
+    const centerLon = (minLon + maxLon) / 2;
+    const centerLat = (minLat + maxLat) / 2;
 
-    const scale = Math.min(drawWidth / lonRange, drawHeight / latRange);
+    // Margin factor so it doesn't touch the edges (0.9 = 10% margin)
+    const marginFactor = 0.98;
+
+    // Compute scale to fit into SVG with margin
+    const scale = marginFactor * Math.min(width / lonRange, height / latRange);
 
     return coordinates
       .map((c) => {
-        const x = (c.lon - minLon) * scale + padding;
-        const y = (maxLat - c.lat) * scale + padding;
+        // Shift so center of track maps to center of SVG
+        const x = (c.lon - centerLon) * scale + width / 2;
+        const y = (centerLat - c.lat) * scale + height / 2;
         return `${x},${y}`;
       })
       .join(" ");
@@ -51,10 +56,11 @@ export default function BuildTrackMap({ coordinates, width = 800, height = 600 }
         points={points}
         fill="none"
         stroke="#00ff88"
-        strokeWidth={2}
+        strokeWidth={8} // make this bigger if you want it even chunkier
         strokeLinejoin="round"
         strokeLinecap="round"
       />
     </svg>
   );
 }
+
