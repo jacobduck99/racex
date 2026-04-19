@@ -60,8 +60,8 @@ export default function DataPage() {
 if (lapsAnalysis !== null) { 
   const c = lapsAnalysis[activeCorner];
   return (
-    <div className="min-h-screen min-w-full flex bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-2 py-10">
-      <div className="max-w-6xl min-w-6xl mx-auto">
+    <div className="min-h-screen min-w-full flex justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-2 py-10">
+      <div className="">
         <div className="mb-8 mt-[1vh]">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-4 py-1.5">
             <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
@@ -74,13 +74,12 @@ if (lapsAnalysis !== null) {
             Corner-by-corner breakdown of your session.
           </p>
         </div>
-        <div className="flex flex-row gap-20 mt-40">
+        <div className="flex flex-row gap-8 h-200 mt-50">
           <div className="flex-[5]">
-                {trackMap ? <BuildTrackMap coordinates={trackMap} width={600} height={400} /> : null}
+            {trackMap ? <BuildTrackMap coordinates={trackMap} width={880} height={500} /> : null}
           </div>
           <div>
-            <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 backdrop-blur-xl shadow-2xl max-h-100">
-              <div className="flex items-center justify-between mb-6">
+            <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 backdrop-blur-xl shadow-2xl h-100 max-w-100 min-w-150">              <div className="flex items-center justify-between mb-6">
                 <span className="text-sm font-medium text-indigo-300 tracking-wider uppercase">
                   Corner {activeCorner + 1}
                 </span>
@@ -109,8 +108,7 @@ if (lapsAnalysis !== null) {
                 </div>
               </div>
             </div>
-
-    <div className="flex gap-2 mt-5 min-w-full w-160 ">
+            <div className="flex gap-2 mt-5 min-w-full w-160">
               {lapsAnalysis.map((_corner, i) => (
                 <button
                   key={i}
