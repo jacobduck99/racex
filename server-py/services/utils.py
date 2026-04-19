@@ -15,6 +15,6 @@ def create_track_map(samples):
     for k in samples:
         matched = { "lon": k["lon"], "lat": k["lat"]}
         coordinates.append(matched) 
-    print("c", coordinates)
+    return coordinates
 
     
