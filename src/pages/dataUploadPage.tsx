@@ -76,7 +76,7 @@ if (lapsAnalysis !== null) {
         </div>
         <div className="flex flex-row gap-20 mt-40">
           <div className="flex-[5]">
-            <BuildTrackMap coordinates={trackMap} width={600} height={400} />
+            <BuildTrackMap coordinates={trackMap ? trackMap : null} width={600} height={400} />
           </div>
           <div>
             <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 backdrop-blur-xl shadow-2xl max-h-100">
