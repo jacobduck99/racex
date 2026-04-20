@@ -50,10 +50,6 @@ export default function DataPage() {
         }
     }
 
-    console.log("err", err);
-
-    console.log("here's track map", trackMap);
-
     function handleCancel() {
         setRaceSession(null);
         if (sessionRef.current) sessionRef.current.value = "";
