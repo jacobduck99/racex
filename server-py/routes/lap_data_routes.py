@@ -22,7 +22,7 @@ def analyse_lap_upload():
         return jsonify({"error": "Expected 'laps' to be a list"}), 400
 
     if len(laps) <= 1:
-        return jsonify({"error": "Expected at least 2 laps to compare"}), 400
+        return jsonify({"error": "Expected at least 2 clean laps to compare"}), 400
 
     sorted_laps = sorted(laps, key=lambda lap: lap.get("lapTime", float("inf")))
     fastest_lap = sorted_laps[0] if sorted_laps else None
@@ -39,6 +39,10 @@ def analyse_lap_upload():
     reference_matched_corners = analyse_lap(reference_samples)
 
     matched_corners = match_zones(fast_matched_corners, reference_matched_corners) 
+    print(matched_corners)
+    for m in matched_corners:
+        print("start fast", m.fast.rotating_pct, "end fast", m.fast.rotation_ended_pct, "corner num", m.corner_num)
+        print("start ref", m.ref.rotating_pct, "end ref", m.ref.rotation_ended_pct, "corner_num", m.corner_num)
     coach = coaching(matched_corners, lap_dist)
 
     return jsonify({"coaching": coach, "track_map": track_map_and_sectors })
