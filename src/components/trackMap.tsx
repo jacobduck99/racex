@@ -71,7 +71,7 @@ export default function BuildTrackMap({ coordinates, width = 800, height = 600 }
     return <p className="text-slate-400">No track data</p>;
   }
 
-  const LINE_HALF = 10;
+  const LINE_HALF = 9;
 
   return (
     <svg width={width} height={height} style={{ background: "transparent" }}>
@@ -101,7 +101,7 @@ export default function BuildTrackMap({ coordinates, width = 800, height = 600 }
         const y1 = m.y - m.py * LINE_HALF;
         const x2 = m.x + m.px * LINE_HALF;
         const y2 = m.y + m.py * LINE_HALF;
-        const label = isStart ? `S${m.index + 1}` : "";
+        const label = isStart ? `C${m.index + 1}` : "";
         const side = m.index % 2 === 0 ? 1 : -1;
         const labelX = m.x + m.px * side * 32;
         const labelY = m.y + m.py * side * 32;
