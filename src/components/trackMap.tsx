@@ -12,9 +12,9 @@ interface Coordinates {
 interface SectorAnalysis {
   sector: number;
   delta: number;
-  braking?: string;
-  gear?: string;
-  throttle?: string;
+  braking: string | null;
+  gear: string;
+  throttle: string | null;
 }
 
 interface BuildTrackMapProps {

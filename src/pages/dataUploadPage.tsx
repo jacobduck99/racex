@@ -3,8 +3,9 @@ import { analyseRaceData } from "../lib/api/dataPageApi.js";
 import { StepBack } from 'lucide-react';
 import BuildTrackMap from "../components/trackMap.tsx";
 
-interface CornerAnalysis {
-  delta: string;
+interface SectorAnalysis {
+  sector: number;
+  delta: number;
   braking: string | null;
   throttle: string | null;
   gear: string;
@@ -17,7 +18,7 @@ interface Coordinates {
 
 export default function DataPage() {
     const [raceSession, setRaceSession] = useState<File | null>(null);
-    const [lapsAnalysis, setLapsAnalysis] = useState<CornerAnalysis[] | null>(null);
+    const [lapsAnalysis, setLapsAnalysis] = useState<SectorAnalysis[] | null>(null);
     const [trackMap, setTrackMap] = useState<Coordinates[] | null>(null);
     const [err, setErr] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
@@ -86,12 +87,12 @@ if (lapsAnalysis !== null) {
                 </span>
                 <span
                   className={`text-xs font-mono font-semibold px-3 py-1 rounded-full border ${
-                    parseFloat(c.delta) <= 0
+                c.delta <= 0
                       ? "border-green-500/20 bg-green-500/10 text-green-400"
                       : "border-red-500/20 bg-red-500/10 text-red-400"
                   }`}
                 >
-                  {parseFloat(c.delta) <= 0 ? "" : "+"}{c.delta}s
+                  {c.delta <= 0 ? "" : "+"}{c.delta.toFixed(3)}s
                 </span>
               </div>
               <div className="space-y-4">
