@@ -20,7 +20,8 @@ export async function sendParsedIbt(telemetry) {
 
     if (!res.ok) {
     const msg = await res.text().catch(() => "");
-    throw new Error(msg || `HTTP ${res.status}`);
+    const parsed = JSON.parse(msg);
+    throw new Error(parsed.error || `HTTP ${res.status}`);
     }
 
     return await res.json();

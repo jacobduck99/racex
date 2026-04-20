@@ -39,7 +39,7 @@ export default async function ibtRoutes(fastify, opts) {
         };
       } catch (err) {
         request.log.error({ err }, "ibt parse failed");
-        return reply.code(500).send({ ok: false, error: "parse_failed" });
+        return reply.code(500).send({ ok: false, error: `${err}` });
       } finally {
         await fs.unlink(path).catch(() => {});
       }
