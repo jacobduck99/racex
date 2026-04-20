@@ -50,6 +50,8 @@ export default function DataPage() {
         }
     }
 
+    console.log("lap", lapsAnalysis);
+
     function handleCancel() {
         setRaceSession(null);
         if (sessionRef.current) sessionRef.current.value = "";
@@ -74,7 +76,7 @@ if (lapsAnalysis !== null) {
         </div>
         <div className="flex flex-row gap-8 mt-10">
           <div className="flex-[5] mr-30">
-            {trackMap ? <BuildTrackMap coordinates={trackMap} width={750} height={700} /> : null}
+            {trackMap ? <BuildTrackMap coordinates={trackMap} sectorAnalysis={lapsAnalysis} width={750} height={700} /> : null}
           </div>
           <div>
             <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 backdrop-blur-xl shadow-2xl h-100 max-w-150 min-w-150 mt-40">              
