@@ -77,7 +77,8 @@ if (lapsAnalysis !== null) {
             {trackMap ? <BuildTrackMap coordinates={trackMap} width={750} height={700} /> : null}
           </div>
           <div>
-            <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 backdrop-blur-xl shadow-2xl h-100 max-w-150 min-w-150 mt-40">              <div className="flex items-center justify-between mb-6">
+            <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 backdrop-blur-xl shadow-2xl h-100 max-w-150 min-w-150 mt-40">              
+            <div className="flex items-center justify-between mb-6">
                 <span className="text-sm font-medium text-indigo-300 tracking-wider uppercase">
                   Corner {activeCorner + 1}
                 </span>
@@ -106,7 +107,7 @@ if (lapsAnalysis !== null) {
                 </div>
               </div>
             </div>
-            <div className="flex gap-2 mt-5 min-w-full w-160">
+            <div className="flex gap-2 mt-5 min-w-full w-160 flex-wrap px-4">
               {lapsAnalysis.map((_corner, i) => (
                 <button
                   key={i}
@@ -117,7 +118,7 @@ if (lapsAnalysis !== null) {
                       : "border border-white/10 bg-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200"
                   }`}
                 >
-                  S{i + 1}
+                  C{i + 1}
                 </button>
               ))}
             </div>
