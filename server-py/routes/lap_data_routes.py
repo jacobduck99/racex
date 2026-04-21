@@ -39,7 +39,6 @@ def analyse_lap_upload():
     reference_matched_corners = analyse_lap(reference_samples)
 
     matched_corners = match_zones(fast_matched_corners, reference_matched_corners) 
-    print(matched_corners)
     for m in matched_corners:
         print("start fast", m.fast.rotating_pct, "end fast", m.fast.rotation_ended_pct, "corner num", m.corner_num)
         print("start ref", m.ref.rotating_pct, "end ref", m.ref.rotation_ended_pct, "corner_num", m.corner_num)

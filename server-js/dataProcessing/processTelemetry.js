@@ -53,15 +53,19 @@ export default function buildLaps(telemetry) {
     };
 
 export function cleanLaps(laps) {
-    const cleanedLaps = []; 
+    if (laps.length === 0) return [];
+
+    const THRESHOLD = 4; // seconds
     const times = laps.map((l) => l["lapTime"]);
+    const fastest = Math.min(...times);
+    const cutoff = fastest + THRESHOLD;
 
-    const median = getMedian(times);
-
-    for (let t of laps) {
-        if (t["lapTime"] <= median) {
-            cleanedLaps.push(t);
+    const cleanedLaps = [];
+    for (const lap of laps) {
+        if (lap["lapTime"] <= cutoff) {
+            cleanedLaps.push(lap);
         }
     }
-    return cleanedLaps
+    return cleanedLaps;
 }
+

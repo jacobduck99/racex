@@ -51,6 +51,7 @@ export default function DataPage() {
         }
     }
 
+    console.log("lat long", trackMap);
     console.log("lap", lapsAnalysis);
 
     function handleCancel() {
