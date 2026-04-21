@@ -72,7 +72,7 @@ export default function BuildTrackMap({
     const latRange = maxLat - minLat || 1;
     const centerLon = (minLon + maxLon) / 2;
     const centerLat = (minLat + maxLat) / 2;
-    const marginFactor = 0.90;
+    const marginFactor = 0.85;
     const scale = marginFactor * Math.min(width / lonRange, height / latRange);
 
     const toXY = (lon: number, lat: number) => ({
