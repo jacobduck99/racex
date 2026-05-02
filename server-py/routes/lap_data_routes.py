@@ -29,7 +29,7 @@ def analyse_lap_upload():
     sorted_laps = sorted(laps, key=lambda lap: lap.get("lapTime", float("inf")))
     fastest_lap = sorted_laps[0] if sorted_laps else None
     reference_lap = sorted_laps[1]
-    rest_of_laps = sorted_laps[2:]
+    rest_of_laps = sorted_laps[2:] #change this later to 1: 
     for i, lap in enumerate(rest_of_laps, start=3):
         print(f"lap rank {i}, time {lap.get('lapTime')}")
 
@@ -38,8 +38,15 @@ def analyse_lap_upload():
     lap_dist = get_lap_dist(fastest_samples)
     reference_samples = reference_lap.get("samples", []) if reference_lap else []
 
-    fast_matched_corners = analyse_lap(fastest_samples) 
+    r_samples = []
+    for k in rest_of_laps:
+        rest_of_laps_samples = k["samples"]
+        rest_of_laps_corners = analyse_lap(rest_of_laps_samples)
+        r_samples.append(rest_of_laps_corners)
 
+    print("r samples", r_samples)
+
+    fast_matched_corners = analyse_lap(fastest_samples) 
     reference_matched_corners = analyse_lap(reference_samples)
 
     matched_corners = match_zones(fast_matched_corners, reference_matched_corners) 
