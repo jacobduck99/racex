@@ -38,13 +38,12 @@ def analyse_lap_upload():
     lap_dist = get_lap_dist(fastest_samples)
     reference_samples = reference_lap.get("samples", []) if reference_lap else []
 
-    r_samples = []
-    for k in rest_of_laps:
-        rest_of_laps_samples = k["samples"]
-        rest_of_laps_corners = analyse_lap(rest_of_laps_samples)
-        r_samples.append(rest_of_laps_corners)
-
-    print("r samples", r_samples)
+    r_samples = [] 
+    for i, lap in enumerate(rest_of_laps):
+        samples = lap["samples"]
+        corners = analyse_lap(samples)
+        r_samples.append(corners)
+        print(f"lap {i}: {len(corners)} corners")
 
     fast_matched_corners = analyse_lap(fastest_samples) 
     reference_matched_corners = analyse_lap(reference_samples)
