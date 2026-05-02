@@ -17,6 +17,8 @@ def analyse_lap_upload():
         return jsonify({"error": "Expected JSON object"}), 400
 
     laps = data.get("cleaned")
+    for i in range(len(laps)):
+        print("laps", i)
 
     if not isinstance(laps, list):
         return jsonify({"error": "Expected 'laps' to be a list"}), 400
@@ -27,6 +29,9 @@ def analyse_lap_upload():
     sorted_laps = sorted(laps, key=lambda lap: lap.get("lapTime", float("inf")))
     fastest_lap = sorted_laps[0] if sorted_laps else None
     reference_lap = sorted_laps[1]
+    rest_of_laps = sorted_laps[2:]
+    for i, lap in enumerate(rest_of_laps, start=3):
+        print(f"lap rank {i}, time {lap.get('lapTime')}")
 
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
     track_map = create_track_map(fastest_samples)
