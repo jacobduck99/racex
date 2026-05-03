@@ -46,14 +46,14 @@ def analyse_lap_upload():
         print(f"lap {i}: {len(corners)} corners")
 
     fast_matched_corners = analyse_lap(fastest_samples) 
-    print("f m corners", fast_matched_corners)
     reference_matched_corners = analyse_lap(reference_samples)
 
     matched_corners = match_zones(fast_matched_corners, reference_matched_corners) 
     track_map_and_sectors = add_sectors_track_map(
-        [m.fast for m in matched_corners],
+        [m for m in fast_matched_corners],
         track_map,
     )
+
     coach = coaching(matched_corners, lap_dist)
 
     return jsonify({"coaching": coach, "track_map": track_map_and_sectors })
