@@ -48,6 +48,7 @@ class CornerDetection:
                 gap_start = self.previous_corner.rotation_ended_pct
                 gap_end = current_corner.rotating_pct
                 gap = gap_end - gap_start
+                print("gap", gap)
 
                 if self.previous_corner.yaw_rate * current_corner.yaw_rate < 0:
                     self.merged_corners.append(self.previous_corner)
