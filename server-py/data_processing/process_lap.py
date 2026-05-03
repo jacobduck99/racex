@@ -47,7 +47,7 @@ def analyse_lap(lap, rotation=0.3, not_rotating=0.3, brake_on_threshold=0.05, br
     merged = corner.merge_corner(corner.corners)
     clean = corner.filter_corners(merged) 
     for i, m in enumerate(clean, start=1):
-        print("After merge", "rotating start", m.rotating_pct, "rotation ended", m.rotation_ended_pct, "yaw_rate", yaw_rate, "corner num", i)
+        print("After merge clean", "rotating start", m.rotating_pct, "rotation ended", m.rotation_ended_pct, "yaw_rate", yaw_rate, "corner num", i)
     populate_corners(clean, throttle.throttle_inputs,brake.brake_zones, speed_samples, gear_samples)
     return clean
 
