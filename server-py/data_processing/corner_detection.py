@@ -62,6 +62,4 @@ class CornerDetection:
                     self.merged_corners.append(self.previous_corner)
                     self.previous_corner = current_corner
         self.merged_corners.append(self.previous_corner)
-        for i, m in enumerate(self.merged_corners, start=1):
-            print("merged corners", self.merged_corners, "corner_num", i)
         return self.merged_corners
