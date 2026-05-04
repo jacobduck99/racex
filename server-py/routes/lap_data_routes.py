@@ -34,18 +34,18 @@ def analyse_lap_upload():
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
     reference_samples = reference_lap.get("samples", []) if reference_lap else []
 
-    r_samples = [] 
-    for i, lap in enumerate(rest_of_laps):
-        samples = lap["samples"]
-        corners = analyse_lap(samples)
-        r_samples.append(corners)
-        print(f"lap {i}: {len(corners)} corners")
+    #r_samples = [] 
+    #for i, lap in enumerate(rest_of_laps):
+    #    samples = lap["samples"]
+    #    corners = analyse_lap(samples)
+    #    r_samples.append(corners)
+    #    print(f"lap {i}: {len(corners)} corners")
 
     fast_matched_corners = analyse_lap(fastest_samples) 
     reference_matched_corners = analyse_lap(reference_samples)
 
     matched_corners = match_zones(fast_matched_corners, reference_matched_corners) 
-
+    print("matched_corners", matched_corners)
     track_map = create_track_map(fastest_samples)
     lap_dist = get_lap_dist(fastest_samples)
     track_map_and_sectors = add_sectors_track_map(
