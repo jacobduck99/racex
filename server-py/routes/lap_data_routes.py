@@ -41,8 +41,8 @@ def analyse_lap_upload():
     #    r_samples.append(corners)
     #    print(f"lap {i}: {len(corners)} corners")
 
-    fast_matched_corners = analyse_lap(fastest_samples) 
-    reference_matched_corners = analyse_lap(reference_samples)
+    fast_matched_corners = analyse_lap(fastest_samples, None) 
+    reference_matched_corners = analyse_lap(reference_samples, fast_matched_corners)
 
     matched_corners = match_zones(fast_matched_corners, reference_matched_corners) 
     #print("matched_corners", matched_corners)

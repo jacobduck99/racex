@@ -33,6 +33,7 @@ class CornerDetection:
 
     def filter_corners(self, corners, track_corners=None):
         clean_corners = []
+        print("track_corners", track_corners)
         for corner in corners:
             corner_duration_pct = corner.rotation_ended_pct - corner.rotating_pct
             print("corner duration", corner_duration_pct)
