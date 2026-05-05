@@ -56,7 +56,7 @@ class CornerDetection:
                 if self.previous_corner.yaw_rate * current_corner.yaw_rate < 0:
                     self.merged_corners.append(self.previous_corner)
                     self.previous_corner = current_corner
-                if corner_dist > 0.06:
+                elif corner_dist > 0.06:
                     print("here's corners > 0.06", corner_dist)
                     self.merged_corners.append(self.previous_corner)
                     self.previous_corner = current_corner
