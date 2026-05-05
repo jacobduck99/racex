@@ -36,7 +36,7 @@ class CornerDetection:
         if track_corners is not None:
             for corner in corners:
                 for track_corner in track_corners:
-                    if abs(corner.rotating_pct - track_corner.rotating_pct) <= 0.05:
+                    if abs(corner.rotating_pct - track_corner.rotating_pct) <= 0.01:
                         clean_corners.append(corner)
                         break
         else:
@@ -58,13 +58,13 @@ class CornerDetection:
 
                 corner_dist = current_corner.rotation_ended_pct - self.previous_corner.rotating_pct
 
-                print("here's corner dist", corner_dist)
+                #print("here's corner dist", corner_dist)
 
                 if self.previous_corner.yaw_rate * current_corner.yaw_rate < 0:
                     self.merged_corners.append(self.previous_corner)
                     self.previous_corner = current_corner
                 elif corner_dist > 0.06:
-                    print("here's corners > 0.06", corner_dist)
+                    #print("here's corners > 0.06", corner_dist)
                     self.merged_corners.append(self.previous_corner)
                     self.previous_corner = current_corner
                 elif gap < 0.01:
