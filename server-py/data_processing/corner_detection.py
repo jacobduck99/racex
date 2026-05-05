@@ -31,10 +31,11 @@ class CornerDetection:
             self.corners.append(completed_corner) 
             self.yaw_rate = None
 
-    def filter_corners(self, corners):
+    def filter_corners(self, corners, track_corners=None):
         clean_corners = []
         for corner in corners:
             corner_duration_pct = corner.rotation_ended_pct - corner.rotating_pct
+            print("corner duration", corner_duration_pct)
             if corner_duration_pct > 0.004:  
                 clean_corners.append(corner)
         return clean_corners
