@@ -33,12 +33,17 @@ class CornerDetection:
 
     def filter_corners(self, corners, track_corners=None):
         clean_corners = []
-        print("track_corners", track_corners)
-        for corner in corners:
-            corner_duration_pct = corner.rotation_ended_pct - corner.rotating_pct
-            print("corner duration", corner_duration_pct)
-            if corner_duration_pct > 0.004:  
-                clean_corners.append(corner)
+        if track_corners is not None:
+            for corner in corners:
+                for track_corner in track_corners:
+                    if abs(corner.rotating_pct - track_corner.rotating_pct) <= 0.05:
+                        clean_corners.append(corner)
+                        break
+        else:
+            for corner in corners:
+                corner_duration_pct = corner.rotation_ended_pct - corner.rotating_pct
+                if corner_duration_pct > 0.004:
+                    clean_corners.append(corner)
         return clean_corners
    
     #joins small corners into big ones doesn't do straights yet tho
