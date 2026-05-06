@@ -8,6 +8,7 @@ def get_lap_dist(samples):
     return max(sample["lapDist"] for sample in samples)
 
 def convert_to_meters(lap_dist, distance):
+    print("l dist", lap_dist, "dist", distance)
     meters = lap_dist * distance
     return meters
 
