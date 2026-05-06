@@ -2,7 +2,7 @@
 from data_processing.corner_detection import CornerDetection
 from data_processing.corner import Corner
 
-def test_filter_corners():
+def test_filter_corners_keeps_only_corners_above_threshold():
     detector = CornerDetection()
     test_corners = [
     Corner(rotating_pct=0.001, rotating_t=0, rotation_ended_pct=0.004, rotation_ended_t=0,
