@@ -41,6 +41,7 @@ class CornerDetection:
                         break
         else:
             for corner in corners:
+                print("corner", corner)
                 corner_duration_pct = corner.rotation_ended_pct - corner.rotating_pct
                 if corner_duration_pct > 0.004:
                     clean_corners.append(corner)
