@@ -7,7 +7,7 @@ class CornerDetection:
     def __init__(self): 
         self.car_rotating = False
         self.corners = []
-        self.previous_corner = None
+        self.reference_corner = None
         self.merged_corners = []
 
     def open_corner(self, pct, t, yaw_rate, lon, lat):
@@ -48,28 +48,28 @@ class CornerDetection:
    
     def merge_corner(self, corners):
         for current_corner in corners:
-            if self.previous_corner is None:
-                self.previous_corner = current_corner
+            if self.reference_corner is None:
+                self.reference_corner = current_corner
             else:
-                gap_start = self.previous_corner.rotation_ended_pct
+                gap_start = self.reference_corner.rotation_ended_pct
                 gap_end = current_corner.rotating_pct
                 gap = gap_end - gap_start
 
-                corner_dist = current_corner.rotation_ended_pct - self.previous_corner.rotating_pct
+                corner_dist = current_corner.rotation_ended_pct - self.reference_corner.rotating_pct
 
-                if self.previous_corner.yaw_rate * current_corner.yaw_rate < 0:
-                    self.merged_corners.append(self.previous_corner)
-                    self.previous_corner = current_corner
+                if self.reference_corner.yaw_rate * current_corner.yaw_rate < 0:
+                    self.merged_corners.append(self.reference_corner)
+                    self.reference_corner = current_corner
                 elif corner_dist > 0.06:
-                    self.merged_corners.append(self.previous_corner)
-                    self.previous_corner = current_corner
+                    self.merged_corners.append(self.reference_corner)
+                    self.reference_corner = current_corner
                 elif gap < 0.01:
-                    self.previous_corner.rotation_ended_t = current_corner.rotation_ended_t
-                    self.previous_corner.rotation_ended_pct = current_corner.rotation_ended_pct
-                    self.previous_corner.end_sector_lon = current_corner.end_sector_lon
-                    self.previous_corner.end_sector_lat = current_corner.end_sector_lat
+                    self.reference_corner.rotation_ended_t = current_corner.rotation_ended_t
+                    self.reference_corner.rotation_ended_pct = current_corner.rotation_ended_pct
+                    self.reference_corner.end_sector_lon = current_corner.end_sector_lon
+                    self.reference_corner.end_sector_lat = current_corner.end_sector_lat
                 else:
-                    self.merged_corners.append(self.previous_corner)
-                    self.previous_corner = current_corner
-        self.merged_corners.append(self.previous_corner)
+                    self.merged_corners.append(self.reference_corner)
+                    self.reference_corner = current_corner
+        self.merged_corners.append(self.reference_corner)
         return self.merged_corners
