@@ -24,7 +24,7 @@ def test_filter_corners_keeps_only_corners_above_threshold():
     result = detector.filter_corners(test_corners)
     assert result == [test_corners[2], test_corners[3], test_corners[4]]
 
-def test_merge_corner_same_yaw_rate():
+def test_merge_corners_less_than_threshold_same_yawrate_sign():
     detector = CornerDetection()
     test_corners = [
     Corner(rotating_pct=0.001, rotating_t=0, rotation_ended_pct=0.004, rotation_ended_t=0,
