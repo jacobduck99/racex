@@ -40,15 +40,8 @@ def analyse_lap(lap, track_corners=None, rotation=0.3, not_rotating=0.3, brake_o
             throttle.throttle_on(pct, t, throttle_val)
         elif throttle_val < throttle_off_threshold:
             throttle.throttle_off(pct, t, throttle_val)
-#    for i, c in enumerate(corner.corners, start=1):
-    #    print("raw r start", c.rotating_pct, "raw r end", c.rotation_ended_pct, "corner num", i)
-    # make for loop print("lap not merged", corner.corners.rotating_pct)
     merged = corner.merge_corner(corner.corners)
-    #for i, m in enumerate(merged, start=1):
-    #    print("merged", "r start", m.rotating_pct, "r end", m.rotation_ended_pct, "corner num", i)
     clean = corner.filter_corners(merged, track_corners) 
-    #for i, m in enumerate(clean, start=1):
-    #    print("cleaned", "rotating start", m.rotating_pct, "rotation ended", m.rotation_ended_pct, "yaw_rate", m.yaw_rate, "corner num", i)
     populate_corners(clean, throttle.throttle_inputs,brake.brake_zones, speed_samples, gear_samples)
     return clean
 
