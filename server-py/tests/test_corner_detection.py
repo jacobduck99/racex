@@ -34,6 +34,25 @@ def test_keeps_only_corners_above_threshold(detector):
     result = detector.filter_corners(corners)
     assert result == [corners[2], corners[3], corners[4]]
 
+def test_matches_corners_to_track_corners(detector):
+    corners = [
+        make_corner(rotating_pct=0.05, rotation_ended_pct=0.08),
+        make_corner(rotating_pct=0.15, rotation_ended_pct=0.18),
+        make_corner(rotating_pct=0.30, rotation_ended_pct=0.33),
+        make_corner(rotating_pct=0.45, rotation_ended_pct=0.48),
+        make_corner(rotating_pct=0.60, rotation_ended_pct=0.63),
+        make_corner(rotating_pct=0.90, rotation_ended_pct=0.93),
+    ]
+    track_corners = [
+        make_corner(rotating_pct=0.05, rotation_ended_pct=0.08),
+        make_corner(rotating_pct=0.15, rotation_ended_pct=0.18),
+        make_corner(rotating_pct=0.30, rotation_ended_pct=0.33),
+        make_corner(rotating_pct=0.45, rotation_ended_pct=0.48),
+        make_corner(rotating_pct=0.60, rotation_ended_pct=0.63),
+    ]
+    result = detector.filter_corners(corners, track_corners)
+    assert result == [corners[0], corners[1], corners[2], corners[3], corners[4]]
+
 def test_same_yawrate_sign_less_than_threshold_merge_corners(detector):
     corners = [
         make_corner(rotating_pct=0.001, rotation_ended_pct=0.004),
