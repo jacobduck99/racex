@@ -53,8 +53,6 @@ def test_matches_corners_to_track_corners(detector):
     result = detector.filter_corners(corners, track_corners)
     assert result == [corners[0], corners[1], corners[2], corners[3], corners[4]]
 
-
-
 def test_same_yawrate_sign_less_than_threshold_merge_corners(detector):
     corners = [
         make_corner(rotating_pct=0.001, rotation_ended_pct=0.004),
