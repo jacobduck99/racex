@@ -29,3 +29,9 @@ def add_sectors_track_map(sectors, trackmap):
                 t["sector_end_lat"] = s.end_sector_lat
     return trackmap
     
+def get_median(arr):
+    sorted_arr = sorted(arr)
+    mid = len(sorted_arr) // 2
+    if len(sorted_arr) % 2 == 0:
+        return (sorted_arr[mid - 1] + sorted_arr[mid]) / 2
+    return sorted_arr[mid]

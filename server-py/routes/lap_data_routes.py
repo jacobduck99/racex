@@ -40,8 +40,6 @@ def analyse_lap_upload():
         corners = analyse_lap(samples)
         r_samples.append(corners)
         print(f"lap {i}: {len(corners)} corners, {r_samples}")
-    #for b in corners:
-    #    print("b zones", b.brake_zone)
 
     fast_matched_corners = analyse_lap(fastest_samples, None) 
     reference_matched_corners = analyse_lap(reference_samples, fast_matched_corners)
