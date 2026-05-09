@@ -7,6 +7,7 @@ from data_processing.matching import match_zones
 from services.coaching import coaching
 
 from services.utils import get_lap_dist, create_track_map, add_sectors_track_map
+from collections import defaultdict
 
 analyse_bp = Blueprint("analyse", __name__)
 
@@ -37,27 +38,20 @@ def analyse_lap_upload():
 
     r_dict = {}
     r_samples = []
+    d = defaultdict(list)
     for i, lap in enumerate(rest_of_laps, start=1):
         samples = lap["samples"]     
         corners = analyse_lap(samples)
         r_samples.append({"lap": i, "corners": corners})
-        print(f"lap {i}: {len(corners)} corners, {r_samples}")
+        #print(f"lap {i}: {len(corners)} corners, {r_samples}")
 
     for c in r_samples:
-        for i ,r in enumerate(c["corners"], start=1):
+        for i , r in enumerate(c["corners"], start=1):
             if r.brake_zone is None:
                 continue
-            if i in r_dict:
-                r_dict[i].append(r.brake_zone.max_brake_pressure)
-            else:
-                r_dict[i] = []
-    print("here's r dict", r_dict)
+            d[i].append(r)
+    print("here's r dict", r_dict, d)
 
-
-
-    #for c in r_samples:
-    #    for r in c:
-    #        print("here is brake zone", r.brake_zone)
 
     fast_matched_corners = analyse_lap(fastest_samples, None) 
     reference_matched_corners = analyse_lap(reference_samples, fast_matched_corners)
