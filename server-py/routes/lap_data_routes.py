@@ -3,11 +3,11 @@ import json
 
 from data_processing.process_lap import analyse_lap
 from data_processing.matching import match_zones
+from data_processing.reference_lap import build_reference_lap
 
 from services.coaching import coaching
 
 from services.utils import get_lap_dist, create_track_map, add_sectors_track_map
-from collections import defaultdict
 
 analyse_bp = Blueprint("analyse", __name__)
 
@@ -36,22 +36,8 @@ def analyse_lap_upload():
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
     reference_samples = reference_lap.get("samples", []) if reference_lap else []
 
-    r_dict = {}
-    r_samples = []
-    d = defaultdict(list)
-    for i, lap in enumerate(rest_of_laps, start=1):
-        samples = lap["samples"]     
-        corners = analyse_lap(samples)
-        r_samples.append({"lap": i, "corners": corners})
-        #print(f"lap {i}: {len(corners)} corners, {r_samples}")
-
-    for c in r_samples:
-        for i , r in enumerate(c["corners"], start=1):
-            if r.brake_zone is None:
-                continue
-            d[i].append(r)
-    print("here's r dict", r_dict, d)
-
+    for corner_num, corners in d.items():
+        print("corner num", corner_num, "corners", corners )
 
     fast_matched_corners = analyse_lap(fastest_samples, None) 
     reference_matched_corners = analyse_lap(reference_samples, fast_matched_corners)
