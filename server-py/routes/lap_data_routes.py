@@ -26,6 +26,7 @@ def analyse_lap_upload():
 
     sorted_laps = sorted(laps, key=lambda lap: lap.get("lapTime", float("inf")))
     fastest_lap = sorted_laps[0] if sorted_laps else None
+    print("dict f lap", fastest_lap.keys())
     reference_lap = sorted_laps[1]
     rest_of_laps = sorted_laps[1:] #change this later to 1: 
     #for i, lap in enumerate(rest_of_laps, start=3):
@@ -34,12 +35,29 @@ def analyse_lap_upload():
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
     reference_samples = reference_lap.get("samples", []) if reference_lap else []
 
+    r_dict = {}
     r_samples = []
     for i, lap in enumerate(rest_of_laps, start=1):
         samples = lap["samples"]     
         corners = analyse_lap(samples)
-        r_samples.append(corners)
+        r_samples.append({"lap": i, "corners": corners})
         print(f"lap {i}: {len(corners)} corners, {r_samples}")
+
+    for c in r_samples:
+        for i ,r in enumerate(c["corners"], start=1):
+            if r.brake_zone is None:
+                continue
+            if i in r_dict:
+                r_dict[i].append(r.brake_zone.max_brake_pressure)
+            else:
+                r_dict[i] = []
+    print("here's r dict", r_dict)
+
+
+
+    #for c in r_samples:
+    #    for r in c:
+    #        print("here is brake zone", r.brake_zone)
 
     fast_matched_corners = analyse_lap(fastest_samples, None) 
     reference_matched_corners = analyse_lap(reference_samples, fast_matched_corners)
