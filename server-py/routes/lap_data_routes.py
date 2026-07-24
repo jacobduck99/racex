@@ -30,7 +30,7 @@ def analyse_lap_upload():
     reference_laps = sorted_laps[1:] 
 
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
-    reference_samples = reference_laps.get("samples", []) if reference_laps else []
+    reference_samples = reference_laps[0].get("samples", []) if reference_laps else [] # fix this up when using all laps to get average atm it just gets the first index
 
     corners_by_position = build_reference_lap(rest_of_laps)
 
