@@ -27,11 +27,10 @@ def analyse_lap_upload():
 
     sorted_laps = sorted(laps, key=lambda lap: lap.get("lapTime", float("inf")))
     fastest_lap = sorted_laps[0] if sorted_laps else None
-    reference_lap = sorted_laps[1]
-    rest_of_laps = sorted_laps[1:] 
+    reference_laps = sorted_laps[1:] 
 
     fastest_samples = fastest_lap.get("samples", []) if fastest_lap else []
-    reference_samples = reference_lap.get("samples", []) if reference_lap else []
+    reference_samples = reference_laps.get("samples", []) if reference_laps else []
 
     corners_by_position = build_reference_lap(rest_of_laps)
 
