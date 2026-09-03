@@ -34,9 +34,7 @@ def analyse_lap_upload():
     fast_matched_corners = analyse_lap(fastest_samples, None)
 
     corners_by_position = build_reference_lap(reference_laps, fast_matched_corners)
-    # print("corner by position", corners_by_position)
     reference_matched_corners = build_median_reference_corners(corners_by_position)
-    print("ref matched corners", reference_matched_corners)
 
     matched_corners = match_zones(fast_matched_corners, reference_matched_corners)
     track_map = create_track_map(fastest_samples)
