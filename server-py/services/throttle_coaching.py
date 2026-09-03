@@ -20,22 +20,22 @@ class ThrottleCoaching:
             check_meters = "meter" if meters == 1 else "meters"
 
             if delta < 0:
-                tip = "You are faster through this sector keep doing what you are doing"
+                tip = "You're usually faster through this sector than in your fastest lap — keep doing what you're doing."
                 tips.append({"sector": sector, "throttle": tip })
                 continue
 
             if meters == 0:
-                tip = "Throttle application matches your fastest lap. Consistent."
+                tip = "Throttle pickup matches your fastest lap — this is where you usually get back on it too. Consistent."
             elif ref_throttle.throttle_on_pct < fast_throttle.throttle_on_pct:
                 if meters <= 3:
-                    tip = f"Getting on throttle {meters} {check_meters} early — close to your best. Stay disciplined."
+                    tip = f"Getting on throttle {meters} {check_meters} earlier than usual — close to your fastest lap. Stay disciplined."
                 else:
-                    tip = f"Getting on throttle {meters} {check_meters} early — rushing the exit. Wait for the car to rotate before applying power."
+                    tip = f"Getting on throttle {meters} {check_meters} earlier than usual — rushing the exit. Wait for the car to rotate before applying power."
             else:
                 if meters <= 3:
-                    tip = f"Getting on throttle {meters} {check_meters} late — minor hesitation. Trust the grip."
+                    tip = f"Getting on throttle {meters} {check_meters} later than usual — minor hesitation. Trust the grip."
                 else:
-                    tip = f"Getting on throttle {meters} {check_meters} late — leaving time on the table. Pick up the throttle earlier to maximise exit speed."
+                    tip = f"Getting on throttle {meters} {check_meters} later than usual — leaving time on the table. Pick up the throttle earlier to maximise exit speed."
 
             tips.append({"sector": sector, "throttle": tip })
         return tips

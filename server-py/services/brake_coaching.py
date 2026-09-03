@@ -22,30 +22,30 @@ class BrakeCoaching:
             sector = brake_zones.corner_num
 
             if abs(delta) < 0.1:
-                tip = "Your approach is working — you are matching your best."
+                tip = "Your usual braking here already matches your fastest lap — no changes needed."
                 tips.append({"sector": sector, "braking": tip})
                 continue
             if delta < 0:
-                tip = "Faster than your best — your braking is working, keep this approach."
+                tip = "You're usually faster into this corner than in your fastest lap — whatever you're doing here is working, keep it up."
                 tips.append({"sector": sector, "braking": tip})
                 continue
-                
+
             if meters == 0:
-                tip = f"Braking at {ref_brake_pressure}% — right on your reference. Clean."
+                tip = f"Braking at {ref_brake_pressure}% — exactly where you usually brake here. Clean."
             elif fast_brake_zone.brake_on_pct < ref_brake_zone.brake_on_pct:
                 if meters <= 3:
-                    tip = f"Braking {meters} {check_meters} early at {ref_brake_pressure}% — consistent with your best. Hold this marker."
+                    tip = f"Braking {meters} {check_meters} early at {ref_brake_pressure}% typical pressure — consistent with your fastest lap. Hold this marker."
                 else:
-                    tip = f"Braking {meters} {check_meters} early at {ref_brake_pressure}% — over-cautious. Push the brake point deeper."
-                    
+                    tip = f"Braking {meters} {check_meters} early at {ref_brake_pressure}% typical pressure — over-cautious. Push the brake point deeper."
+
             else:
                 if meters <= 3:
-                    tip = f"Braking {meters} {check_meters} late at {ref_brake_pressure}% — minor overshoot. Tighten up the marker."
+                    tip = f"Braking {meters} {check_meters} late at {ref_brake_pressure}% typical pressure — minor overshoot. Tighten up the marker."
                 else:
-                    tip = f"Braking {meters} {check_meters} late at {ref_brake_pressure}% — overshooting your reference. Brake earlier to carry more speed through the corner."
+                    tip = f"Braking {meters} {check_meters} late at {ref_brake_pressure}% typical pressure — overshooting compared to your usual braking. Brake earlier to carry more speed through the corner."
 
             if fast_brake_pressure < ref_brake_pressure - 10:
-                tip += f" Only {fast_brake_pressure}% pressure vs {ref_brake_pressure}% in your best — commit harder."
+                tip += f" Only {fast_brake_pressure}% pressure in your fastest lap vs your usual {ref_brake_pressure}% — commit harder."
 
             tips.append({"sector": sector, "braking": tip})
         return tips
