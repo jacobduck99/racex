@@ -14,11 +14,11 @@ class GearCoaching:
                         continue
 
             if fast_gear == ref_gear:
-                tip = f"Gear {ref_gear} matches your fastest laps sector {sector}."
+                tip = f"Gear {ref_gear} — matches your fastest lap through sector {sector}."
             elif ref_gear < fast_gear:
-                tip = f"In gear {ref_gear}, but your fastest was {fast_gear} — shift up."
+                tip = f"You're usually in gear {ref_gear} here, but your fastest lap used {fast_gear} — shift up."
             else:
-                tip = f"In gear {ref_gear}, but your fastest was {fast_gear} — shift down."
+                tip = f"You're usually in gear {ref_gear} here, but your fastest lap used {fast_gear} — shift down."
 
             tips.append({"sector": sector, "gear": tip})
         return tips
