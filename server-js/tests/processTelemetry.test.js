@@ -66,6 +66,18 @@ describe("buildLaps", () => {
         assert.equal(laps[0].lapTime, 60); // 61 - 1
     });
 
+    test("each lap starts at the line and doesn't include the next lap's first sample", () => {
+        const telemetry = fakeTelemetry([
+            sample(0, 0.97),
+            sample(1, 0.01), sample(30, 0.5), sample(60, 0.98),
+            sample(61, 0.02), sample(90, 0.5),
+        ]);
+
+        const [lap] = buildLaps(telemetry);
+
+        assert.deepEqual(lap.samples.map((s) => s.t), [1, 30, 60]);
+    });
+
     test("skips samples with a missing or non-numeric channel", () => {
         const telemetry = fakeTelemetry([
             sample(0, 0.95),

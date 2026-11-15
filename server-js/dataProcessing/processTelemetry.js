@@ -31,8 +31,8 @@ export default function buildLaps(telemetry) {
 
     if (!checkValues) continue;
 
-    currentLapSample.push(samples);
-
+    // Check for the start-line crossing BEFORE adding the sample, so the
+    // crossing sample starts the new lap instead of ending the old one.
     if (prevPct !== null && pct < 0.1 && prevPct > 0.9) {
       if (lapStart !== null) {
         const lapTime = t - lapStart;
@@ -46,6 +46,7 @@ export default function buildLaps(telemetry) {
       currentLapSample = [];
     }
 
+    currentLapSample.push(samples);
     prevPct = pct;
     }
 
