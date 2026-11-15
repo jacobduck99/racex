@@ -107,3 +107,17 @@ def test_if_corner_dist_and_gap_dont_meet_threshold_and_same_yaw_rate_dont_merge
 
 
 
+
+
+def test_merge_with_no_corners_returns_empty_list(detector):
+    assert detector.merge_corner([]) == []
+
+
+def test_merge_called_twice_does_not_leak_previous_results(detector):
+    first = [make_corner(rotating_pct=0.10, rotation_ended_pct=0.12)]
+    second = [make_corner(rotating_pct=0.50, rotation_ended_pct=0.52)]
+
+    detector.merge_corner(first)
+    result = detector.merge_corner(second)
+
+    assert result == [second[0]]

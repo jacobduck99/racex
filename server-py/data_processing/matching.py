@@ -1,20 +1,25 @@
 from services.utils import convert_to_kph
 from data_processing.corner import Matched
 
+# Distances are fractions of a lap (see corner_detection.py).
+# Braking / lifting can start this far before the car begins to rotate and still belong to that corner.
+CORNER_ENTRY_WINDOW_PCT = 0.05
+# A fast-lap corner and a reference corner this close together are the same corner.
+CORNER_MATCH_PCT = 0.05
+
 def populate_brake_zones(corners, braking):
+    # removing inside the loop is safe only because we break straight after
     for corner in corners:
         for brake_zone in braking:
-            if brake_zone.brake_on_pct >= corner.rotating_pct - 0.05 and brake_zone.brake_off_pct <= corner.rotation_ended_pct: 
+            if brake_zone.brake_on_pct >= corner.rotating_pct - CORNER_ENTRY_WINDOW_PCT and brake_zone.brake_off_pct <= corner.rotation_ended_pct:
                 corner.brake_zone = brake_zone
                 braking.remove(brake_zone)
                 break
 
 def populate_throttle_zones(corners, throttle):
-    copy_brake_list = corners.copy()
-
-    for corner in copy_brake_list:
+    for corner in corners:
         for detected_throttle in throttle:
-            if detected_throttle.throttle_off_pct >= corner.rotating_pct - 0.05 and detected_throttle.throttle_off_pct <= corner.rotation_ended_pct:
+            if detected_throttle.throttle_off_pct >= corner.rotating_pct - CORNER_ENTRY_WINDOW_PCT and detected_throttle.throttle_off_pct <= corner.rotation_ended_pct:
                 corner.throttle = detected_throttle  
                 throttle.remove(detected_throttle)
                 break
@@ -56,7 +61,7 @@ def match_zones(fast_lap, ref_lap):
         for ref_zones in ref_lap:
             if ref_zones in seen_ref_corners:
                 continue
-            if abs(fast_zones.rotating_pct - ref_zones.rotating_pct) <= 0.05:
+            if abs(fast_zones.rotating_pct - ref_zones.rotating_pct) <= CORNER_MATCH_PCT:
                 seen_ref_corners.append(ref_zones)
                 # - means fast quicker + means ref faster
                 fast_corner_time = fast_zones.rotation_ended_t - fast_zones.rotating_t

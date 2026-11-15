@@ -24,7 +24,6 @@ export default async function ibtRoutes(fastify, opts) {
         const telemetry = await Telemetry.fromFile(path);
         const laps = buildLaps(telemetry);
         const cleaned = cleanLaps(laps);
-        console.log("cleaned", cleaned)
 
         request.log.debug({ lapCount: cleaned.length }, "parsed ibt");
 

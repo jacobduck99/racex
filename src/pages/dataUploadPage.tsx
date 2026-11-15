@@ -51,8 +51,6 @@ export default function DataPage() {
         }
     }
 
-    console.log("lap", lapsAnalysis);
-
     function handleCancel() {
         setRaceSession(null);
         if (sessionRef.current) sessionRef.current.value = "";

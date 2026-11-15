@@ -1,5 +1,8 @@
 from services.utils import convert_to_kph, convert_to_meters
 
+# Time differences (seconds) smaller than this aren't worth coaching on.
+NEGLIGIBLE_DELTA_S = 0.1
+
 class BrakeCoaching:
     def __init__(self, corners, lap_dist):
         self.corners = corners
@@ -21,7 +24,7 @@ class BrakeCoaching:
             check_meters = "meter" if meters == 1 else "meters"
             sector = brake_zones.corner_num
 
-            if abs(delta) < 0.1:
+            if abs(delta) < NEGLIGIBLE_DELTA_S:
                 tip = "Your usual braking here already matches your fastest lap — no changes needed."
                 tips.append({"sector": sector, "braking": tip})
                 continue
